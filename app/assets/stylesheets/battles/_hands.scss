@@ -1,0 +1,61 @@
+.battle__hand {
+  position: absolute;
+  z-index: 1;
+  width: 70vw;
+  max-width: 80rem;
+}
+
+.battle__hand--enemy {
+  top: 0;
+  left: 62%;
+  transform: translate(-50%, -22%);
+}
+
+.battle__hand--user {
+  bottom: 0;
+  left: 41.5%;
+  transform: translate(-50%, 22%);
+}
+
+.battle__hand-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.battle__hand--user .battle__hand-row {
+  gap: var(--space-7);
+}
+
+.battle__hand-card {
+  --battle-hand-card-width: var(--battle-user-card-width);
+
+  width: var(--battle-hand-card-width);
+  aspect-ratio: 5 / 8;
+  flex: 0 0 var(--battle-hand-card-width);
+}
+
+.battle-animation-position,
+.battle-animation-size,
+.battle-animation-orientation,
+.battle-animation-flip,
+.battle-animation-selection,
+.battle-animation-attack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.battle__hand--scaled-down .battle__hand-card {
+  --battle-hand-card-width: clamp(5.6rem, 7.52vw, 9rem);
+}
+
+.battle__hand-card-image {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

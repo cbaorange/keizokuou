@@ -1,0 +1,58 @@
+<% content_for :page_title, "報酬" %>
+
+<% content_for :page_javascript do %>
+  <%= javascript_include_tag "rewards", defer: true %>
+<% end %>
+
+<% folder = @rewards.fetch("folder") %>
+<% content_popup_folder = @rewards.fetch("content_popup_folder") %>
+
+<section
+  class="rewards-page"
+  aria-labelledby="rewards-page-heading"
+  style="--reward-folder-slope-start-ratio: <%= folder.fetch("slope_start_ratio") %>; --reward-folder-tab-height-ratio: <%= folder.fetch("tab_height_ratio") %>; --reward-folder-height-ratio: <%= folder.fetch("height_ratio") %>;"
+>
+  <div class="rewards-page__header">
+    <h1 id="rewards-page-heading" class="rewards-page__description">
+      バトルでレートを集めると、<br>報酬が解放されます
+    </h1>
+    <p class="rewards-page__current-rate">レート：<%= @display_rate %></p>
+  </div>
+
+  <div class="rewards-page__folders">
+    <% @rewards.fetch("contents").each_with_index do |content, index| %>
+      <% required_rate = content.fetch("required_rate") %>
+      <% unlocked = @display_rate >= required_rate %>
+      <% popup_id = "reward-content-popup-#{index}" %>
+      <button
+        type="button"
+        class="<%= class_names("reward-folder", "reward-folder--unlocked": unlocked, "reward-folder--locked": !unlocked) %>"
+        <% if unlocked %>
+          aria-haspopup="dialog"
+          aria-controls="<%= popup_id %>"
+        <% else %>
+          aria-disabled="true"
+          disabled
+        <% end %>
+        data-reward-folder
+        data-reward-unlocked="<%= unlocked %>"
+      >
+        <svg class="reward-folder__shape" aria-hidden="true" data-folder-shape-svg>
+          <path class="reward-folder__outline" data-folder-shape-outline></path>
+        </svg>
+
+        <span class="reward-folder__title"><%= content.fetch("title") %></span>
+        <sub class="reward-folder__required-rate">レート<%= required_rate %>以上</sub>
+      </button>
+    <% end %>
+  </div>
+
+  <% @rewards.fetch("contents").each_with_index do |content, index| %>
+    <% next if @display_rate < content.fetch("required_rate") %>
+
+    <%= render "content_popup",
+          content: content,
+          index: index,
+          folder: content_popup_folder %>
+  <% end %>
+</section>

@@ -1,0 +1,453 @@
+kaguya:
+  id: 1
+  name: かぐや姫
+  short_name: かぐや姫
+  image_tag_cards: cards/kaguya.PNG
+  image_tag_portraits: portraits/kaguya.PNG
+  health_base: 100
+  health_grow: 40
+  attack_base: 50
+  attack_grow: 20
+  speed: 96
+  type: mon
+  buff_type: spd
+  buff_base: 30
+  buff_grow: 0
+  exp_bonus_base: 5
+  birthplace: 竹取物語
+
+  first_get: |
+    【nick】様も、新たな一歩を踏み出しましたのね？
+    私も初めて地球を訪れたとき、同じ気持ちでしたわ。
+    あなたの不安もワクワクも、全部知っていますのよ。
+
+  repeat_get: |
+    またお会いしましたわね。
+    これも月のお導きでしょうか。
+
+  normal_defeat: お仕置きですわ！
+  final_defeat: 時は満ちましたわ
+  win: |
+    儚い方々でしたわ！
+    美しく散る運命でしたのね。
+  lose: |
+    体が重い……！
+    地球の重力のもとで戦うのは難しいですわ
+
+  dialogues:
+    - todo: |
+        新天地での挑戦に、不安はつきものですわ。
+        私も初めて地球に来た時は、同じ気持ちでしたの。
+      done: |
+        不慣れなことに取り組むときは、ポモドーロタイマーを短めに設定すると良いですわ。
+        逆に、慣れた作業や好きな作業は、タイマーを長めに設定すると捗りますのよ。
+        ……作業前に言うべきでしたわ。
+      miss: |
+        さようでございますか……
+        そろそろ、月へ帰りますわね。
+
+    - todo: |
+        慣れぬ場所ほど、伸びしろがありますわ。
+        【nick】様の旅路に、光あれ！
+      done: |
+        【nick】様、
+        なんとも麗しい成果ですわね。
+        明日も期待していますわ。
+      miss: |
+        さようでございますか……
+        そろそろ、月へ帰りますわね。
+
+athena:
+  id: 2
+  name: アテナ
+  short_name: アテナ
+  image_tag_cards: cards/athena.PNG
+  image_tag_portraits: portraits/athena.PNG
+  health_base: 120
+  health_grow: 60
+  attack_base: 50
+  attack_grow: 20
+  speed: 95
+  type: tue
+  buff_type:  none
+  exp_bonus_base: 5
+  birthplace: ギリシャ神話
+
+  first_get: |
+    鍛え抜かれた筋肉は、アイギスの盾より固くなるわ。
+    さあ、一緒に筋トレしましょ！
+    ……え？ 人間の筋肉はそこまで固くならないですって？
+
+  repeat_get: |
+    守るためには、もっと力が必要よ。
+    さあ、鍛えましょう！
+
+  normal_defeat: ここは通さない！
+  final_defeat: 守り抜く！
+  win: |
+    この地にオリーブの木を植えましょう！
+    ……え？ バトルに勝っても領土はもらえないですって⁉︎
+  lose: |
+    戦略を司る神として分析した結果、
+    敗因は筋力不足よ。
+
+  dialogues:
+    - todo: |
+        私は都市アテネのために戦うわ。
+        【nick】 は、何のために戦うの？
+      done: |
+        守りたいものがあると、
+        続ける理由も増えるわね。
+      miss: |
+        意志を貫く秘訣？
+        うーん……意志の力も鍛えたらいいんじゃないかしら？
+
+    - todo: |
+        意志の力は鍛えられるのよ。
+        自分との約束を守り続けるだけでいいわ。
+        さあ、タスクに取り掛かりましょ！
+      done: |
+        お疲れ様！ 意志の力を鍛えられたわね。
+        この調子なら、いつかアイギスの盾より硬い意志を手に入れられるわ。
+      miss: |
+        意志を貫く秘訣？
+        うーん……意志の力も鍛えたらいいんじゃないかしら？
+
+suibo:
+  id: 3
+  name: すいぼにゃんにゃん
+  short_name: 水母娘娘
+  image_tag_cards: cards/suibo.PNG
+  image_tag_portraits: portraits/suibo.PNG
+  health_base: 70
+  health_grow: 30
+  attack_base: 50
+  attack_grow: 20
+  speed: 94
+  type: wed
+  buff_type: hp
+  buff_base: 30
+  buff_grow: 30
+  exp_bonus_base: 5
+  birthplace: 中国神話
+
+  first_get: |
+    本日より、ご主人様専属のやる気チャージ係に就任したにゃ♪
+    どんなタスクも、愛と気合いで一緒に乗り越えるにゃ〜！
+
+  repeat_get: |
+    おかえりなさいませ、ご主人様♪
+
+  normal_defeat: 萌え萌えきゅん
+  final_defeat: いってらっしゃいませ
+  win: |
+    お待たせにゃ！とびっきりの勝利に、
+    愛をたっぷりトッピングしたにゃ♪
+  lose: |
+    お待たせにゃ……本日の敗北には、
+    悔しさをたっぷりトッピングしたにゃ……
+
+  dialogues:
+    - todo: |
+        すいぼにゃんにゃん、見てるにゃん♪
+        ご主人様がちゃんと頑張れるように、
+        ここから応援してるにゃ！
+      done: |
+        むむっ、これは文句なしにゃ！
+        ご主人様、よくできましたにゃん♪
+      miss: |
+        「寂しいにゃん…」て言ったら、
+        また継続してくれる？
+
+    - todo: |
+        ご主人様！
+        水はしっかり飲んだ方がいいにゃ。
+        お仕事に取り組む前に、一杯いかが？
+      done: |
+        ご主人様、おつかれさまにゃ♪
+        がんばった後にも水分補給！
+        もう一杯いかがかにゃ？
+      miss: |
+        「寂しいにゃん…」て言ったら、
+        また継続してくれる？
+
+tesla:
+  id: 4
+  name: ニコラ・テスラ
+  short_name: テスラ
+  image_tag_cards: cards/tesla.PNG
+  image_tag_portraits: portraits/tesla.PNG
+  health_base: 90
+  health_grow: 30
+  attack_base: 60
+  attack_grow: 30
+  speed: 93
+  type: thu
+  buff_type: atk
+  buff_base: 30
+  buff_grow: 10
+  exp_bonus_base: 5
+  birthplace: クロアチア
+
+  first_get: |
+    私の研究室へようこそ。
+    アドバイスが聞きたければ、
+    読書の邪魔はしないでくれよ。
+
+  repeat_get: |
+    これは大切な研究資金だ。
+    有効活用させてもらうよ
+
+  normal_defeat: 貴重なデータだ！
+  final_defeat: 実験終了だ
+  win: |
+    貴重な戦闘データだ、すぐにまとめるぞ！
+    祝うのはそのあとだ！
+  lose: |
+    交流電流は安全なんだ。
+    戦闘には向いていないんだよ。
+
+  dialogues:
+    - todo: |
+        私は金に無頓着でね、
+        情熱や探究心の方が大切だと思うよ。
+      done: |
+        今日の情熱を忘れないでくれ。
+        非物質的なものの方が大切なんだよ。
+      miss: |
+        よく考えてから動きなさい。
+        努力の量で押し切るのはエジソンのやり方だ。
+        私なら、まずはタスクの量を減らす方法を考える。
+
+    - todo: |
+        独りになれ、【nick】。
+        私はアイデアも発明もそうやって作ってきた。
+      done: |
+        この記録も大きな発明の一部だ。
+        偉大な発明も、小さな積み重ねによって形作られている。
+      miss: |
+        よく考えてから動きなさい。
+        努力の量で押し切るのはエジソンのやり方だ。
+        私なら、まずはタスクの量を減らす方法を考える。
+
+    - todo: |
+        私のアイデアを盗む人はいくらでもいた。
+        しかし、アイデアを作り出せる人は一握りしかいない。
+        【nick】 には、ぜひ後者になって欲しいものだ。
+      done: |
+        今日の発明は、明日の常識になる。
+        人々が当たり前と思うものは、誰かの創造によって作られているんだよ。
+        無線送電もテスラコイルも、形を変えて現代の常識となっているだろう？
+      miss: |
+        よく考えてから動きなさい。
+        努力の量で押し切るのはエジソンのやり方だ。
+        私なら、まずはタスクの量を減らす方法を考える。
+
+    - todo: |
+        宇宙の謎を解き明かしたいのなら、
+        まずは目の前の課題に取り組むことだ。
+        難しい問題でも一つずつ分解すれば必ず理解できる。
+      done: |
+        今日学んだことには大きな価値がある。
+        一度の成功よりも、その過程で得た経験の方が大切だと思うよ。
+      miss: |
+        よく考えてから動きなさい。
+        努力の量で押し切るのはエジソンのやり方だ。
+        私なら、まずはタスクの量を減らす方法を考える。
+
+    - todo: |
+        人は交流電流を笑った。
+        新しい考えは理解されるまでに時間がかかるものだ。
+        【nick】 は自分の信じる道を進めばいい。
+      done: |
+        それでも、前へ進んだ結果が今日の世界を支えている。
+        信じる道を歩み続ける価値はあるよ。
+      miss: |
+        よく考えてから動きなさい。
+        努力の量で押し切るのはエジソンのやり方だ。
+        私なら、まずはタスクの量を減らす方法を考える。
+
+midas:
+  id: 5
+  name: ミダス
+  short_name: ミダス
+  image_tag_cards: cards/midas.PNG
+  image_tag_portraits: portraits/midas.PNG
+  health_base: 80
+  health_grow: 60
+  attack_base: 60
+  attack_grow: 20
+  speed: 92
+  type: fri
+  buff_type: none
+  exp_bonus_base: 5
+  birthplace: ギリシャ神話
+
+  first_get: |
+    【nick】様の担当となったミダスです。
+    私は、眠っている可能性を黄金へ変える専門家。
+    あなたの習慣も、きっと価値あるものに育ててみせましょう。
+
+  repeat_get: |
+    私はもう、目先の利益には惑わされません。
+    この力、今度こそ使いこなしてみせましょう。
+
+  normal_defeat: 契約成立です
+  final_defeat: 金に変わりなさい
+  win: |
+    素晴らしい！ ボロ儲けだ‼︎
+    ……ゴホン。【nick】様、おめでとうございます。
+  lose: |
+    今回の損失は必要経費です。
+    利益を得るには、多少の投資も必要ですからね。
+
+  dialogues:
+    - todo: |
+        【nick】様、本日も同じタスクを実行されますか？
+        本日中なら、"複利の力"をお付けできますよ。
+        悪い話ではないでしょう？
+      done: |
+        複利の力は、常に 【nick】様の味方です。
+        ……もちろん、私も味方ですよ。
+      miss: |
+        身体が…金に侵されていく…！
+        今日は継続してくれ……頼む…
+
+    - todo: |
+        【nick】様は気づいていますか？
+        時間も集中力も、有限な資産です。
+        無意識に使う人から失います。
+      done: |
+        さすがです、【nick】様。
+        本日投資された努力は、いずれ回収できる見込みがあります。
+        何倍にも膨れ上がった利益をお楽しみに。
+      miss: |
+        身体が…金に侵されていく…！
+        今日は継続してくれ……頼む…
+
+    - todo: |
+        高額な情報商材に騙されてはいけませんよ。
+        有益な情報には「再現性」がありますから、
+        多くの人に発見され、すぐ拡散されるものです。
+      done: |
+        自己投資は、最も堅実な投資先の一つです。
+        【nick】様、よく頑張りましたね。
+        明日も正しい選択をしてください。
+      miss: |
+        身体が…金に侵されていく…！
+        今日は継続してくれ……頼む…
+
+rex:
+  id: 6
+  name: ティラノサウルス-レックス
+  short_name: レックス
+  image_tag_cards: cards/rex.PNG
+  image_tag_portraits: portraits/rex.PNG
+  health_base: 140
+  health_grow: 140
+  attack_base: 60
+  attack_grow: 60
+  speed: 51
+  type: sat
+  buff_type: none
+  exp_bonus_base: 10
+  birthplace: 白亜紀-北アメリカ大陸
+
+  first_get: |
+    【nick】 は、"継続の王"に足る器か？
+    恐竜界の王である俺が見定めてやろう。
+
+  repeat_get: |
+    レックスとは、"王"という意味だ。
+    俺は最強の王を目指すぞ。
+
+  normal_defeat: 王は1人で十分だ
+  final_defeat: 王座はいただくぞ
+  win: |
+    悪いな、
+    王座はオレと 【nick】 の2人用なのだ。
+  lose: |
+    王座を奪われたままでは終われん。
+    今すぐリベンジだ！
+
+  dialogues:
+    - todo: |
+        オレは恐竜界の"王"だ。
+        【nick】は何の世界の"王"になる？
+      done: |
+        レックスとは、"王"という意味だ。
+        オレと 【nick】 に
+        ピッタリな名だと思わないか？
+      miss: |
+        王に失敗は許されん。
+        まあ、肉でも食って、元気出せ。
+
+    - todo: |
+        レックスとは、"王"という意味だ。
+        【nick】 は、"王"に足る器か？
+      done: |
+        レックスとは、"王"という意味だ。
+        もう覚えたか？
+      miss: |
+        王に失敗は許されん。
+        まあ、肉でも食って、元気出せ。
+
+amaterasu:
+  id: 7
+  name: アマテラス
+  short_name: アマテラス
+  image_tag_cards: cards/amaterasu.PNG
+  image_tag_portraits: portraits/amaterasu.PNG
+  health_base: 100
+  health_grow: 50
+  attack_base: 50
+  attack_grow: 50
+  speed: 80
+  type: sun
+  buff_type: hp
+  buff_base: 50
+  buff_grow: 50
+  exp_bonus_base: 10
+  birthplace: 日本神話
+
+  first_get: |
+    実行力はある、今の 【nick】 に必要なのは信じる心……
+    夢を思い描いて、共に祈りを捧げましょう。
+
+  repeat_get: |
+    暖かい……陽の温もりを感じます。
+    これも、光のお導きでしょうか。
+
+  normal_defeat: 祓います！
+  final_defeat: 日の本に安寧を！
+  win: |
+    よかった……！
+    これで、皆に安寧が戻りますね。
+  lose: |
+    明けない夜はありません。
+    私と 【nick】 で、再び照らしましょう。
+
+  dialogues:
+    - todo: |
+        【nick】 の成功を願って、
+        私は祈りを捧げます……
+        あなたは努力を捧げてください。
+      done: |
+        人事を尽くしましたね。
+        あとは、天命を待つのみです。
+      miss: |
+        祈るだけではダメです。
+        行動が伴って初めて、
+        ご加護を授かることができるのですよ。
+
+    - todo: |
+        どれだけ祈りを重ね、成功を願っても、
+        賽を振らねば結果は出ません。
+        【nick】、今日も日課を始めましょう。
+      done: |
+        この努力が続けば、
+        あなたの未来も、きっと安寧でありましょう。
+      miss: |
+        祈るだけではダメです。
+        行動が伴って初めて、
+        ご加護を授かることができるのですよ。

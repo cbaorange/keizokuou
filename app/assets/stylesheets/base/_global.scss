@@ -1,0 +1,174 @@
+$battle-overlay-blur: 5px;
+$tablet-view-breakpoint: 1200px;
+$sidebar-proportional-start-width: 1440px;
+$sidebar-maximum-width: 20rem;
+$sidebar-minimum-width: $sidebar-maximum-width * 0.65;
+
+:root{
+  --black-1:#000000;
+  --gray-1: #151515;
+  --gray-2: #1c1c1c;
+  --gray-3: #202020;
+  --color-background-raised: #363636;
+  --color-highlight: #2a2a2a;
+  --color-text-primary: #eeeeee;
+  --color-text-body: #d8d8d8;
+  --color-text-muted: #afafaf;
+  --color-text-disabled: #777777;
+  --color-accent: #4ccb82;
+  --color-accent-muted: #44845f;
+  --color-accsent-super-muted: #293f32;
+  --color-red-text: #f6aaaa;
+  --color-red-bg: #67292A;
+  --color-notificationicon: #CB5153;
+  --sidebar-active-bg: #202622;
+  --battle-bottun-red: #D03a34;
+
+
+  --gray-2-transparent: #1c1c1cd1;
+  --gray-2-transparent-strong: #1c1c1ceb;
+  --gray-2-transparent-soft: #1c1c1c1f;
+
+// pc, tablet
+  --font-size-caption: 0.9rem;  //バトル用
+  --font-size-small: 0.9rem;
+  --font-size-body: 1rem;
+  --font-size-title: 1.3rem;
+  --font-size-help-title: 1.7rem;
+  --font-size-bignumber: 2.5rem;
+  --font-size-header: 2.8rem;
+  --font-size-battle-result: 4rem;
+
+
+
+
+
+  --border-width: 1px;
+  --border-radius-small: 0.375rem;
+  --border-radius-panel: 0.75rem;
+
+  --panel-gap: clamp(1rem, 2vw, 2rem);
+  --panel-padding: clamp(1rem, 2vw, 2rem);
+
+  --panel-min-height: 3rem;
+
+  --space-1: 0.20rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --font-family-system: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+}
+@media (orientation: portrait) {
+  :root{
+  // mobile
+  --font-size-caption: 0.7rem; //バトル用
+  --sidebar-font-size: 0.7rem;
+  --font-size-small: 0.65rem;
+  --font-size-body: 0.75rem; //タスク詳細など
+  --font-size-title: 0.8rem;
+  --font-size-help-title: 1.0rem;
+  --font-size-bignumber: 1.2rem;
+  --font-size-header: 1.2rem;
+
+  }
+}
+
+html {
+  min-width: 20rem;
+  background: var(--gray-2);
+  overflow-y: auto;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-text-body);
+  background: var(--gray-2);
+  font-family: var(--font-family-system);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.modal-layer {
+  display: grid;
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  padding: var(--space-5);
+  place-items: center;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.modal-layer[hidden] {
+  display: none;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+
+
+.panel {
+  min-width: 0;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  background: var(--gray-3);
+}
+
+.app-content {
+  display: grid;
+  gap: var(--panel-gap);
+}
+
+.app-shell {
+  min-height: 8vh;
+  background: var(--gray-2);
+}
+
+.app-shell__body {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: calc(100vh - var(--header-height));
+}
+
+
+
+
+.app-main {
+  min-width: 0;
+  padding: var(--space-7) var(--content-padding-inline) 0;
+  background: var(--gray-2);
+}
+
+.app-main > * {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+}
+
+.app-shell--without-sidebar .app-shell__body {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-shell--without-sidebar .app-main {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+@media (orientation: portrait) {
+  .app-shell__body {
+    display: block;
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .app-shell:not(.app-shell--without-sidebar) .app-main {
+    padding-bottom: calc(var(--mobile-sidebar-height) + var(--space-7) + env(safe-area-inset-bottom));
+  }
+}

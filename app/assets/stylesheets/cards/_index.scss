@@ -1,0 +1,521 @@
+.cards-page {
+  --deck-slot-min-height: 9rem;
+  --deck-slot-portrait-width: 6.93rem;
+  --card-placeholder-min-height: 7.2rem;
+
+  display: grid;
+  position: relative;
+  padding-bottom: var(--space-7);
+  grid-template-columns: minmax(18rem, 1fr) minmax(0, 3fr);
+  gap: var(--panel-gap);
+  align-items: stretch;
+}
+
+.deck-panel,
+.card-catalog-panel {
+  min-width: 0;
+}
+
+.card-catalog-panel {
+  position: relative;
+}
+
+.cards-panel__header {
+  display: flex;
+  min-height: 1.5rem;
+  padding: var(--space-4) var(--panel-padding);
+  border-bottom: var(--border-width) solid var(--color-highlight);
+  align-items: center;
+}
+
+.cards-panel__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  text-align: center;
+}
+
+.deck-list {
+  display: grid;
+  padding: var(--panel-padding);
+  grid-auto-rows: minmax(var(--deck-slot-min-height), auto);
+  gap: var(--space-3);
+}
+
+.deck-slot {
+  display: grid;
+  position: relative;
+  width: 90%;
+  min-height: var(--deck-slot-min-height);
+  padding: 0.9rem;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-small);
+  grid-template-columns: minmax(4rem, var(--deck-slot-portrait-width)) minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  justify-self: center;
+  color: var(--color-text-muted);
+  background: var(--gray-2);
+}
+
+.deck-slot--empty {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.deck-slot--duplicate {
+  animation: duplicate-deck-card 1s linear;
+}
+
+// 左右の端までの距離に比例して時間を割り当て、移動速度を一定にする。
+@keyframes duplicate-deck-card {
+  0% {
+    transform: translateX(0);
+  }
+
+  12.5% {
+    transform: translateX(0.5rem);
+  }
+
+  37.5% {
+    transform: translateX(-0.5rem);
+  }
+
+  62.5% {
+    transform: translateX(0.5rem);
+  }
+
+  87.5% {
+    transform: translateX(-0.5rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.deck-slot__portrait {
+  display: block;
+  width: 100%;
+  max-width: var(--deck-slot-portrait-width);
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.deck-slot__remove-button {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: 0 var(--border-radius-small) 0 var(--border-radius-small);
+  color: var(--color-red-text);
+  background: var(--color-red-bg);
+  font-size: var(--font-size-small);
+}
+
+.deck-slot__details {
+  display: flex;
+  min-width: 0;
+  align-self: stretch;
+  flex-direction: column;
+  gap: var(--space-1);
+  justify-content: center;
+}
+
+.deck-slot__name {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  text-align: right;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.card-catalog-list {
+  display: grid;
+  padding-block: var(--space-7);
+  grid-template-columns: repeat(5, minmax(0, 180px));
+  column-gap: 0;
+  row-gap: var(--space-7);
+  align-content: start;
+  justify-content: space-evenly;
+}
+
+.card-placeholder {
+  display: grid;
+  position: relative;
+  width: 100%;
+  max-width: 180px;
+  min-height: var(--card-placeholder-min-height);
+  margin: 0;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-small);
+  aspect-ratio: 40 / 64;
+  place-items: center;
+  justify-self: center;
+  color: var(--color-text-muted);
+  background: var(--gray-2);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card-placeholder .card-placeholder__image {
+  width: 180px;
+  max-width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.card-placeholder--unowned {
+  border-color: var(--color-text-disabled);
+  color: var(--gray-3);
+  background: var(--color-text-disabled);
+  cursor: default;
+}
+
+.card-placeholder__unowned-mark {
+  position: relative;
+  z-index: 1;
+  font-size: var(--font-size-header);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.card-placeholder__add-button {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.card-placeholder__detail-button {
+  display: grid;
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: 1.7rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  place-items: center;
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--gray-1) 80%, transparent);
+  font-size: var(--font-size-title);
+}
+
+.card-placeholder__detail-button-symbol {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}
+
+.deck-full-warning {
+  position: absolute;
+  z-index: 3;
+  top: var(--deck-full-warning-top, var(--space-2));
+  left: var(--deck-full-warning-left, 50%);
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--border-radius-small);
+  color: var(--color-red-text);
+  background: var(--color-red-bg);
+  transform: translate(-50%, -50%);
+}
+
+.deck-full-warning--visible {
+  animation: deck-full-warning 8s linear forwards;
+}
+
+@keyframes deck-full-warning {
+  0%,
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.card-detail-dialog {
+  position: relative;
+  width: 70%;
+  height: 54rem;
+  max-height: calc(100vh - var(--header-height) - var(--space-6));
+  padding: var(--space-7);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-body);
+  background: var(--gray-2);
+  overflow-y: auto;
+}
+
+.card-detail-dialog__close {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--border-radius-panel) 0 var(--border-radius-small) 0;
+  aspect-ratio: 1;
+  color: var(--color-text-primary);
+  background: var(--gray-3);
+  font-size: var(--font-size-title);
+}
+
+.card-detail-dialog__body {
+  display: grid;
+  min-height: 100%;
+  grid-template-columns: minmax(12rem, 18rem) minmax(0, 1fr);
+  gap: var(--space-7);
+  align-items: center;
+}
+
+.card-detail-dialog__information {
+  min-width: 0;
+}
+
+.card-detail-dialog__name {
+  margin: 0 0 var(--space-6);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-title);
+}
+
+.card-detail-dialog__details {
+  display: grid;
+  margin: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--space-6);
+}
+
+.card-detail-dialog__detail {
+  display: grid;
+  padding-block: var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-highlight);
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--space-3);
+  font-size: var(--font-size-body);
+}
+
+.card-detail-dialog__detail--description {
+  grid-column: 1 / -1;
+}
+
+.card-detail-dialog__detail dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+}
+
+.card-detail-dialog__detail dd {
+  margin: 0;
+  color: var(--color-text-primary);
+  white-space: pre-line;
+}
+
+.card-detail-dialog__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  justify-self: start;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 64rem) {
+  .cards-page {
+    grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr);
+  }
+
+  .card-catalog-list {
+    grid-template-columns: repeat(3, minmax(0, 180px));
+  }
+}
+
+@media (max-width: 48rem) {
+  .cards-page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card-catalog-list {
+    grid-template-columns: repeat(2, minmax(0, 180px));
+  }
+
+  .card-detail-dialog {
+    width: 90%;
+    max-height: calc(100vh - var(--space-6));
+    padding: var(--space-6);
+  }
+
+  .card-detail-dialog__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card-detail-dialog__image {
+    width: 100%;
+    max-width: 18rem;
+    justify-self: center;
+  }
+
+  .card-detail-dialog__details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card-detail-dialog__detail--description {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 32rem) {
+  .card-catalog-list {
+    grid-template-columns: minmax(0, 180px);
+  }
+}
+
+@media (min-width: $tablet-view-breakpoint) and (min-aspect-ratio: 1 / 1) {
+  body:has(.cards-page) {
+    --header-height: #{$header-height * 0.9};
+  }
+
+  body:has(.cards-page) .app-header {
+    position: sticky;
+    z-index: 40;
+    top: 0;
+  }
+
+  .cards-page {
+    --deck-slot-portrait-width: clamp(3rem, 14vh, 6.93rem);
+
+    align-items: start;
+  }
+
+  .deck-panel {
+    display: flex;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-7));
+    height: calc(100vh - var(--header-height) - (var(--space-7) * 2));
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  .deck-panel .cards-panel__header {
+    flex: none;
+    justify-content: center;
+  }
+
+  .deck-list {
+    min-height: 0;
+    padding: clamp(var(--space-2), 2vh, var(--panel-padding));
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+    grid-auto-rows: unset;
+    gap: clamp(var(--space-1), 1vh, var(--space-3));
+    flex: 1;
+  }
+
+  .deck-slot {
+    --deck-slot-padding: clamp(var(--space-1), 1vh, 0.9rem);
+
+    width: 90%;
+    height: 100%;
+    min-height: 0;
+    padding: var(--deck-slot-padding);
+    padding-bottom: 0;
+    grid-template-columns: minmax(0, var(--deck-slot-portrait-width)) minmax(0, 1fr);
+    gap: clamp(var(--space-1), 1vh, 0.9rem);
+    align-items: end;
+  }
+
+  .deck-slot--empty {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .deck-slot__portrait {
+    position: absolute;
+    bottom: 0;
+    left: var(--deck-slot-padding);
+    width: auto;
+    max-width: var(--deck-slot-portrait-width);
+    height: var(--deck-slot-portrait-width);
+    max-height: calc(100% - var(--deck-slot-padding));
+  }
+
+  .deck-slot__details {
+    grid-column: 2;
+  }
+}
+
+@media (orientation: portrait) {
+  body:has(.cards-page) .app-shell:not(.app-shell--without-sidebar) .app-main {
+    box-sizing: border-box;
+    height: calc(
+      100dvh - var(--header-height) - var(--mobile-sidebar-height) -
+      env(safe-area-inset-bottom)
+    );
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    overflow: hidden;
+  }
+
+  .cards-page {
+    height: 100%;
+    min-height: 0;
+    padding-bottom: 0;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .card-catalog-panel {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card-catalog-list {
+    grid-template-columns: repeat(3, minmax(0, 180px));
+    column-gap: var(--space-5);
+    row-gap: var(--space-5);
+    align-content: start;
+    justify-content: center;
+  }
+
+  .deck-list {
+    padding: clamp(var(--space-2), 2vw, var(--space-4));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: clamp(var(--space-1), 1vw, var(--space-2));
+  }
+
+  .deck-slot,
+  .deck-slot--empty {
+    width: 100%;
+    min-height: clamp(4rem, 18vw, 8rem);
+    padding: clamp(var(--space-1), 1vw, var(--space-2));
+    padding-bottom: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    align-items: end;
+    justify-items: center;
+  }
+
+  .deck-slot__portrait {
+    position: static;
+    width: clamp(2.5rem, 14vw, 6.93rem);
+    max-width: 100%;
+    height: auto;
+    align-self: end;
+  }
+
+  .deck-slot__details,
+  .deck-slot__name {
+    display: none;
+  }
+}

@@ -1,0 +1,48 @@
+<% if syukamon.fetch(:owned) %>
+  <article
+    class="card-placeholder"
+    data-syukamon-id="<%= syukamon.fetch(:id) %>"
+    data-card-owned="true"
+    data-syukamon-name="<%= syukamon.fetch(:name) %>"
+    data-syukamon-short-name="<%= syukamon.fetch(:short_name) %>"
+    data-card-image-url="<%= asset_path(syukamon.fetch(:image_tag_cards)) %>"
+    data-portrait-image-url="<%= asset_path(syukamon.fetch(:image_tag_portraits)) %>"
+    data-syukamon-detail-level="<%= syukamon.dig(:detail, :level) %>"
+    data-syukamon-detail-exp-to-next-level="<%= syukamon.dig(:detail, :exp_to_next_level) %>"
+    data-syukamon-detail-type="<%= syukamon.dig(:detail, :type) %>"
+    data-syukamon-detail-attack="<%= syukamon.dig(:detail, :attack) %>"
+    data-syukamon-detail-defense="<%= syukamon.dig(:detail, :defense) %>"
+    data-syukamon-detail-speed="<%= syukamon.dig(:detail, :speed) %>"
+    data-syukamon-detail-buff="<%= syukamon.dig(:detail, :buff) %>"
+    data-syukamon-detail-birthplace="<%= syukamon.dig(:detail, :birthplace) %>"
+    data-syukamon-detail-exp-bonus="<%= syukamon.dig(:detail, :exp_bonus) %>"
+  >
+    <%= image_tag syukamon.fetch(:image_tag_cards),
+          alt: syukamon.fetch(:name),
+          class: "test-syukamon-portrait card-placeholder__image" %>
+
+    <button
+      type="button"
+      class="card-placeholder__add-button"
+      data-deck-add-button
+      aria-label="<%= syukamon.fetch(:name) %>をデッキへ追加"
+    ></button>
+
+    <button
+      type="button"
+      class="card-placeholder__detail-button"
+      data-card-detail-button
+      aria-label="<%= syukamon.fetch(:name) %>の詳細を表示"
+    ><span class="card-placeholder__detail-button-symbol" aria-hidden="true">≡</span></button>
+  </article>
+<% else %>
+  <article
+    class="card-placeholder card-placeholder--unowned"
+    data-syukamon-id="<%= syukamon.fetch(:id) %>"
+    data-card-owned="false"
+    role="img"
+    aria-label="未所持カード"
+  >
+    <span class="card-placeholder__unowned-mark" aria-hidden="true">？</span>
+  </article>
+<% end %>

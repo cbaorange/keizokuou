@@ -1,0 +1,39 @@
+<% content_for :page_title, "使い方" %>
+
+<div class="help-page">
+  <section class="panel help-section" aria-labelledby="help-habits-title">
+    <span class="help-section__number" aria-hidden="true">01</span>
+    <h2 id="help-habits-title" class="help-section__title">
+      <%= link_to "習慣", tasks_path, class: "help-section__title-link" %>
+    </h2>
+    <p class="help-section__description">まずは、今日のタスクをすべて達成することから。<br>タスクを全て達成すると、１日１枚のシュカモンカードを獲得できる。連続達成日数が長いほど、シュカモンが育ちやすくなる。</p>
+  </section>
+
+  <section class="panel help-section" aria-labelledby="help-cards-title">
+    <span class="help-section__number" aria-hidden="true">02</span>
+    <h2 id="help-cards-title" class="help-section__title">
+      <%= link_to "カード", cards_path, class: "help-section__title-link" %>
+    </h2>
+    <p class="help-section__description">集めたシュカモンを確認して、自分だけのデッキを編成。<br>カードが足りなくても、バトルではレンタルシュカモンを借りられる。</p>
+  </section>
+
+  <section class="panel help-section" aria-labelledby="help-battle-title">
+    <span class="help-section__number" aria-hidden="true">03</span>
+    <h2 id="help-battle-title" class="help-section__title">
+      <button
+        type="button"
+        class="help-section__title-link help-section__title-button"
+        data-battle-launcher-open
+      >バトル</button>
+    </h2>
+    <p class="help-section__description">育てたシュカモンを率いて、シュカモンバトルに挑戦！<br>勝利を重ねれば、レートを獲得できる。</p>
+  </section>
+
+  <section class="panel help-section" aria-labelledby="help-rewards-title">
+    <span class="help-section__number" aria-hidden="true">04</span>
+    <h2 id="help-rewards-title" class="help-section__title">
+      <%= link_to "報酬", rewards_path, class: "help-section__title-link" %>
+    </h2>
+    <p class="help-section__description">集めたレートで、習慣化に役立つ新しい知識を学ぶ。<br>習慣を挫折しにくくする工夫や、集中しやすい環境の作り方など、「知っているだけで習慣を続けやすくなる」実践的な情報を確認できる。</p>
+  </section>
+</div>

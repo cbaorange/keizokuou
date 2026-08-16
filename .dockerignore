@@ -1,0 +1,28 @@
+# Version control metadata
+.git/
+.gitignore
+
+# Local editor and OS files
+**/.DS_Store
+.vscode/
+*.code-workspace
+
+# Local dependency and command logs
+yarn-error.log
+
+# Rails runtime-generated files
+log/*
+!log/.keep
+
+tmp/*
+!tmp/.keep
+!tmp/pids/
+tmp/pids/*
+!tmp/pids/.keep
+!tmp/storage/
+tmp/storage/*
+!tmp/storage/.keep
+
+# Local test output
+.rspec_status
+coverage/

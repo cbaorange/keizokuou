@@ -1,0 +1,133 @@
+.battle-debug-card {
+  --battle-hand-card-width: clamp(7rem, 9.4vw, 11.25rem);
+
+  position: absolute;
+  z-index: 4;
+  width: var(--battle-hand-card-width);
+  aspect-ratio: 5 / 8;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.battle > .battle-debug-card {
+  visibility: visible;
+}
+
+.battle-debug-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.battle-debug-card--enemy .battle-debug-card__image {
+  transform: rotate(180deg);
+}
+
+.battle-effect-layer {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.battle-defeat-effect-layer .battle-effect-ring {
+  z-index: 1;
+}
+
+.battle-effect-ring {
+  position: absolute;
+  box-sizing: border-box;
+  border-style: solid;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.battle-debug-controls {
+  display: grid;
+  position: fixed;
+  z-index: 5;
+  right: var(--space-4);
+  bottom: clamp(9rem, 19vh, 13rem);
+  width: 28rem;
+  max-width: calc(100vw - (var(--space-4) * 2));
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-small);
+  gap: var(--space-2);
+  color: var(--color-text-primary);
+  background: var(--gray-2-transparent-strong);
+  font-size: var(--font-size-small);
+}
+
+.battle-debug-controls__field {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.battle-debug-controls__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.battle-debug-controls button,
+.battle-debug-controls select {
+  min-height: 2rem;
+  border: var(--border-width) solid var(--color-text-muted);
+  border-radius: var(--border-radius-small);
+}
+
+.battle-cut-in-layer {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.battle-cut-in-layer__overlay {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  opacity: 0;
+}
+
+.battle-cut-in {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  overflow: hidden;
+  transform-origin: center;
+  will-change: clip-path;
+}
+
+.battle-cut-in__content {
+  display: flex;
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--space-2);
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.battle-cut-in__text {
+  align-self: center;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.battle-cut-in__portrait {
+  display: block;
+  flex: none;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+}

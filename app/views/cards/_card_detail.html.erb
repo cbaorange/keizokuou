@@ -1,0 +1,71 @@
+<div class="modal-layer card-detail-layer" data-card-detail-layer hidden>
+  <section
+    class="card-detail-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="card-detail-name"
+  >
+    <button
+      type="button"
+      class="card-detail-dialog__close"
+      data-card-detail-close
+      aria-label="詳細画面を閉じる"
+    >×</button>
+
+    <div class="card-detail-dialog__body">
+      <img
+        class="card-detail-dialog__image"
+        data-card-detail-image
+        alt=""
+        hidden
+      >
+
+      <div class="card-detail-dialog__information">
+        <h2
+          id="card-detail-name"
+          class="card-detail-dialog__name"
+          data-card-detail-name
+        ></h2>
+
+        <dl class="card-detail-dialog__details">
+          <div class="card-detail-dialog__detail">
+            <dt>レベル</dt>
+            <dd data-card-detail-level></dd>
+          </div>
+          <div class="card-detail-dialog__detail">
+            <dt>次のレベルまで</dt>
+            <dd><span data-card-detail-exp-to-next-level></span>exp</dd>
+          </div>
+          <div class="card-detail-dialog__detail">
+            <dt>タイプ</dt>
+            <dd data-card-detail-type></dd>
+          </div>
+          <div class="card-detail-dialog__detail">
+            <dt>体力</dt>
+            <dd data-card-detail-defense></dd>
+          </div>
+          <div class="card-detail-dialog__detail">
+            <dt>攻撃</dt>
+            <dd data-card-detail-attack></dd>
+          </div>
+          <div class="card-detail-dialog__detail">
+            <dt>速さ</dt>
+            <dd data-card-detail-speed></dd>
+          </div>
+          <div class="card-detail-dialog__detail card-detail-dialog__detail--description">
+            <dt>バフ</dt>
+            <dd data-card-detail-buff></dd>
+          </div>
+          <div class="card-detail-dialog__detail card-detail-dialog__detail--description">
+            <dt>出身</dt>
+            <dd data-card-detail-birthplace></dd>
+          </div>
+          <div class="card-detail-dialog__detail card-detail-dialog__detail--description">
+            <dt>経験値ボーナス</dt>
+            <dd data-card-detail-exp-bonus></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,212 @@
+.rewards-page {
+  display: grid;
+  max-width: none;
+  gap: var(--panel-gap);
+}
+
+.rewards-page__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--panel-gap);
+  align-items: start;
+}
+
+.rewards-page__description,
+.rewards-page__current-rate {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+}
+
+.rewards-page__description {
+  font-weight: 400;
+}
+
+.rewards-page__current-rate {
+  justify-self: end;
+}
+
+.rewards-page__folders {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--content-padding-inline);
+}
+
+.reward-folder {
+  --reward-folder-tab-height: 0px;
+  --reward-folder-min-height: 0px;
+
+  display: grid;
+  width: 100%;
+  min-height: var(--reward-folder-min-height);
+  position: relative;
+  padding: calc(var(--reward-folder-tab-height) + var(--space-4)) var(--space-4) var(--space-4);
+  border: 0;
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-body);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  grid-template-rows: auto minmax(var(--space-4), 1fr) auto;
+  pointer-events: none;
+}
+
+.reward-folder__shape,
+.reward-content-popup__shape {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.reward-folder__outline,
+.reward-content-popup__outline {
+  fill: var(--gray-3);
+  stroke: var(--color-highlight);
+  stroke-linejoin: round;
+  stroke-width: var(--border-width);
+}
+
+.reward-folder__outline {
+  pointer-events: visiblePainted;
+}
+
+.reward-folder:hover .reward-folder__outline,
+.reward-folder:focus-visible .reward-folder__outline,
+.reward-folder--unlocked.reward-folder--open .reward-folder__outline {
+  stroke: var(--color-accent);
+}
+
+.reward-folder--locked .reward-folder__outline,
+.reward-folder--locked:hover .reward-folder__outline,
+.reward-folder--locked:active .reward-folder__outline,
+.reward-folder--locked:focus .reward-folder__outline,
+.reward-folder--locked:focus-visible .reward-folder__outline {
+  stroke: var(--battle-bottun-red);
+}
+
+.reward-folder--locked {
+  cursor: default;
+}
+
+.reward-folder:focus-visible {
+  outline: none;
+}
+
+.reward-folder__title {
+  z-index: 1;
+  grid-row: 1;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.reward-folder--locked .reward-folder__title {
+  color: var(--color-text-disabled);
+}
+
+.reward-folder__required-rate {
+  z-index: 1;
+  grid-row: 3;
+  font-size: var(--font-size-small);
+  line-height: 1;
+  align-self: end;
+  justify-self: end;
+  pointer-events: none;
+}
+
+.reward-folder--unlocked .reward-folder__required-rate {
+  color: var(--color-text-disabled);
+}
+
+.reward-folder--locked .reward-folder__required-rate {
+  color: var(--battle-bottun-red);
+}
+
+.reward-content-layer {
+  background: transparent;
+}
+
+.reward-content-layer::before {
+  position: absolute;
+  inset: 0;
+  background: var(--gray-1);
+  content: "";
+  opacity: 0.75;
+}
+
+.reward-content-popup {
+  --reward-content-popup-tab-height: 0px;
+
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--reward-content-popup-tab-height) + var(--panel-padding)) var(--panel-padding) var(--panel-padding);
+  border: 0;
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-body);
+  background: transparent;
+}
+
+.reward-content-popup__close {
+  display: grid;
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--reward-content-popup-tab-height) / 2);
+  left: var(--space-3);
+  width: calc(var(--reward-content-popup-tab-height) * 0.65);
+  min-width: 1.25rem;
+  max-width: 2rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: var(--border-radius-small);
+  color: var(--color-text-primary);
+  background: transparent;
+  font-size: var(--font-size-title);
+  line-height: 1;
+  place-items: center;
+  transform: translateY(-50%);
+}
+
+.reward-content-popup__close:hover,
+.reward-content-popup__close:focus-visible {
+  color: var(--color-accent);
+}
+
+.reward-content-popup__body {
+  display: grid;
+  position: relative;
+  z-index: 1;
+  gap: var(--space-4);
+}
+
+.reward-content-popup__title,
+.reward-content-popup__text {
+  margin: 0;
+}
+
+.reward-content-popup__title {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-title);
+  font-weight: 500;
+}
+
+.reward-content-popup__text {
+  white-space: pre-line;
+}
+
+@media (orientation: portrait) {
+  .rewards-page__folders {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--content-padding-inline);
+  }
+
+  .reward-folder {
+    padding-inline: var(--space-3);
+  }
+}

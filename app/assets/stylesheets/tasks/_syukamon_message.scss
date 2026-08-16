@@ -1,0 +1,68 @@
+:root{
+  --syukamon-media-width: clamp(8rem, 14vw, 11rem);
+  --syukamon-visual-height: 7.5rem;
+  --syukamon-message-min-height: 4.8em;
+}
+
+.task-dialogue-text-stack {
+  position: relative;
+  min-width: 0;
+}
+
+.task-dialogue-text--measure {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.task-dialogue-text--visible {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.syukamon-panel {
+  display: grid;
+  min-height: var(--panel-min-height);
+  padding: var(--space-4) var(--panel-padding) 0;
+  grid-template-columns: var(--syukamon-media-width) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: end;
+  overflow: visible;
+}
+
+.syukamon-panel__visual {
+  display: flex;
+  height: var(--syukamon-visual-height);
+  align-items: flex-end;
+  justify-content: center;
+  align-self: end;
+  overflow: visible;
+}
+
+.syukamon-panel__dialogue {
+  min-width: 0;
+  padding-bottom: var(--space-4);
+  align-self: end;
+}
+
+.syukamon-panel__name {
+  width: fit-content;
+  margin: 0 0 var(--space-3);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-6);
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-primary);
+  background: var(--gray-1);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  text-align: center;
+}
+
+.syukamon-panel__message {
+  min-height: var(--syukamon-message-min-height);
+  margin: 0;
+  color: var(--color-text-body);
+  white-space: pre-line;
+}

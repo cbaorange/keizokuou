@@ -1,0 +1,61 @@
+.help-page {
+  display: grid;
+  gap: var(--panel-gap);
+}
+
+.help-section {
+  display: grid;
+  padding: var(--panel-padding);
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: var(--space-5);
+  row-gap: var(--space-4);
+}
+
+.help-section.panel {
+  border-color: transparent;
+  background: transparent;
+}
+
+.help-section__number {
+  align-self: end;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-bignumber);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.help-section__title {
+  align-self: end;
+  margin: 0;
+  font-size: var(--font-size-help-title);
+}
+
+.help-section__title-link {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.help-section__title-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.help-section__title-link:hover {
+  color: var(--color-accent);
+}
+
+.help-section__title-link:focus-visible {
+  border-radius: var(--border-radius-small);
+  outline: var(--border-width) solid var(--color-accent);
+  outline-offset: var(--space-1);
+}
+
+.help-section__description {
+  grid-column: 2;
+  max-width: 32em;
+  margin: 0;
+}

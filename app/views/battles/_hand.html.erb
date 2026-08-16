@@ -1,0 +1,54 @@
+<% slots = side == "enemy" ? %w[Z Y X W V] : %w[A B C D E] %>
+<section class="battle__hand battle__hand--<%= side %> <%= "battle__hand--scaled-down" if side == "enemy" %>" aria-label="<%= side == "enemy" ? "エネミー手札" : "ユーザー手札" %>">
+  <div class="battle__hand-row">
+    <% slots.each_with_index do |slot, index| %>
+      <% card = cards[index] %>
+      <div
+        class="battle__hand-card"
+        data-team="<%= side %>"
+        data-slot="<%= slot %>"
+        data-card-id=""
+        data-is-rental="false"
+        data-selected="false"
+        data-deployed="false"
+        data-can-battle="true"
+        aria-disabled="false"
+      >
+        <div class="battle-animation-position" data-battle-animation-position>
+          <div class="battle-animation-size" data-battle-animation-size>
+            <div
+              class="battle-animation-orientation battle-animation-orientation--<%= side %>"
+              data-battle-animation-orientation
+            >
+              <div class="battle-animation-flip" data-battle-animation-flip>
+                <div class="battle-animation-selection" data-battle-animation-selection>
+                  <div
+                    class="battle-animation-motion battle-animation-attack"
+                    data-battle-animation-motion
+                    data-battle-animation-attack
+                  >
+                    <div
+                      class="battle-animation-shadow"
+                      data-battle-animation-shadow
+                      aria-hidden="true"
+                    ></div>
+                    <% if card %>
+                      <%= image_tag "cards/#{card[:image]}",
+                            class: "battle__hand-card-image",
+                            alt: card[:name],
+                            data: { role: "card-image" } %>
+                    <% else %>
+                      <img class="battle__hand-card-image" data-role="card-image" alt="" hidden>
+                    <% end %>
+                    <div class="battle-effect-layer" data-battle-effect-layer></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%= render "battles/mobile_card_hud", team: side, slot: slot %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+
+    <title>継続王｜習慣化×カードガチャ×バトル</title>
+
+    <meta
+      name="description"
+      content="継続王は、毎日のタスク達成でカードを獲得し、育成やバトルを楽しみながら習慣化を続けるWebアプリです。"
+    >
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application", defer: true %>
+    <%= yield :page_javascript %>
+  </head>
+
+  <body>
+    <% authentication_page = controller_name.in?(["users", "sessions"]) %>
+    <% password_setup_notification = password_setup_notification? unless authentication_page %>
+
+    <div class="app-shell <%= "app-shell--without-sidebar" if authentication_page %>">
+      <% unless authentication_page %>
+        <header class="app-header">
+          <div class="app-header__brand">
+            <span class="app-header__brand-name">継続王</span>
+            <span class="app-header__brand-tagline">習慣カードガチャバトル</span>
+          </div>
+
+          <div class="app-header__page">
+            <div class="app-header__page-inner">
+              <p class="app-header__page-title">
+                <%= content_for?(:page_title) ? yield(:page_title) : "アカウント登録" %>
+              </p>
+
+              <%= link_to settings_path,
+                    class: class_names(
+                      "app-header__settings-link",
+                      "app-header__settings-link--current": current_page?(settings_path)
+                    ),
+                    aria: (current_page?(settings_path) ? { current: "page" } : {}) do %>
+                <span class="app-header__settings-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
+                  </svg>
+                  <% if password_setup_notification %>
+                    <span
+                      class="settings-password-notification settings-password-notification--header"
+                      data-password-setup-notification="header"
+                    ></span>
+                  <% end %>
+                </span>
+                <span class="app-header__settings-label">設定</span>
+              <% end %>
+            </div>
+          </div>
+        </header>
+      <% end %>
+
+      <div class="app-shell__body">
+        <% unless authentication_page %>
+          <%# 現在のページに合わせてサイドバーの見た目を変える用の変数 %>
+          <% habit_current = current_page?(root_path) || current_page?(tasks_path) %>
+          <% card_current = current_page?(cards_path) %>
+          <% rewards_current = current_page?(rewards_path) %>
+          <% help_current = current_page?(help_path) %>
+          <% settings_current = current_page?(settings_path) %>
+
+          <aside class="app-sidebar">
+            <nav class="app-sidebar__nav" aria-label="メインナビゲーション">
+              <ul class="app-sidebar__list">
+
+              <%# 【link_to "#"】を〇〇pathに置き換え、第２第3引数もコピペしてcurrent_page?(〇〇_path)に置き換え %>
+
+                <%# 習慣 %>
+                <li class="app-sidebar__item">
+                  <%= link_to root_path,
+                        class: class_names(
+                          "app-sidebar__link",
+                          "app-sidebar__link--current": habit_current
+                        ),
+                        aria: (habit_current ? { current: "page" } : {}) do %>
+                    <span class="app-sidebar__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M5 12.5 9.2 17 19 7"></path>
+                      </svg>
+                    </span>
+                    <span class="app-sidebar__label">習慣</span>
+                  <% end %>
+                </li>
+
+                <%# カード %>
+                <li class="app-sidebar__item">
+                  <%= link_to cards_path,
+                        class: class_names(
+                          "app-sidebar__link",
+                          "app-sidebar__link--current": current_page?(cards_path)
+                        ),
+                        aria: (current_page?(cards_path) ? { current: "page" } : {}) do %>
+                    <span class="app-sidebar__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <rect x="5" y="4" width="14" height="16" rx="2"></rect>
+                      </svg>
+                    </span>
+                    <span class="app-sidebar__label">カード</span>
+                  <% end %>
+                </li>
+
+
+                <%# バトル %>
+                <li class="app-sidebar__item">
+                  <button
+                    type="button"
+                    class="app-sidebar__link app-sidebar__button"
+                    data-battle-launcher-open
+                  >
+                    <span class="app-sidebar__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                          <path d="M12 2 13.2 7.2 19.1 4.9 16.8 10.8 22 12 16.8 13.2 19.1 19.1 13.2 16.8 12 22 10.8 16.8 4.9 19.1 7.2 13.2 2 12 7.2 10.8 4.9 4.9 10.8 7.2Z"></path>
+                      </svg>
+                    </span>
+                    <span class="app-sidebar__label">バトル</span>
+                  </button>
+                </li>
+
+                <%# 報酬 %>
+                <li class="app-sidebar__item">
+                  <%= link_to rewards_path,
+                        class: class_names(
+                          "app-sidebar__link",
+                          "app-sidebar__link--current": rewards_current
+                        ),
+                        aria: (rewards_current ? { current: "page" } : {}) do %>
+                    <span class="app-sidebar__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M5 9h14v11H5zM4 6h16v3H4zM12 6v14M8 4c0 2 4 2 4 2S10 2 8 4Zm8 0c0 2-4 2-4 2s2-4 4-2Z"></path>
+                      </svg>
+                    </span>
+                    <span class="app-sidebar__label">報酬</span>
+                  <% end %>
+                </li>
+
+                <%# 使い方 %>
+                <li class="app-sidebar__item">
+                  <%= link_to help_path,
+                        class: class_names(
+                          "app-sidebar__link",
+                          "app-sidebar__link--current": help_current
+                        ),
+                        aria: (help_current ? { current: "page" } : {}) do %>
+                    <span class="app-sidebar__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M8.8 8.5c0-2.5 1.9-4 4.3-4 2.6 0 4.3 1.6 4.3 3.8 0 1.8-.9 2.9-2.6 4-1.3.8-1.8 1.6-1.8 3"></path>
+                        <path d="M13 19h.01"></path>
+                      </svg>
+                    </span>
+                    <span class="app-sidebar__label">使い方</span>
+                  <% end %>
+                </li>
+              </ul>
+
+              <%# 設定 %>
+              <ul class="app-sidebar__list app-sidebar__list--bottom">
+                <li class="app-sidebar__item">
+                  <%= link_to settings_path,
+                        class: class_names(
+                          "app-sidebar__link",
+                          "app-sidebar__link--current": settings_current
+                        ),
+                        aria: (settings_current ? { current: "page" } : {}) do %>
+                    <span class="app-sidebar__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
+                      </svg>
+                      <% if password_setup_notification %>
+                        <span
+                          class="settings-password-notification settings-password-notification--sidebar"
+                          data-password-setup-notification="sidebar"
+                        ></span>
+                      <% end %>
+                    </span>
+                    <span class="app-sidebar__label">設定</span>
+                  <% end %>
+                </li>
+              </ul>
+            </nav>
+          </aside>
+        <% end %>
+
+        <main class="app-main">
+          <% flash.each do |key, message| %>
+            <div class="app-flash app-flash--<%= key %>" role="status">
+              <%= message %>
+            </div>
+          <% end %>
+
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+
+    <%= render "shared/battle_launcher" unless authentication_page %>
+  </body>
+</html>

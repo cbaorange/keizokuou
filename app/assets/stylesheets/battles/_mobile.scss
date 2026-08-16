@@ -1,0 +1,279 @@
+.battle-mobile-card-hud {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  color: var(--color-text-primary);
+  transform: translateY(0);
+  pointer-events: none;
+}
+
+@media (orientation: portrait) {
+  .battle {
+    --battle-user-card-width: var(--battle-mobile-user-card-width);
+    --battle-user-card-height: var(--battle-mobile-user-card-height);
+
+    // view判定はCSSだけで行い、カットイン側はこの計算済み値だけを読む。
+    --battle-responsive-cut-in-rectangle-height: var(--battle-mobile-cut-in-rectangle-height);
+    --battle-responsive-cut-in-text-font-size: var(--battle-mobile-cut-in-text-font-size);
+  }
+
+  // responsive visibilityはCSS、戦闘中の一時非表示はis-battle-hiddenへ分離する。
+  .battle__status-item,
+  .battle__status-placeholder {
+    display: none !important;
+  }
+
+  .battle-mobile-card-hud {
+    display: block;
+  }
+
+  .battle-mobile-card-hud.is-battle-hidden {
+    display: none;
+  }
+
+  .battle__center-object {
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    height: 100%;
+    transform: none;
+  }
+
+  .battle__center-row {
+    position: absolute;
+    left: 50%;
+    width: calc(var(--battle-user-card-width) + (var(--battle-area-card-padding) * 2));
+    transform: translate(-50%, -50%);
+  }
+
+  .battle__center-row--enemy {
+    top: var(--battle-mobile-enemy-area-center-y);
+  }
+
+  .battle__center-row--user {
+    top: var(--battle-mobile-user-area-center-y);
+  }
+
+  .battle__center-panel {
+    width: 100%;
+    min-height: 0;
+    max-height: none;
+    height: calc(var(--battle-user-card-height) + (var(--battle-area-card-padding) * 2));
+    aspect-ratio: auto;
+  }
+
+  .battle__center-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(var(--battle-user-card-width) * 1.4);
+    transform: translate(-50%, -50%);
+  }
+
+  .battle__combat-status-anchor {
+    display: none;
+  }
+
+  .battle__hand {
+    left: 0;
+    width: 100vw;
+    max-width: none;
+    transform: none;
+  }
+
+  .battle__hand--enemy {
+    top: var(--battle-mobile-vertical-edge-margin);
+  }
+
+  .battle__hand--user {
+    bottom: var(--battle-mobile-vertical-edge-margin);
+  }
+
+  .battle__hand-row,
+  .battle__hand--user .battle__hand-row {
+    box-sizing: border-box;
+    justify-content: flex-start;
+    gap: var(--battle-mobile-card-gap);
+    padding-right: var(--battle-mobile-user-edge-margin);
+    padding-left: var(--battle-mobile-user-edge-margin);
+  }
+
+  .battle__hand--user .battle__hand-card,
+  .battle__hand--enemy .battle__hand-card,
+  .battle__hand--scaled-down .battle__hand-card {
+    --battle-hand-card-width: var(--battle-user-card-width);
+
+    position: relative;
+  }
+
+  .battle-mobile-card-hud__level {
+    position: absolute;
+    top: var(--battle-mobile-level-offset-y-percent);
+    left: var(--battle-mobile-level-offset-x-percent);
+    box-sizing: border-box;
+    max-width: calc(100% - var(--battle-mobile-level-offset-x-percent));
+    padding: 0.15em 0.25em;
+    border-radius: 999rem;
+    overflow: hidden;
+    color: var(--color-text-primary);
+    background: rgba(var(--battle-mobile-hud-rgb, 28, 28, 28), 0.9215686275);
+    font-size: var(--battle-mobile-user-level-font-size);
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .battle-mobile-card-hud__hp {
+    position: absolute;
+    right: 0;
+    width: var(--battle-mobile-hp-bar-width);
+    font-size: var(--battle-mobile-user-hp-font-size);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .battle__hand-card[data-team="user"] .battle-mobile-card-hud__hp {
+    bottom: calc(100% + var(--space-1));
+  }
+
+  .battle__hand-card[data-team="enemy"] .battle-mobile-card-hud__hp {
+    top: calc(100% + var(--space-1));
+  }
+
+  .battle-mobile-card-hud__hp-value {
+    display: block;
+    margin-bottom: var(--space-1);
+    text-align: center;
+  }
+
+  .battle__hand-card[data-team="enemy"] .battle-mobile-card-hud__hp-value {
+    margin-top: var(--space-1);
+    margin-bottom: 0;
+    text-align: right;
+  }
+
+  .battle-mobile-card-hud__hp-bar {
+    --battle-mobile-hp-bar-height: 0.25rem;
+
+    box-sizing: content-box;
+    width: 100%;
+    height: var(--battle-mobile-hp-bar-height);
+    overflow: hidden;
+    border: calc(var(--battle-mobile-hp-bar-height) / 3) solid #fff;
+    border-radius: var(--border-radius-small);
+    background: var(--gray-1);
+  }
+
+  .battle-mobile-card-hud__hp-current {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    border-radius: inherit;
+    background: var(--color-accent);
+  }
+
+  .battle-surrender-button {
+    top: var(--battle-surrender-mobile-center-y, 66vh) !important;
+    right: auto;
+    left: var(--space-3);
+    box-sizing: content-box;
+    min-width: calc(5rem * 0.5);
+    min-height: calc(2.75rem * 0.5);
+    padding: calc(var(--space-1) * 0.5) calc(var(--space-3) * 0.5);
+    border-width: calc(var(--border-width) * 0.5);
+    font-size: var(--font-size-small);
+  }
+
+  .battle-result-screen {
+    padding: var(--space-2) var(--space-3);
+    grid-template-rows: auto auto auto;
+    gap: var(--space-2);
+    overflow-y: auto;
+  }
+
+  .battle-result-screen__main {
+    width: 100%;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+    align-content: start;
+  }
+
+  .battle-result-screen__card-area {
+    min-height: 0;
+    place-items: center;
+  }
+
+  .battle-result-screen__card {
+    --battle-mobile-result-card-height: 24vh;
+
+    width: auto;
+    height: var(--battle-mobile-result-card-height);
+    margin-top: calc(var(--battle-mobile-result-card-height) * 0.5);
+    max-width: 40vw;
+    max-height: 24vh;
+  }
+
+  .battle-result-screen__details {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+    justify-items: center;
+    gap: var(--space-2);
+  }
+
+  .battle-result-screen__heading {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .battle-result-screen__rate {
+    text-align: center;
+  }
+
+  .battle-result-screen__rate-values {
+    margin-top: var(--space-1);
+    font-size: var(--font-size-bignumber);
+  }
+
+  .battle-result-screen__dialogue {
+    width: 100%;
+  }
+
+  .battle-result-screen__name {
+    margin-bottom: var(--space-1);
+    padding: var(--space-1) var(--space-4);
+  }
+
+  .battle-result-screen__message {
+    min-height: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .battle-result-screen__actions {
+    width: 100%;
+    max-width: 20rem;
+    margin-inline: auto;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .battle-result-screen__actions button {
+    width: 100%;
+    min-width: 0;
+    min-height: 2.5rem;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .battle-result-screen__actions button[data-battle-result-action="rematch"] {
+    order: 1;
+  }
+
+  .battle-result-screen__actions button[data-battle-result-action="finish"] {
+    order: 2;
+  }
+}

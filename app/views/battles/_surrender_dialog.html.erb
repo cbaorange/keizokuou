@@ -1,0 +1,29 @@
+<button
+  type="button"
+  class="battle-surrender-button"
+  data-battle-surrender-open
+  disabled
+  hidden
+>
+  降参
+</button>
+
+<div
+  class="modal-layer battle-surrender-layer"
+  data-battle-surrender-layer
+  aria-hidden="true"
+  hidden
+>
+  <section
+    class="battle-surrender-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="battle-surrender-title"
+  >
+    <h2 id="battle-surrender-title" class="battle-surrender-dialog__title">降参しますか？</h2>
+    <div class="battle-surrender-dialog__actions">
+      <button type="button" data-battle-surrender-cancel>あきらめない</button>
+      <button type="button" data-battle-surrender-confirm>降参</button>
+    </div>
+  </section>
+</div>

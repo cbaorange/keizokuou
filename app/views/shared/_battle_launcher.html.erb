@@ -1,0 +1,53 @@
+<% launcher_data = battle_launcher_bootstrap_data(current_user) %>
+
+<div class="modal-layer battle-launcher-layer" data-battle-launcher hidden>
+  <section
+    class="battle-launcher-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="battle-launcher-heading"
+  >
+    <a
+      class="battle-pre-screen__start battle-launcher-modal__start"
+      href="<%= battle_path %>"
+      data-battle-launcher-start
+      data-battle-url="<%= battle_path %>"
+      data-cards-url="<%= cards_path %>"
+    >
+      <span
+        id="battle-launcher-heading"
+        class="battle-pre-screen__start-label"
+        data-battle-launcher-start-label
+      >バトル開始</span>
+      <span class="battle-pre-screen__rate">現在レート：<%= launcher_data.fetch("displayRate") %></span>
+    </a>
+
+    <div class="battle-launcher-modal__lower">
+      <button
+        type="button"
+        class="battle-launcher-modal__close"
+        data-battle-launcher-close
+      >
+        閉じる
+      </button>
+
+      <a
+        class="battle-pre-screen__deck battle-launcher-modal__deck"
+        href="<%= cards_path %>"
+        data-battle-launcher-deck
+        aria-label="デッキを編集する"
+      >
+        <span class="battle-launcher-modal__deck-heading">デッキ</span>
+        <% 5.times do |index| %>
+          <span class="battle-pre-screen__deck-slot" data-battle-launcher-slot="<%= index %>">
+            <img class="battle-pre-screen__portrait" data-battle-launcher-portrait alt="" hidden>
+          </span>
+        <% end %>
+      </a>
+    </div>
+  </section>
+</div>
+
+<script type="application/json" id="battle-launcher-data">
+  <%= raw json_escape(launcher_data.to_json) %>
+</script>

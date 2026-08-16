@@ -1,0 +1,90 @@
+.battle {
+  --battle-user-card-width: clamp(7rem, 9.4vw, 11.25rem);
+  --battle-user-card-height: clamp(11.2rem, 15.04vw, 18rem);
+
+  position: fixed;
+  isolation: isolate;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+  background: var(--gray-2);
+}
+
+// レイヤー1：最背面のバトル背景
+.battle__background {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: var(--gray-1);
+}
+
+// レイヤー2：ブラインド越しに見せる中央オブジェクト
+.battle__center-object {
+  display: grid;
+  position: absolute;
+  z-index: 1;
+  top: 54%;
+  left: 48%;
+  width: calc(var(--battle-user-card-width) + (var(--battle-area-card-padding) * 2));
+  gap: var(--space-7);
+  transform: translate(-50%, -50%);
+  place-items: center;
+}
+
+.battle__center-panel {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(var(--battle-user-card-height) + (var(--battle-area-card-padding) * 2));
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: calc(
+    (var(--battle-user-card-width) + (var(--battle-area-card-padding) * 2)) *
+    var(--battle-area-border-radius-ratio)
+  );
+  background: var(--color-text-disabled);
+}
+
+.battle__center-row {
+  position: relative;
+  width: 100%;
+}
+
+.battle__combat-status-anchor {
+  position: absolute;
+  top: 50%;
+  width: clamp(13rem, 17.2vw, 21rem);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.battle__center-row--enemy .battle__combat-status-anchor {
+  right: calc(100% + var(--space-4));
+}
+
+.battle__center-row--user .battle__combat-status-anchor {
+  left: calc(100% + var(--space-4));
+}
+
+.battle__center-line {
+  width: 140%;
+  height: var(--border-width);
+  background: var(--color-text-disabled);
+}
+
+.battle-entry-cover {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  background: var(--gray-1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+// レイヤー4：上下の手札と左右のステータスをまとめる前景
+.battle__foreground {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+}

@@ -1,0 +1,40 @@
+<% content_for :page_title, "カード" %>
+
+<% content_for :page_javascript do %>
+  <%= javascript_include_tag "cards", defer: true %>
+<% end %>
+
+<div
+  class="cards-page"
+  data-owned-card-ids="<%= @owned_card_ids.to_json %>"
+>
+  <section class="panel deck-panel" aria-labelledby="deck-panel-heading">
+    <header class="cards-panel__header">
+      <h2 id="deck-panel-heading" class="cards-panel__title">デッキ</h2>
+    </header>
+
+    <div class="deck-list">
+      <%= render(
+        partial: "deck_slot",
+        collection: (1..5).to_a,
+        as: :slot_number
+      ) %>
+    </div>
+  </section>
+
+  <section class="panel card-catalog-panel" aria-label="カード一覧">
+    <p class="deck-full-warning" data-deck-full-warning role="alert" hidden>
+      デッキがいっぱいです
+    </p>
+
+    <div class="card-catalog-list">
+      <%= render(
+        partial: "card_placeholder",
+        collection: @syukamon_cards,
+        as: :syukamon
+      ) %>
+    </div>
+  </section>
+
+  <%= render "card_detail" %>
+</div>

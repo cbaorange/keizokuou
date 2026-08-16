@@ -1,0 +1,89 @@
+.settings-page {
+  display: grid;
+  gap: var(--panel-gap);
+}
+
+.settings-section {
+  padding: var(--panel-padding);
+}
+
+.settings-password-warning {
+  padding: var(--panel-padding);
+  color: var(--color-red-bg);
+  background: var(--color-red-text);
+}
+
+.settings-password-warning__title,
+.settings-password-warning__message,
+.settings-section__title,
+.settings-login-id,
+.settings-login-id__note,
+.settings-form__note,
+.settings-form__message {
+  margin: 0;
+}
+
+.settings-password-warning__title {
+  font-size: var(--font-size-title);
+  font-weight: 700;
+}
+
+.settings-password-warning__message {
+  margin-top: var(--space-3);
+}
+
+.settings-section__title {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+.settings-login-id {
+  margin-top: var(--space-4);
+  color: var(--color-accent);
+  font-size: var(--font-size-title);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.settings-login-id__note {
+  margin-top: var(--space-3);
+  color: var(--color-text-body);
+  font-size: var(--font-size-small);
+}
+
+.settings-errors {
+  margin-inline: 0;
+}
+
+.settings-form {
+  display: grid;
+  margin-top: var(--space-5);
+  gap: var(--space-5);
+}
+
+.settings-form__note,
+.settings-form__message {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+.settings-form__submit {
+  width: 100%;
+  max-width: 20rem;
+}
+
+.settings-page__divider {
+  margin-block: clamp(1.5rem, 4vh, 3rem);
+  border-top: var(--border-width) solid var(--color-text-disabled);
+}
+
+.settings-privacy-note {
+  padding: var(--panel-padding);
+}
+
+.settings-privacy-note__message {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+}

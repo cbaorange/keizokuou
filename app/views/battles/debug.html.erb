@@ -1,0 +1,144 @@
+<% content_for :page_title, "バトル（表示確認）" %>
+
+<% content_for :page_javascript do %>
+  <%= javascript_include_tag "battle_effects", defer: true %>
+  <%= javascript_include_tag "battle_animation", defer: true %>
+<% end %>
+
+<%# バトル画面の見た目を確認するための仮データ。DBやバトル処理には接続しない。 %>
+<% battle_debug_syukamon_data = YAML.safe_load_file(
+     Rails.root.join("config/data/syukamon.yml")
+   ) %>
+<% battle_debug_cards = %w[kaguya athena suibo tesla midas].map do |key|
+     card = battle_debug_syukamon_data.fetch(key)
+     {
+       image: File.basename(card.fetch("image_tag_cards")),
+       portrait: File.basename(card.fetch("image_tag_portraits")),
+       name: card.fetch("short_name"),
+       level: 1
+     }
+   end %>
+<% battle_effects_config = YAML.safe_load_file(
+     Rails.root.join("config/data/battle_effects.yml")
+   ) %>
+<% battle_animations_config = YAML.safe_load_file(
+     Rails.root.join("config/data/battle_animations.yml")
+   ) %>
+<% battle_debug_syukamon = battle_debug_syukamon_data.values.first %>
+<% battle_cut_in_debug_data = {
+     "portraitUrl" => asset_path(battle_debug_syukamon.fetch("image_tag_portraits")),
+     "normalDefeat" => battle_debug_syukamon.fetch("normal_defeat"),
+     "finalDefeat" => battle_debug_syukamon.fetch("final_defeat")
+   } %>
+
+<%= render "battles/battle_screen",
+      aria_label: "バトル画面表示確認",
+      enemy_cards: battle_debug_cards,
+      user_cards: battle_debug_cards,
+      battle_css_custom_properties: @battle_css_custom_properties,
+      mobile_css_custom_properties: @battle_mobile_css_custom_properties %>
+
+<%# 既存パーシャルを変更せず、デバッグ画面だけで戦闘エリア用カードを確認する。 %>
+<div
+  class="battle-debug-card battle-debug-card--enemy"
+  data-battle-effect-target="enemy"
+>
+  <%= image_tag "cards/kaguya.PNG",
+        class: "battle-debug-card__image",
+        alt: "エネミー側エフェクト確認カード" %>
+  <div class="battle-effect-layer" data-battle-effect-layer></div>
+</div>
+
+<div
+  class="battle-debug-card battle-debug-card--user"
+  data-battle-effect-target="user"
+>
+  <%= image_tag "cards/kaguya.PNG",
+        class: "battle-debug-card__image",
+        alt: "ユーザー側エフェクト確認カード" %>
+  <div class="battle-effect-layer" data-battle-effect-layer></div>
+</div>
+
+<section class="battle-debug-controls" aria-label="バトルエフェクト操作">
+  <label class="battle-debug-controls__field">
+    属性
+    <select data-battle-effect-attribute>
+      <% %w[mon tue wed thu fri sat sun].each do |attribute| %>
+        <option value="<%= attribute %>"><%= attribute %></option>
+      <% end %>
+    </select>
+  </label>
+
+  <div class="battle-debug-controls__buttons">
+    <button type="button" data-battle-effect-action="hit-user">ユーザーにヒット</button>
+    <button type="button" data-battle-effect-action="hit-enemy">エネミーにヒット</button>
+    <button type="button" data-battle-effect-action="defeat-user">ユーザーを撃破</button>
+    <button type="button" data-battle-effect-action="defeat-enemy">エネミーを撃破</button>
+    <button type="button" data-battle-cut-in-action="user-advantage">ユーザー属性有利</button>
+    <button type="button" data-battle-cut-in-action="enemy-advantage">エネミー属性有利</button>
+    <button type="button" data-battle-cut-in-action="user-normal-defeat">ユーザー通常撃破</button>
+    <button type="button" data-battle-cut-in-action="enemy-normal-defeat">エネミー通常撃破</button>
+    <button type="button" data-battle-cut-in-action="user-final-defeat">ユーザー最終撃破</button>
+    <button type="button" data-battle-cut-in-action="enemy-final-defeat">エネミー最終撃破</button>
+    <button type="button" data-battle-effect-action="toggle-overlays">オーバーレイ表示</button>
+  </div>
+</section>
+
+<div
+  class="battle-animation-battle-status battle-animation-battle-status--enemy"
+  data-battle-animation-battle-status="enemy"
+>
+  ENEMY HP 100
+</div>
+<div
+  class="battle-animation-battle-status battle-animation-battle-status--user"
+  data-battle-animation-battle-status="user"
+>
+  USER HP <span data-battle-animation-number>100</span>
+</div>
+
+<section
+  class="battle-animation-controls"
+  data-battle-animation-controls
+  aria-label="バトルモーション操作"
+>
+  <p class="battle-animation-controls__title">バトルモーション</p>
+  <div class="battle-animation-controls__buttons">
+    <button type="button" data-battle-animation-action="entry">両チーム登場</button>
+    <button type="button" data-battle-animation-action="battle-start">バトル開始</button>
+    <button type="button" data-battle-animation-action="choice">選択案内</button>
+    <button type="button" data-battle-animation-action="select">カード選択</button>
+    <button type="button" data-battle-animation-action="deselect">選択解除</button>
+    <button type="button" data-battle-animation-action="cover">両カードを伏せる</button>
+    <button type="button" data-battle-animation-action="retreat">手札退避</button>
+    <button type="button" data-battle-animation-action="user-to-battle">ユーザー出撃</button>
+    <button type="button" data-battle-animation-action="enemy-to-battle">エネミー出撃</button>
+    <button type="button" data-battle-animation-action="reveal">両カード表返し</button>
+    <button type="button" data-battle-animation-action="user-attack">ユーザー攻撃</button>
+    <button type="button" data-battle-animation-action="enemy-attack">エネミー攻撃</button>
+    <button type="button" data-battle-animation-action="hit">被弾振動</button>
+    <button type="button" data-battle-animation-action="damage">ダメージ数値</button>
+    <button type="button" data-battle-animation-action="number">HP数値変動</button>
+    <button type="button" data-battle-animation-action="defeat">通常撃破フェード</button>
+    <button type="button" data-battle-animation-action="to-hand">手札へ帰還</button>
+    <button type="button" data-battle-animation-action="restore">手札復元</button>
+    <button type="button" data-battle-animation-action="revenge">リベンジ強化</button>
+    <button type="button" data-battle-animation-action="turn">通常ターン一連</button>
+  </div>
+</section>
+
+<script type="application/json" id="battle-effects-config">
+  <%= raw json_escape(battle_effects_config.to_json) %>
+</script>
+
+<script type="application/json" id="battle-cut-in-debug-data">
+  <%= raw json_escape(battle_cut_in_debug_data.to_json) %>
+</script>
+
+<script
+  type="application/json"
+  id="battle-animations-config"
+  data-card-back-url="<%= asset_path("cards/card_back.PNG") %>"
+>
+  <%= raw json_escape(battle_animations_config.to_json) %>
+</script>

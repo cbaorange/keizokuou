@@ -1,0 +1,23 @@
+<% content_for :page_javascript do %>
+  <%= javascript_include_tag "battle_flow", defer: true %>
+<% end %>
+
+<%= render "battles/battle_screen",
+      aria_label: "バトル画面",
+      enemy_cards: [],
+      user_cards: [],
+      battle_css_custom_properties: @battle_css_custom_properties,
+      mobile_css_custom_properties: @battle_mobile_css_custom_properties,
+      card_entry_start_ratio: @battle_bootstrap_data.dig("config", "animations", "card_entry", "start_translate_y_ratio") %>
+
+<%= render "battles/result_screen",
+      tasks_url: cards_path,
+      rematch_url: battle_path %>
+
+<%= render "battles/preparation_error_screen", tasks_url: tasks_path %>
+
+<%= render "battles/surrender_dialog" %>
+
+<script type="application/json" id="battle-bootstrap-data">
+  <%= raw json_escape(@battle_bootstrap_data.to_json) %>
+</script>

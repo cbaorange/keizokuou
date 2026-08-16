@@ -1,0 +1,80 @@
+<%
+  card_entry_start_ratio = local_assigns[:card_entry_start_ratio]
+  preposition_cards = card_entry_start_ratio.present?
+  if preposition_cards && (!card_entry_start_ratio.is_a?(Numeric) || !card_entry_start_ratio.finite? || card_entry_start_ratio.negative?)
+    raise ArgumentError, "card_entry_start_ratioは0以上の数である必要があります"
+  end
+  card_entry_start_percent = card_entry_start_ratio * 100 if preposition_cards
+  battle_css_custom_properties = local_assigns.fetch(:battle_css_custom_properties, {})
+  mobile_css_custom_properties = local_assigns.fetch(:mobile_css_custom_properties, {})
+  battle_style_properties = battle_css_custom_properties
+    .merge(mobile_css_custom_properties)
+    .map { |name, value| "#{name}: #{value};" }
+  if preposition_cards
+    battle_style_properties << "--battle-card-entry-user-start-y: #{card_entry_start_percent}%;"
+    battle_style_properties << "--battle-card-entry-enemy-start-y: -#{card_entry_start_percent}%;"
+  end
+%>
+<div
+  class="battle<%= " battle--cards-awaiting-entry" if preposition_cards %>"
+  aria-label="<%= aria_label %>"
+  <% if battle_style_properties.any? %>
+    style="<%= battle_style_properties.join(" ") %>"
+  <% end %>
+>
+  <%# 最背面：バトル背景 %>
+  <div class="battle__background" aria-hidden="true"></div>
+
+  <%# 背景寄り：使用不能状態を想定した中央オブジェクト %>
+  <div class="battle__center-object">
+    <div class="battle__center-row battle__center-row--enemy">
+      <div class="battle__center-panel" data-team="enemy" aria-hidden="true"></div>
+      <div
+        class="battle__combat-status-anchor"
+        data-battle-status-anchor
+        data-team="enemy"
+      ></div>
+    </div>
+    <div class="battle__center-line" aria-hidden="true"></div>
+    <div class="battle__center-row battle__center-row--user">
+      <div class="battle__center-panel" data-team="user" aria-hidden="true"></div>
+      <div
+        class="battle__combat-status-anchor"
+        data-battle-status-anchor
+        data-team="user"
+      ></div>
+    </div>
+  </div>
+
+  <%# カード選択中だけ背景とフィールドを暗くし、ぼかす独立レイヤー %>
+  <div class="battle-animation-choice-dim" data-battle-animation-choice-dim aria-hidden="true"></div>
+
+  <%# 最前面：上下の手札と左右のステータス一覧 %>
+  <div class="battle__foreground">
+    <%= render "battles/hand", side: "enemy", cards: enemy_cards %>
+    <%= render "battles/status_list", side: "left", cards: enemy_cards %>
+    <%= render "battles/status_list", side: "right", cards: user_cards %>
+    <%= render "battles/hand", side: "user", cards: user_cards %>
+  </div>
+
+  <%# 撃破カードの表示状態から独立した戦闘エリア用エフェクトレイヤー %>
+  <div
+    class="battle-defeat-effect-layer"
+    data-battle-defeat-effect-layer
+    data-team="enemy"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="battle-defeat-effect-layer"
+    data-battle-defeat-effect-layer
+    data-team="user"
+    aria-hidden="true"
+  ></div>
+
+  <p class="battle-animation-choice-prompt" data-battle-animation-choice-prompt>Choose Your Cards</p>
+  <p class="battle-animation-start-message" data-battle-animation-start-message>BATTLE START</p>
+
+  <% if preposition_cards %>
+    <div class="battle-entry-cover" data-battle-entry-cover aria-hidden="true"></div>
+  <% end %>
+</div>

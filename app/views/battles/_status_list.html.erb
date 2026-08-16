@@ -1,0 +1,30 @@
+<% team = side == "left" ? "enemy" : "user" %>
+<% slots = team == "enemy" ? %w[Z Y X W V] : %w[A B C D E] %>
+<section class="battle__status-list battle__status-list--<%= side %> <%= "battle__status-list--scaled-down" if side == "left" %>" aria-label="<%= side == "left" ? "左側ステータス一覧" : "右側ステータス一覧" %>">
+  <% slots.each_with_index do |slot, index| %>
+    <% card = cards[index] %>
+    <article class="battle__status-item" data-team="<%= team %>" data-slot="<%= slot %>">
+      <% if card %>
+        <%= image_tag "portraits/#{card[:portrait]}",
+              class: "battle__status-portrait",
+              alt: "#{card[:name]}のポートレート",
+              data: { role: "portrait" } %>
+      <% else %>
+        <img class="battle__status-portrait" data-role="portrait" alt="" hidden>
+      <% end %>
+
+      <div class="battle__status-detail">
+        <p class="battle__status-name" data-role="card-name"><%= card&.fetch(:name, "") %></p>
+        <div class="battle__hp-bar" data-role="hp-bar" aria-label="現在HP">
+          <span class="battle__hp-current" data-role="hp-fill"></span>
+        </div>
+        <div class="battle__status-metrics" data-role="status-values" hidden>
+          <span class="battle__status-level" data-role="level"><%= "Lv. #{card[:level]}" if card&.key?(:level) %></span>
+          <span class="battle__hp-values">
+            <span data-role="current-hp"></span>/<span data-role="max-hp"></span>
+          </span>
+        </div>
+      </div>
+    </article>
+  <% end %>
+</section>

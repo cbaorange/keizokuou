@@ -1,0 +1,127 @@
+<% initial_card_reward = local_assigns[:initial_card_reward] %>
+<% show_exp = local_assigns.fetch(:show_exp, true) %>
+
+<div
+  class="modal-layer card-reward-layer"
+  data-card-reward-modal
+  <% if initial_card_reward.present? %>
+    data-initial-card-reward="<%= initial_card_reward.to_json %>"
+  <% end %>
+  hidden
+>
+  <section
+    class="card-reward-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="card-reward-modal-heading"
+  >
+    <div class="card-reward-modal__body">
+      <div class="card-reward-modal__visual">
+        <h2
+          id="card-reward-modal-heading"
+          class="card-reward-modal__heading card-reward-modal__reveal--hidden"
+          data-card-reward-heading
+          data-card-reward-reveal
+          aria-hidden="true"
+        >
+          シュカモンを獲得しました
+        </h2>
+
+        <article class="card-placeholder card-reward-modal__card">
+          <div class="card-reward-modal__card-flipper" data-card-reward-flipper>
+            <%= image_tag "cards/card_back.PNG",
+                  alt: "カード裏面",
+                  class: "card-placeholder__image card-reward-modal__card-image card-reward-modal__card-image--back",
+                  data: { card_reward_back_image: true } %>
+            <img
+              class="card-placeholder__image card-reward-modal__card-image card-reward-modal__card-image--front"
+              data-card-reward-image
+              alt=""
+            >
+          </div>
+          <span
+            class="card-reward-modal__new-badge card-reward-modal__reveal--hidden"
+            data-card-reward-new
+            data-card-reward-reveal
+            hidden
+          >
+            NEW!!
+          </span>
+        </article>
+
+        <p
+          class="card-reward-modal__card-name card-reward-modal__reveal--hidden"
+          data-card-reward-name
+          data-card-reward-reveal
+          aria-hidden="true"
+        ></p>
+      </div>
+
+      <div
+        class="card-reward-modal__content card-reward-modal__reveal--hidden"
+        data-card-reward-reveal
+        aria-hidden="true"
+      >
+        <div class="card-reward-modal__message-block">
+          <h2
+            class="card-reward-modal__heading card-reward-modal__heading-spacer"
+            data-card-reward-heading-spacer
+            aria-hidden="true"
+          >
+            シュカモンを獲得しました
+          </h2>
+          <div
+            class="task-dialogue-text-stack card-reward-modal__message-stack"
+            data-dialogue-text-stack
+          >
+            <p
+              class="card-reward-modal__message task-dialogue-text--measure"
+              data-dialogue-text-measure
+              aria-hidden="true"
+            ></p>
+            <p
+              class="card-reward-modal__message task-dialogue-text--visible"
+              data-card-reward-message
+            ></p>
+          </div>
+          <p
+            class="card-reward-modal__level-change"
+            data-card-reward-level-change
+            hidden
+          ></p>
+        </div>
+
+        <div
+          class="card-reward-modal__experience"
+          data-card-reward-experience
+          <%= "hidden" unless show_exp %>
+        >
+          <h3 class="card-reward-modal__experience-heading">経験値の内訳</h3>
+
+          <div
+            class="card-reward-modal__experience-sources"
+            data-card-reward-experience-sources
+          ></div>
+
+          <template data-card-reward-experience-template>
+            <div class="card-reward-modal__experience-row">
+              <span data-card-reward-experience-label></span>
+              <span data-card-reward-experience-value></span>
+            </div>
+          </template>
+
+          <div class="card-reward-modal__experience-total">
+            <span>合計</span>
+            <span data-card-reward-total-experience></span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="card-reward-modal__ok-button"
+          data-card-reward-close
+        >OK</button>
+      </div>
+    </div>
+  </section>
+</div>

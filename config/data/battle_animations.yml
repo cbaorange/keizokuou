@@ -1,0 +1,337 @@
+# カードの3D回転で共通使用する遠近感
+card_3d:
+  # CSSのperspectiveに使用する距離。カード横幅に対する倍率
+  perspective_ratio: 6.0
+
+
+# バトル開始前画面を閉じる
+pre_battle_exit:
+  duration_ms: 700
+
+
+# バトル開始時に、両チームのカードを画面外から手札位置へ登場させる
+card_entry:
+  # 画面外から手札位置へ移動する時間
+  duration_ms: 700
+
+  # 登場開始地点までの距離。カード高さに対する倍率
+  # ユーザーは画面下、エネミーは画面上へ自動的に方向を反転する
+  start_translate_y_ratio: 1.2
+
+
+# バトル開始を知らせる中央表示
+battle_start:
+  # 表示されるまでの時間
+  fade_in_duration_ms: 500
+
+  # 完全に表示された状態を維持する時間
+  hold_duration_ms: 300
+
+  # 消えるまでの時間
+  fade_out_duration_ms: 300
+
+  # 表示開始時の大きさ
+  start_scale_multiplier: 1.15
+
+  # 完全表示時の大きさ
+  end_scale_multiplier: 1.0
+
+battle_status:
+  # カード選択中に、対応するユーザーステータスを
+  # 戦闘エリア横幅の何倍だけ左へ移動させるか
+  selected_shift_ratio: 0.2
+
+  # カード選択・選択解除時にステータスが
+  # 移動先までスライドする時間
+  selected_shift_duration_ms: 100
+
+  # ユーザー側ステータス背景色
+  # opacityは既存CSSの値をそのまま使用する
+  user_background_color:
+    r: 66
+    g: 150
+    b: 252
+
+  # エネミー側ステータス背景色
+  # opacityは既存CSSの値をそのまま使用する
+  enemy_background_color:
+    r: 252
+    g: 66
+    b: 0
+
+
+# カード選択開始時に、対象外の領域を暗くして案内を表示する
+choice_start:
+  # 暗くなるまでの時間
+  duration_ms: 160
+
+  # 暗くする対象へ適用する不透明度
+  dim_opacity_ratio: 1.0
+
+  # 選択案内の表示開始時の大きさ
+  prompt_start_scale_multiplier: 1.08
+
+  # 選択案内の完全表示時の大きさ
+  prompt_end_scale_multiplier: 1.0
+
+
+# ユーザーがカードを1回クリックし、選択状態にした時の動き
+card_select:
+  # 選択位置へ移動する時間
+  duration_ms: 150
+
+  # カード高さに対する縦方向の移動倍率
+  # ユーザーのカードが画面上方向へ移動する
+  translate_y_ratio: -0.08
+
+  # 【不使用】選択カードの拡大倍率
+  scale_multiplier: 1.0
+
+  # 選択されていないユーザーカードへ適用する不透明度
+  other_opacity_ratio: 0.62
+
+
+# 選択中のカードを解除し、通常の手札位置へ戻す
+card_deselect:
+  # 元の位置と大きさへ戻る時間
+  duration_ms: 130
+
+
+# 出撃カードを伏せる時のカード反転
+card_cover:
+  # 表面から裏面へ切り替える時間
+  duration_ms: 180
+
+  # 反転に使用するY軸の回転角度
+  rotate_y_deg: 180
+
+
+# 出撃カード以外の手札を画面外へ退避させる
+hand_retreat:
+  # 退避位置へ移動する時間
+  duration_ms: 700
+
+  translate_y_ratio: 1.5
+
+  # 【不使用】退避後に画面外へ隠すカード高さの倍率
+  # hidden_ratio: 0.8
+
+  # 【不使用】退避したカードへ適用する不透明度
+  # opacity_ratio: 1
+
+
+# 伏せたカードを手札から戦闘エリアへ移動する
+card_to_battle:
+  # 手札から戦闘エリア中央へ移動する時間
+  duration_ms: 300
+
+  # 移動中に画面手前へ浮かせる距離。カード横幅に対する倍率
+  lift_z_ratio: 0.18
+
+  # 移動開始前の手札ステータスを消す時間
+  hand_status_hide_duration_ms: 100
+
+  # 移動後に戦闘エリアのステータスを表示する時間
+  battle_status_show_duration_ms: 120
+
+
+# 戦闘エリアへ移動したカードを同時に表へ戻す
+card_reveal:
+  # 戦闘エリアへの到着後、表に戻し始めるまでの待機時間
+  delay_ms: 500
+
+  # 裏面から表面へ切り替える時間
+  duration_ms: 200
+
+  # 反転に使用するY軸の回転角度
+  rotate_y_deg: 180
+
+#攻撃を開始するまでの待機時間
+attack_wait:
+  #先攻
+  first:
+    duration_ms: 900
+  #後攻
+  second:
+    duration_ms: 700
+
+
+# 攻撃時にカードを手前へ持ち上げ、斜めに傾ける
+attack_lift:
+  # カードが持ち上がり切るまでの時間
+  duration_ms: 580
+
+  # 持ち上げ時の減速曲線の強さ。
+  # 値が大きいほど、終端近くまで速度を保ち、最後に強くブレーキがかかる。(1にするとぶっ壊れるので禁止!!)
+  deceleration_power: 2
+
+  # カードが持ち上がった後に落下するまで止まる時間
+  peak_hold_duration_ms: 90
+
+  #カードの回転が最大に達するまでの、上昇開始からの時間の割合
+  rotation_peak_at_ratio: 0.5
+
+  # カード横幅に対する画面手前方向への移動倍率
+  translate_z_ratio: 1.0
+
+  # カードを平面的に傾けるZ軸の回転角度（マイナスにする。プラスだと、なぜかエネミーだけ持ち上がりが逆になる（気のせいかも）)
+  rotate_z_deg: -3
+
+  # カードの片側を手前へ傾けるY軸の回転角度（マイナスにする。プラスだと両者が逆になる）
+  rotate_y_deg: -12
+
+  # 回転軸の横位置。カード左端からカード横幅に対する倍率
+  origin_x_ratio: 0.1
+
+  # 回転軸の縦位置。カード上端からカード高さに対する倍率
+  origin_y_ratio: 0.5
+
+  # 持ち上げ中のカードの拡大倍率
+  scale_multiplier: 1.02
+
+
+# 持ち上げた攻撃カードを盤面へ勢いよく落とす
+attack_slam:
+  # 持ち上げ位置から盤面へ落とす時間
+  duration_ms: 80
+
+  # 落下後に元の大きさへ戻す倍率
+  scale_multiplier: 1.0
+
+
+# 攻撃カードの持ち上げ・落下と同期させる影の動き
+attack_shadow:
+  # 持ち上げ時の影の横移動。カード横幅に対する倍率
+  translate_x_ratio: 0.035
+
+  # 持ち上げ時の影の縦移動。カード高さに対する倍率
+  translate_y_ratio: 0.045
+
+  # 持ち上げ時の影の大きさ
+  lift_scale_multiplier: 0.84
+
+  # 持ち上げ時の影の不透明度
+  lift_opacity_ratio: 0.5
+
+  # 落下時の影の大きさ
+  slam_scale_multiplier: 1.04
+
+  # 落下時の影の不透明度
+  slam_opacity_ratio: 0.68
+
+
+# 攻撃を受けたカードを、強い揺れから弱い揺れへ変化させる
+hit_shake:
+  # 振動が終了するまでの時間
+  duration_ms: 300
+
+  # 最大の横揺れ。カード横幅に対する倍率
+  translate_x_ratio: 0.035
+
+  # 最大の縦揺れ。カード高さに対する倍率
+  translate_y_ratio: 0.025
+
+  # 最大のZ軸回転角度
+  rotate_z_deg: 1.8
+
+  # 振動回数
+  count: 8
+
+  # 1回ごとに振動の強さへ掛ける倍率
+  decay_multiplier: 0.72
+
+
+# 攻撃時にダメージ量をカード上へ表示する
+damage_number:
+  # ダメージ数値を完全表示したまま維持する時間
+  hold_duration_ms: 360
+
+  # ダメージ数値が透明になるまでの時間
+  fade_duration_ms: 180
+
+  # 表示開始時の大きさ
+  start_scale_multiplier: 0.9
+
+  # 最大時の大きさ
+  peak_scale_multiplier: 1.16
+
+  # 消えるまでの縦移動。カード高さに対する倍率
+  translate_y_ratio: -0.12
+
+
+# HPやSPDなど、表示中の数値を現在値から変更後の値へ連続的に変化させる
+number_change:
+  # 変化量が基準値以上の場合に使用する最大時間
+  duration_ms: 300
+
+  # 最大時間を使用し始める変化量
+  full_duration_change: 20
+
+  # 変化量が0に近い場合の最短時間
+  min_duration_ms: 0
+
+
+# 撃破された通常カードを透明にして戦闘から除外する
+defeat_fade:
+  # 完全に透明になるまでの時間
+  duration_ms: 500
+
+  # 消える時のカードの大きさ
+  scale_multiplier: 0.7
+
+  # 終了時の不透明度
+  end_opacity_ratio: 0.0
+
+
+# 戦闘エリアのカードを手札位置へ戻す
+card_to_hand:
+  # 戦闘エリアから手札へ移動する時間
+  duration_ms: 380
+
+  # 帰還中に画面手前へ浮かせる距離。カード横幅に対する倍率
+  lift_z_ratio: 0.12
+
+  # 戦闘エリアのステータスを消す時間
+  battle_status_hide_duration_ms: 100
+
+  # 手札へ戻った後にステータスを表示する時間
+  hand_status_show_duration_ms: 120
+
+
+# 退避中の残りの手札を通常位置へ戻す
+hand_restore:
+  # 通常の手札位置へ戻る時間
+  duration_ms: 260
+
+  # 元の不透明度
+  opacity_ratio: 1.0
+
+
+# 味方撃破時に、リベンジ強化を持つカードへ適用する演出
+revenge_buff:
+  # 強化演出全体の時間
+  duration_ms: 520
+
+  # カードが最大位置まで浮き上がる時間
+  lift_duration_ms: 190
+
+  # カード横幅に対する画面手前方向への移動倍率
+  translate_z_ratio: 0.16
+
+  # 浮き上がった時のカードの拡大倍率
+  scale_multiplier: 1.08
+
+  # カードへ重ねるオレンジ色
+  color:
+    r: 238
+    g: 112
+    b: 24
+
+  # オレンジ色レイヤーの最大不透明度
+  max_opacity_ratio: 0.36
+
+  # 最大のオレンジ色になるまでの時間
+  color_in_duration_ms: 0
+
+  # 元の色へ戻るまでの時間
+  color_out_duration_ms: 320

@@ -1,0 +1,24 @@
+.tasks__lower {
+  display: grid;
+  grid-template-columns: minmax(0, 5.8fr) minmax(16rem, 4fr);
+  gap: var(--panel-gap);
+  align-items: stretch;
+}
+
+.tasks__side {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--panel-gap);
+}
+
+@media (max-width: ($tablet-view-breakpoint - 0.02px)) and (min-aspect-ratio: 1 / 1) {
+  .tasks__lower {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (orientation: portrait) {
+  .tasks__lower {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

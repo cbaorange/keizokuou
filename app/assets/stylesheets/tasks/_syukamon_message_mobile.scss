@@ -1,0 +1,48 @@
+$syukamon-mobile-portrait-height: 7rem * 0.8;
+
+@media (orientation: portrait) {
+  .syukamon-panel {
+    display: grid;
+    min-height: 0;
+    padding: calc(var(--space-5) / 2) var(--panel-padding) 0 0;
+    grid-template-columns: $syukamon-mobile-portrait-height minmax(0, 1fr);
+    gap: 0;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .syukamon-panel__dialogue {
+    display: block;
+    min-width: 0;
+    padding-bottom: 0;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .syukamon-panel__name {
+    margin: 0 0 var(--space-4);
+  }
+
+  .syukamon-panel__message {
+    min-height: 0;
+  }
+
+  .syukamon-panel__visual {
+    width: $syukamon-mobile-portrait-height;
+    height: $syukamon-mobile-portrait-height;
+    margin: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  .test-syukamon-portrait {
+    width: auto;
+    height: $syukamon-mobile-portrait-height;
+    flex: none;
+  }
+}

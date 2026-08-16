@@ -1,0 +1,144 @@
+<% content_for :page_title, "設定" %>
+
+<% content_for :page_javascript do %>
+  <%= javascript_include_tag "settings", defer: true %>
+<% end %>
+
+<div class="settings-page">
+  <h1 class="visually-hidden">設定</h1>
+
+  <% if current_user.password_digest.blank? %>
+    <section
+      class="panel settings-password-warning"
+      aria-labelledby="settings-password-warning-heading"
+      data-password-setup-warning
+    >
+      <h2 id="settings-password-warning-heading" class="settings-password-warning__title">
+        パスワードの設定をおすすめします
+      </h2>
+      <p class="settings-password-warning__message">
+        ブラウザに保存されたログイン情報（Cookie）が失われた場合は、再ログインが必要です。パスワード未設定のままではこのアカウントへ再ログインできないため、パスワードを設定しておくと安心です。ログイン情報は、ブラウザや使用端末を変更した場合、長期間ログインしなかった場合に失われます。
+      </p>
+    </section>
+  <% end %>
+
+  <section class="panel settings-section" aria-labelledby="login-id-heading">
+    <h2 id="login-id-heading" class="settings-section__title">ログインID</h2>
+    <p class="settings-login-id"><%= current_user.login_id %></p>
+    <p class="settings-login-id__note">
+      ログインIDとパスワードは再ログイン時に必要になるため、控えておいてください。
+    </p>
+  </section>
+
+  <section class="panel settings-section" aria-labelledby="password-heading">
+    <% password_registered = current_user.password_digest.present? %>
+    <h2 id="password-heading" class="settings-section__title">
+      <%= password_registered ? "パスワード変更" : "パスワード設定" %>
+    </h2>
+
+    <% if @password_errors.present? %>
+      <div class="account-errors settings-errors" role="alert" aria-labelledby="password-errors-heading">
+        <p id="password-errors-heading" class="account-errors__title">入力内容を確認してください</p>
+        <ul class="account-errors__list">
+          <% @password_errors.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div
+      class="account-errors settings-errors"
+      role="alert"
+      aria-labelledby="password-client-errors-heading"
+      data-password-client-errors
+      hidden
+    >
+      <p id="password-client-errors-heading" class="account-errors__title">入力内容を確認してください</p>
+      <ul class="account-errors__list">
+        <li data-password-client-error-message></li>
+      </ul>
+    </div>
+
+    <%= form_with url: settings_password_path,
+          scope: :password_settings,
+          method: :patch,
+          local: true,
+          class: "settings-form",
+          data: {
+            password_settings_form: true,
+            password_registered: password_registered
+          } do |form| %>
+      <% if password_registered %>
+        <div class="account-field">
+          <%= form.label :current_password, "現在のパスワード", class: "account-field__label" %>
+          <%= form.password_field :current_password,
+                required: true,
+                autocomplete: "current-password",
+                class: "account-field__input" %>
+        </div>
+      <% end %>
+
+      <div class="account-field">
+        <%= form.label :password,
+              password_registered ? "変更後のパスワード" : "パスワード",
+              class: "account-field__label" %>
+        <%= form.password_field :password,
+              required: true,
+              minlength: SettingsController::PASSWORD_MINIMUM_LENGTH,
+              maxlength: SettingsController::PASSWORD_MAXIMUM_LENGTH,
+              pattern: "[A-Za-z0-9_]+",
+              autocomplete: "new-password",
+              class: "account-field__input" %>
+      </div>
+
+      <div class="account-field">
+        <%= form.label :password_confirmation,
+              password_registered ? "変更後のパスワード確認" : "パスワード確認",
+              class: "account-field__label" %>
+        <%= form.password_field :password_confirmation,
+              required: true,
+              minlength: SettingsController::PASSWORD_MINIMUM_LENGTH,
+              maxlength: SettingsController::PASSWORD_MAXIMUM_LENGTH,
+              pattern: "[A-Za-z0-9_]+",
+              autocomplete: "new-password",
+              class: "account-field__input" %>
+      </div>
+
+      <p class="settings-form__note">
+        4文字以上。使用できる文字は半角英字、半角数字、_のみです。
+      </p>
+
+      <%= form.submit password_registered ? "パスワード変更" : "パスワード登録",
+            class: "account-form__submit settings-form__submit" %>
+    <% end %>
+  </section>
+
+  <div class="settings-page__divider" aria-hidden="true"></div>
+
+  <section class="panel settings-section" aria-labelledby="nickname-heading">
+    <h2 id="nickname-heading" class="settings-section__title">ニックネーム変更</h2>
+
+    <form class="settings-form" data-nickname-settings-form>
+      <div class="account-field">
+        <label for="settings-nickname" class="account-field__label">ニックネーム</label>
+        <input
+          type="text"
+          id="settings-nickname"
+          class="account-field__input"
+          autocomplete="nickname"
+          data-nickname-settings-input
+        >
+      </div>
+
+      <button type="submit" class="account-form__submit settings-form__submit">保存</button>
+      <p class="settings-form__message" role="status" aria-live="polite" data-nickname-settings-message></p>
+    </form>
+  </section>
+
+  <section class="panel settings-privacy-note" aria-label="プライバシーについて">
+    <p class="settings-privacy-note__message">
+      継続王では、ニックネームやタスクの内容をアプリのサーバーに保存しません。これらの情報は、管理者や他のプレイヤーからは確認できない設計になっています。
+    </p>
+  </section>
+</div>

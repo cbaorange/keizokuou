@@ -1,0 +1,98 @@
+.battle-launcher-layer {
+  z-index: 110;
+}
+
+.battle-launcher-modal {
+  display: grid;
+  width: 46rem;
+  max-width: calc(100vw - 2 * var(--space-5));
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  gap: var(--space-5);
+  background: var(--gray-2);
+}
+
+.battle-launcher-modal__start {
+  color: var(--color-text-primary);
+  background: linear-gradient(
+    to bottom,
+    var(--gray-3) 0%,
+    var(--gray-3) 52%,
+    var(--battle-bottun-red) 100%
+  );
+  text-decoration: none;
+}
+
+.battle-launcher-modal__start:hover,
+.battle-launcher-modal__start:focus-visible {
+  color: var(--color-text-primary);
+}
+
+.battle-launcher-modal__start--empty {
+  background: var(--gray-3);
+}
+
+.battle-launcher-modal__start--empty .battle-pre-screen__start-label {
+  font-size: var(--font-size-body);
+}
+
+.battle-launcher-modal__lower {
+  --battle-launcher-lower-min-height: 0;
+
+  display: grid;
+  grid-template-columns: minmax(4rem, 1fr) minmax(0, 4fr);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.battle-launcher-modal__close {
+  display: grid;
+  min-height: var(--battle-launcher-lower-min-height);
+  padding: 0;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  place-items: center;
+  color: var(--color-text-primary);
+  background: var(--gray-3);
+  font-size: var(--font-size-body);
+  font-weight: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.battle-launcher-modal__deck {
+  width: 100%;
+  min-height: var(--battle-launcher-lower-min-height);
+  padding: var(--space-1) 0 0;
+  gap: 0;
+}
+
+.battle-launcher-modal__deck-heading {
+  grid-column: 1 / -1;
+  color: var(--color-text-body);
+  font-size: var(--font-size-caption);
+  font-weight: inherit;
+  line-height: 1;
+}
+
+.battle-launcher-modal__deck .battle-pre-screen__deck-slot {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.battle-launcher-modal__deck .battle-pre-screen__portrait {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin-top: 0;
+  object-fit: contain;
+}
+
+@media (orientation: portrait) {
+  .battle-launcher-modal {
+    width: 34rem;
+    max-width: calc(100vw - 2 * var(--space-4));
+    padding: var(--space-4);
+  }
+}

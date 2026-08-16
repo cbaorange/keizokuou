@@ -1,0 +1,188 @@
+# 【共通】戦闘エリア
+battle_area:
+  # カードからはみだすサイズpx)
+  card_padding_px: 7
+  # 丸角の大きさの割合
+  border_radius_ratio: 0.08
+
+# 攻撃が成立した後に適用する共通ルール
+attack:
+  # 攻撃したカードが攻撃後に失う素早さ
+  # 属性不利や撃破済みにより攻撃できなかった場合は適用しない
+  # 計算後の素早さは0未満にしない
+  spd_loss: 10
+
+
+# CPUが使用するデッキと難易度の設定
+cpu:
+  # ユーザーの表示レートから、出現可能なCPU難易度を決める設定
+  difficulty:
+    # normalが抽選候補に加わる最低表示レート
+    # この値未満ではsuper_weakとweakから均等抽選する
+    normal_min_display_rate: 600
+
+    # hardとsuper_hardが抽選候補に加わる最低表示レート
+    # normal_min_display_rate以上、この値未満では
+    # super_weak、weak、normalから均等抽選する
+    hard_min_display_rate: 1500
+
+    # hard_min_display_rate以上で使用する難易度別の抽選倍率
+    # 合計が1.0でなければエラーとする
+    high_rate_selection:
+      weak_ratio: 0.3
+      normal_ratio: 0.5
+      hard_ratio: 0.1
+      super_hard_ratio: 0.1
+
+
+  # 内部レートからCPUカードの基準レベルを求める設定
+  level:
+    # 内部レートをこの値で割り、ノーマルカード基準のレベルを求める
+    internal_rate_divisor: 1000
+
+    # レベル範囲から無作為抽選する際の刻み幅
+    # 各カードについて個別に、均等な確率で抽選する
+    random_step: 0.1
+
+    # ID6以上のカードへ適用するレベル補正式
+    # 計算式：
+    # ((補正前レベル + add_before) * multiplier) + add_after
+    #
+    # 補正結果は小数のまま保持し、
+    # ステータス計算の直前に小数点以下を四捨五入する
+    rare_adjustment:
+      min_id: 6
+      add_before: 1
+      multiplier: 0.5
+      add_after: 0
+
+
+  # CPU難易度ごとのデッキ生成設定
+  deck:
+    # 最も弱いCPUデッキ
+    super_weak:
+      # 選出対象となるシュカモンID
+      candidate_ids: "1,2,3,4,5"
+
+      # candidate_idsから選ぶ通常カードの枚数
+      card_count: 2
+
+      # 通常カードの固定レベル
+      level: 1
+
+      # 通常カードで埋めず、レンタルカードを配置する枚数
+      rental_count: 3
+
+    # 弱いCPUデッキ
+    weak:
+      # 基準レベルへ加算する値の最小値
+      # 負数を加算することで基準レベルより低くする
+      min_level_offset: -2
+
+      # 基準レベルへ加算する値の最大値
+      max_level_offset: 0
+
+    # 標準CPUデッキ
+    normal:
+      # 基準レベルから上下に変動できる最大値
+      # 1の場合、-1.0から1.0までを0.1刻みで抽選する
+      level_offset_limit: 0
+
+    # 強いCPUデッキ
+    hard:
+      # 基準レベルへ加算する値の最小値
+      min_level_offset: 0
+
+      # 基準レベルへ加算する値の最大値
+      max_level_offset: 1
+
+    # 最も強いCPUデッキ
+    super_hard:
+      # 高いレベル補正を適用する1枚
+      lead_card:
+        count: 1
+        level_offset: 2
+
+      # 残りの4枚
+      other_cards:
+        count: 4
+        level_offset: 0
+
+
+  # デッキの不足部分へ一時的に配置するレンタルシュカモン
+  rental:
+    # レンタル候補となるシュカモンID
+    # カンマ区切り文字列として読み取る
+    candidate_ids: "1,2,3,4,5,7"
+
+    # 重複と無効IDを除いた有効候補がこの数未満ならエラーとする
+    min_candidate_count: 5
+
+    # レンタルシュカモンの固定体力
+    hp: 90
+
+    # レンタルシュカモンの固定攻撃力
+    atk: 40
+
+    # レンタルシュカモンの素早さへ加算する基礎値
+    # 最終的な素早さ：
+    # spd_base + syukamon.ymlにある元カードのspeedの1の位
+    #
+    # spd_baseの1の位は0でなくてもよく、
+    # 49や59などを設定してもエラーにしない
+    spd_base: 40
+
+# ======================================================================
+# ここからレート計算
+# ========================================================================
+
+
+# 内部レートの増減
+internal_rate:
+
+  # 【負の値】バトル開始時に難易度によらず一律で減算されるレートの量。
+  # ajaxの成功可否、勝敗によらず、補填されない。
+  battle_start_change: -50
+
+  difficulty:
+    super_weak:
+      # 勝利時の最終的な内部レート増加量
+      win_gain: 200
+
+      # 【負の値】敗北時の最終的な内部レート減少量
+      lose_decrease: -250
+
+    weak:
+      win_gain: 200
+      lose_decrease: -250
+
+    normal:
+      win_gain: 250
+      lose_decrease: -200
+
+    hard:
+      win_gain: 300
+      lose_decrease: -50
+
+    super_hard:
+      win_gain: 400
+      lose_decrease: -10
+
+
+# 表示レート
+display_rate:
+  # 勝利時の表示レート増加量に加えるランダム補正の最大値
+  #
+  # 実際の増加量：
+  # internal_rate.difficulty.<difficulty>.win_gain
+  # ～
+  # internal_rate.difficulty.<difficulty>.win_gain + win_random_bonus_max
+  #
+  # 1刻みの整数からランダムに選択
+  win_random_bonus_max: 100
+
+
+# リザルト画面
+result:
+  # リザルトカード横幅。戦闘エリア横幅に対する倍率
+  card_width_ratio: 1.2

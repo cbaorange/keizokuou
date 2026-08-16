@@ -1,0 +1,212 @@
+:root {
+  --content-max-width: 130rem;
+  --content-padding-inline: clamp(1.25rem, 4vw, 4.5rem);
+
+  --line-height-body: 1.6;
+  --transition-duration: 120ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+
+
+
+.task-panel {
+  display: grid;
+  min-height: 0;
+  overflow: hidden;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+
+
+.task_position_No {
+  position: absolute;
+  top: 50%;
+  right: 6%;
+
+  font-size:  90px;
+  font-style: italic;
+  line-height: 1;
+  opacity: 0.04;
+
+  transform: translateY(-50%) scaleY(1.2);
+  transform-origin: center;
+
+  clip-path: inset(0% 0 0% 0);
+
+  pointer-events: none;
+  user-select: none;
+}
+
+.panel__header {
+  display: flex;
+  min-height: 4.5rem;
+  padding: var(--space-4) var(--panel-padding);
+  border-bottom: var(--border-width) solid var(--color-highlight);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-panel__header {
+  min-height: calc(4.5rem * 0.8);
+  padding-block: 0;
+}
+
+.panel__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-title);
+  font-weight: 500;
+}
+
+.task-panel__settings-button {
+  display: inline-grid;
+  width: var(--sidebar-icon-size);
+  height: var(--sidebar-icon-size);
+  padding: 0;
+  border: 0;
+  color: var(--color-text-muted);
+  background: transparent;
+  font-size: var(--font-size-title);
+  line-height: 1;
+  place-items: center;
+}
+
+.task-panel__settings-button:hover,
+.task-panel__settings-button:focus-visible {
+  color: var(--color-text-primary);
+}
+
+.task-list {
+  display: grid;
+  min-height: 100%;
+  padding: 0;
+  grid-template-rows: repeat(3, minmax(min-content, 1fr));
+}
+
+.task-list-container {
+  display: grid;
+  min-height: 0;
+  position: relative;
+}
+
+.task-list-container--locked .task-list {
+  pointer-events: none;
+}
+
+.task-completion-lock {
+  display: grid;
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  padding: var(--panel-padding);
+  place-items: center;
+  background: rgba(21, 21, 21, 0.92);
+  pointer-events: auto;
+}
+
+/* author CSSでhidden属性の初期非表示を上書きしないよう明示する。 */
+.task-completion-lock[hidden] {
+  display: none;
+}
+
+.task-completion-lock__content {
+  text-align: center;
+}
+
+.task-completion-lock__message {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+
+
+
+
+.task-item {
+  display: grid;
+  padding: var(--panel-padding);
+  border-bottom: var(--border-width) solid var(--color-highlight);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--gray-2);
+  transition: background-color var(--transition-duration);
+}
+
+.task-item[hidden] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.task-item__content {
+  min-width: 0;
+}
+
+.task-item:hover {
+  background: var(--gray-3);
+}
+
+.task-item--completed,
+.task-item--completed:hover {
+  background: linear-gradient(
+    to bottom,
+    var(--gray-2) 0%,
+    var(--color-accsent-super-muted) 100%
+  );
+}
+
+.task-item__status {
+  display: grid;
+  width: 2.75rem;
+  aspect-ratio: 1;
+  border-radius: var(--border-radius-panel);
+  place-items: center;
+  color: var(--color-text-muted);
+  background: var(--gray-1);
+  font-size: var(--font-size-small);
+}
+
+.task-item__check {
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.task-item__check[hidden] {
+  display: none;
+}
+
+.task-item__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+.task-item__description {
+  margin: var(--space-1) 0 0;
+  padding-right: calc(7rem * 0.25);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  overflow-wrap: anywhere;
+}

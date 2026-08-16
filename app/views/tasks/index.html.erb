@@ -1,0 +1,144 @@
+<% content_for :page_title, "習慣" %>
+
+<% content_for :page_javascript do %>
+  <%= javascript_include_tag "tasks", defer: true %>
+<% end %>
+
+
+<div
+  class="app-content"
+  data-offset-date="<%= @offset_date.iso8601 %>"
+  <% unless @nickname_to_store.nil? %>
+    data-nickname-to-store="<%= @nickname_to_store %>"
+  <% end %>
+  <% if @task_setup.is_a?(Hash) %>
+    data-task-setup-job="<%= @task_setup["job"] %>"
+    data-task-setup-description="<%= @task_setup["description"] %>"
+  <% end %>
+>
+
+  <section
+    class="panel syukamon-panel"
+    aria-labelledby="syukamon-name"
+    data-syukamon-panel
+    data-card-id="<%= @syukamon_display.fetch(:card_id) %>"
+    data-syukamon-key="<%= @syukamon_display.fetch(:syukamon_key) %>"
+    data-dialogues="<%= @syukamon_display.fetch(:dialogues).to_json %>"
+    data-today-completed="<%= @syukamon_display.fetch(:today_completed) %>"
+    data-previous-day-completed="<%= @syukamon_display.fetch(:previous_day_completed) %>"
+    data-has-prior-completion="<%= @syukamon_display.fetch(:has_prior_completion) %>"
+  >
+    <div class="syukamon-panel__visual" aria-hidden="true">
+    <%= image_tag @syukamon_display.fetch(:image_tag_portraits),
+          alt: "",
+          class: "test-syukamon-portrait" %>
+    </div>
+
+    <div class="syukamon-panel__dialogue">
+      <h2 id="syukamon-name" class="syukamon-panel__name"><%= @syukamon_display.fetch(:name) %></h2>
+      <div class="task-dialogue-text-stack" data-dialogue-text-stack>
+        <p
+          class="syukamon-panel__message task-dialogue-text--measure"
+          data-dialogue-text-measure
+          aria-hidden="true"
+        ></p>
+        <p
+          class="syukamon-panel__message task-dialogue-text--visible"
+          data-syukamon-message
+          hidden
+        ></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="tasks__lower">
+    <section class="panel task-panel" aria-labelledby="today-task-heading">
+      <header class="panel__header task-panel__header">
+        <h2 id="today-task-heading" class="panel__title">今日のタスク</h2>
+        <button
+          type="button"
+          class="task-panel__settings-button"
+          aria-label="タスクを編集"
+          data-task-settings-open
+        >＋</button>
+      </header>
+
+      <%
+        tasks = [
+          { id:1, done:false, job:"プログラミング", description:"詳細欄1。ああああああああああああああああああ", position:1 },
+          { id:2, done:false, job:"", description:"", position:2 },
+          { id:3, done:false, job:"", description:"", position:3 }
+        ]
+      %>
+
+      <div class="task-list-container">
+        <div class="task-list">
+          <%= render(
+            partial: "task",
+            collection: tasks.sort_by { |item| item[:position] },
+            as: :task
+          )%>
+        </div>
+
+        <div class="task-completion-lock" role="status" hidden>
+          <div class="task-completion-lock__content">
+            <p class="task-completion-lock__message">本日のタスクは達成済みです</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section
+      class="panel calendar-panel"
+      aria-labelledby="calendar-heading"
+      data-calendar-panel
+      data-today-completed="<%= @calendar.fetch(:today_completed) %>"
+    >
+      <header class="calendar-panel__header">
+        <h2 id="calendar-heading" class="calendar-panel__title">
+          <span class="calendar-panel__streak-label">連続達成日数：</span>
+          <span class="calendar-panel__streak-number" data-calendar-streak><%= @calendar.fetch(:current_streak) %></span>
+          <span class="calendar-panel__streak-label">日</span>
+        </h2>
+      </header>
+
+      <div class="calendar-panel__weekdays" aria-hidden="true">
+        <% %w[月 火 水 木 金 土 日].each do |weekday| %>
+          <span><%= weekday %></span>
+        <% end %>
+      </div>
+
+      <div class="calendar-panel__days" aria-label="達成カレンダー">
+        <% @calendar.fetch(:days).each do |calendar_day| %>
+          <span
+            class="<%= class_names(
+              "calendar-panel__day",
+              "calendar-panel__day--today": calendar_day.fetch(:today),
+              "calendar-panel__day--completed": calendar_day.fetch(:completed),
+              "calendar-panel__day--outside-month": !calendar_day.fetch(:current_month)
+            ) %>"
+            data-calendar-day
+            data-date="<%= calendar_day.fetch(:date).iso8601 %>"
+            <% if calendar_day.fetch(:today) %>
+              data-calendar-today
+            <% end %>
+          >
+            <span class="calendar-panel__day-number"><%= calendar_day.fetch(:day) %></span>
+          </span>
+        <% end %>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<%= render "card_reward_modal",
+      initial_card_reward: @initial_card_reward,
+      show_exp: @initial_card_reward.nil? %>
+<%= render "task_settings_modal" %>
+
+<script type="application/json" id="task-effects-config">
+  <%= raw json_escape(@task_config.to_json) %>
+</script>

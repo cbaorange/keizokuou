@@ -1,0 +1,209 @@
+.card-reward-modal {
+  width: 60vw;
+  height: 60vh;
+  max-width: 72rem;
+  max-height: 44rem;
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-body);
+  background: var(--gray-2);
+  overflow-y: auto;
+}
+
+.card-reward-modal__body {
+  display: grid;
+  min-height: 100%;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.card-reward-modal__visual {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-4);
+  justify-items: center;
+}
+
+.card-reward-modal__card {
+  perspective: 50rem;
+  width: 100%;
+  max-width: 10rem;
+  min-height: 0;
+  cursor: default;
+}
+
+.card-reward-modal__card-flipper {
+  position: relative;
+  width: 100%;
+  transform: rotateY(180deg);
+  transform-style: preserve-3d;
+}
+
+.card-reward-modal__card .card-reward-modal__card-image {
+  display: block;
+  width: 100%;
+  backface-visibility: hidden;
+}
+
+.card-reward-modal__card-image--back {
+  transform: rotateY(180deg);
+}
+
+.card-reward-modal__card-image--front {
+  position: absolute;
+  inset: 0;
+}
+
+.card-reward-modal__reveal--hidden {
+  visibility: hidden;
+}
+
+.card-reward-modal__new-badge {
+  position: absolute;
+  z-index: 1;
+  top: var(--space-3);
+  right: var(--space-3);
+  color: var(--color-accent);
+  font-size: var(--font-size-bignumber);
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 var(--space-2) var(--gray-1);
+  transform: rotate(8deg);
+}
+
+.card-reward-modal__new-badge[hidden] {
+  display: none;
+}
+
+.card-reward-modal__card-name {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+.card-reward-modal__content {
+  display: flex;
+  min-width: 0;
+  min-height: 100%;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card-reward-modal__heading,
+.card-reward-modal__experience-heading {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.card-reward-modal__heading {
+  font-size: var(--font-size-title);
+}
+
+.card-reward-modal__heading-spacer {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-reward-modal__message-stack {
+  margin: var(--space-2) 0 0;
+}
+
+.card-reward-modal__message {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.card-reward-modal__level-change {
+  margin: var(--space-3) 0 0;
+  color: var(--color-accent);
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+.card-reward-modal__level-change[hidden] {
+  display: none;
+}
+
+.card-reward-modal__experience {
+  margin-top: auto;
+}
+
+.card-reward-modal__experience-heading {
+  font-size: var(--font-size-title);
+}
+
+.card-reward-modal__experience-sources {
+  display: grid;
+  margin-top: var(--space-2);
+  gap: var(--space-1);
+}
+
+.card-reward-modal__experience-row,
+.card-reward-modal__experience-total {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.card-reward-modal__experience-row {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+.card-reward-modal__experience-row > :last-child,
+.card-reward-modal__experience-total > :last-child {
+  flex-shrink: 0;
+}
+
+.card-reward-modal__experience-total {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: var(--border-width) solid var(--color-highlight);
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.card-reward-modal__ok-button {
+  align-self: end;
+  min-width: 7rem;
+  margin-top: auto;
+  padding: var(--space-2) var(--space-5);
+  border: var(--border-width) solid var(--color-accent);
+  border-radius: var(--border-radius-small);
+  color: var(--gray-1);
+  background: var(--color-accent);
+  font-weight: 600;
+}
+
+.card-reward-modal__ok-button:hover,
+.card-reward-modal__ok-button:focus-visible {
+  color: var(--color-text-primary);
+  background: transparent;
+}
+
+@media (max-width: 48rem) {
+  .card-reward-modal {
+    width: 90vw;
+    height: auto;
+    max-height: calc(100vh - (var(--space-5) * 2));
+    padding: var(--space-5);
+  }
+
+  .card-reward-modal__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  .card-reward-modal__heading-spacer {
+    display: none;
+  }
+
+  .card-reward-modal__card {
+    max-width: 9rem;
+  }
+}

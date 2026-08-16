@@ -1,0 +1,17 @@
+<section
+  class="battle-preparation-error-screen"
+  data-battle-preparation-error-screen
+  aria-label="バトル開始エラー"
+  aria-hidden="true"
+  inert
+  hidden
+>
+  <div class="battle-preparation-error-screen__panel" role="alert">
+    <p>原因不明のエラーが発生しました。</p>
+    <p>お手数ですが、アプリ制作者にご連絡ください。</p>
+    <%= link_to "習慣画面に戻る",
+          tasks_url,
+          class: "battle-preparation-error-screen__return",
+          data: { battle_preparation_error_return: true } %>
+  </div>
+</section>

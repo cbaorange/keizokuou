@@ -1,0 +1,36 @@
+<% popup_id = "reward-content-popup-#{index}" %>
+<% heading_id = "#{popup_id}-heading" %>
+
+<div
+  id="<%= popup_id %>"
+  class="modal-layer reward-content-layer"
+  data-reward-content-layer
+  hidden
+>
+  <section
+    class="reward-content-popup"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="<%= heading_id %>"
+    data-reward-content-popup
+    style="--reward-content-popup-slope-start-ratio: <%= folder.fetch("slope_start_ratio") %>; --reward-content-popup-tab-height-ratio: <%= folder.fetch("tab_height_ratio") %>;"
+  >
+    <svg class="reward-content-popup__shape" aria-hidden="true" data-folder-shape-svg>
+      <path class="reward-content-popup__outline" data-folder-shape-outline></path>
+    </svg>
+
+    <button
+      type="button"
+      class="reward-content-popup__close"
+      aria-label="報酬コンテンツを閉じる"
+      data-reward-content-close
+    >×</button>
+
+    <div class="reward-content-popup__body">
+      <h2 id="<%= heading_id %>" class="reward-content-popup__title">
+        <%= content.fetch("title") %>
+      </h2>
+      <p class="reward-content-popup__text"><%= content.fetch("body") %></p>
+    </div>
+  </section>
+</div>

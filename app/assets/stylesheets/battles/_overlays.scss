@@ -1,0 +1,325 @@
+// カード選択中だけ背景・戦闘フィールドを暗くし、ぼかす統合オーバーレイ
+.battle-animation-choice-dim {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  // 背景色側だけを半透明にし、backdrop-filter のぼかし結果を覆い隠さない
+  background: color-mix(in srgb, var(--gray-1) 55%, transparent);
+  backdrop-filter: blur($battle-overlay-blur);
+  -webkit-backdrop-filter: blur($battle-overlay-blur);
+}
+
+.battle-result-screen[hidden] {
+  display: none;
+}
+
+.battle-preparation-error-screen[hidden] {
+  display: none;
+}
+
+.battle-preparation-error-screen {
+  display: grid;
+  position: fixed;
+  z-index: 300;
+  inset: 0;
+  padding: var(--space-5);
+  color: var(--color-text-body);
+  background: var(--gray-2);
+  place-items: center;
+}
+
+.battle-preparation-error-screen__panel {
+  display: grid;
+  width: 100%;
+  max-width: 34rem;
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  gap: var(--space-3);
+  background: var(--gray-3);
+  text-align: center;
+}
+
+.battle-preparation-error-screen__panel p {
+  margin: 0;
+}
+
+.battle-preparation-error-screen__return {
+  display: grid;
+  min-height: 3.5rem;
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-small);
+  color: var(--color-text-primary);
+  background: var(--gray-2);
+  font-size: var(--font-size-body);
+  text-decoration: none;
+  place-items: center;
+}
+
+.battle-pre-screen__start {
+  display: grid;
+  position: relative;
+  width: 100%;
+  min-height: clamp(8rem, 16vh, 10.5rem);
+  padding: 1.25rem 1.5rem 1rem;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-primary);
+  background: linear-gradient(to bottom, var(--gray-3), var(--battle-bottun-red));
+  cursor: pointer;
+  place-items: center;
+}
+
+.battle-pre-screen__start-label {
+  font-size: var(--font-size-header);
+  font-weight: 700;
+}
+
+.battle-pre-screen__rate {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 0.85rem;
+  font-size: var(--font-size-small);
+  text-align: right;
+}
+
+.battle-pre-screen__deck {
+  display: grid;
+  width: 70%;
+  min-height: 7.5rem;
+  padding: 1rem 0.9rem 0;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.65rem;
+  color: inherit;
+  background: var(--gray-3);
+  text-decoration: none;
+}
+
+.battle-pre-screen__deck-slot {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.battle-pre-screen__portrait {
+  display: block;
+  width: 100%;
+  max-width: 4.5rem;
+  height: auto;
+  margin-top: auto;
+  object-fit: contain;
+}
+
+.battle-pre-screen__portrait[hidden] {
+  display: none;
+}
+
+// 通常戦闘終了後だけ表示する独立リザルト画面
+.battle-result-screen {
+  display: grid;
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  padding: clamp(2rem, 5vh, 4rem) clamp(2rem, 6vw, 6rem);
+  color: var(--color-text-body);
+  background: var(--gray-2);
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  gap: 1rem;
+}
+
+.battle-result-screen__main {
+  display: grid;
+  width: 100%;
+  max-width: 64rem;
+  min-height: 0;
+  margin-inline: auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.battle-result-screen__card-area {
+  display: grid;
+  min-height: 0;
+  place-items: center end;
+}
+
+.battle-result-screen__card {
+  display: block;
+  max-width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+}
+
+.battle-result-screen__card[hidden] {
+  display: none;
+}
+
+.battle-result-screen__details {
+  display: grid;
+  width: 100%;
+  max-width: 28rem;
+  min-width: 0;
+  align-content: center;
+  justify-self: start;
+  gap: clamp(1.5rem, 4vh, 3rem);
+}
+
+.battle-result-screen__heading {
+  width: fit-content;
+  margin: 0;
+  font-size: var(--font-size-battle-result);
+  line-height: 1;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+}
+
+.battle-result-screen__heading--win {
+  background-image: linear-gradient(to bottom, #ffd09a, #ef7d22);
+  -webkit-text-stroke: 0.04em var(--gray-1);
+}
+
+.battle-result-screen__heading--lose {
+  background-image: linear-gradient(to bottom, #d7c7ef, #81768d);
+  -webkit-text-stroke: 0.025em var(--gray-1);
+}
+
+.battle-result-screen__rate-label {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+.battle-result-screen__rate-values {
+  display: flex;
+  margin: 0.35rem 0 0;
+  gap: 0.75rem;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-bignumber);
+  font-weight: 700;
+  align-items: center;
+}
+
+.battle-result-screen__dialogue {
+  min-width: 0;
+}
+
+.battle-result-screen__name {
+  width: fit-content;
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 2rem;
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-primary);
+  background: var(--gray-1);
+  font-size: var(--font-size-body);
+}
+
+.battle-result-screen__message {
+  min-height: 4.8em;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.battle-result-screen__error {
+  margin: 0;
+  color: var(--color-red-text);
+  text-align: center;
+}
+
+.battle-result-screen__actions {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.battle-result-screen__actions button {
+  min-width: clamp(13rem, 22vw, 20rem);
+  min-height: 3.5rem;
+  padding: 0.75rem 1.5rem;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  color: var(--color-text-primary);
+  background: var(--gray-3);
+  font-size: var(--font-size-body);
+  cursor: pointer;
+}
+
+.battle-result-screen__actions button:disabled {
+  color: var(--color-text-disabled);
+  cursor: default;
+}
+
+// 通常戦闘の安全な入力待ち中だけ操作できる降参ボタン
+.battle-surrender-button {
+  position: fixed;
+  z-index: 9;
+  top: 97.7vh;
+  right: var(--space-4);
+  min-width: 5rem;
+  min-height: 2.75rem;
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--color-text-muted);
+  border-radius: var(--border-radius-small);
+  color: var(--color-text-primary);
+  background: var(--gray-3);
+  font-size: var(--font-size-body);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.battle-surrender-button:disabled {
+  color: var(--color-text-disabled);
+  cursor: default;
+}
+
+.battle-surrender-layer {
+  z-index: 200;
+}
+
+.battle-surrender-dialog {
+  display: grid;
+  width: min(28rem, calc(100vw - (var(--space-5) * 2)));
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-panel);
+  gap: var(--space-5);
+  color: var(--color-text-body);
+  background: var(--gray-2);
+  box-shadow: 0 var(--space-2) var(--space-5) rgb(0 0 0 / 45%);
+}
+
+.battle-surrender-dialog__title {
+  margin: 0;
+  font-size: var(--font-size-body);
+  text-align: center;
+}
+
+.battle-surrender-dialog__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.battle-surrender-dialog__actions button {
+  min-width: 8rem;
+  min-height: 3rem;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-small);
+  color: var(--color-text-primary);
+  background: var(--gray-3);
+  font-size: var(--font-size-body);
+  cursor: pointer;
+}
+
+.battle-surrender-dialog__actions button:disabled {
+  color: var(--color-text-disabled);
+  cursor: default;
+}

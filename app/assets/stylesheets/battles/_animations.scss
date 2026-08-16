@@ -1,0 +1,141 @@
+.battle-animation-orientation--enemy {
+  transform: rotate(180deg);
+}
+
+// 本番画面だけ、最初のpaint前から既存カード登場モーションの開始位置へ置く。
+.battle--cards-awaiting-entry .battle__hand--user .battle-animation-position {
+  transform: translateY(var(--battle-card-entry-user-start-y));
+}
+
+.battle--cards-awaiting-entry .battle__hand--enemy .battle-animation-position {
+  transform: translateY(var(--battle-card-entry-enemy-start-y));
+}
+
+.battle-animation-motion {
+  z-index: 1;
+}
+
+.battle-animation-shadow {
+  position: absolute;
+  z-index: 0;
+  inset: 7% 5% 4%;
+  border-radius: 12%;
+  background: rgb(0 0 0 / 68%);
+  filter: blur(0.45rem);
+  pointer-events: none;
+}
+
+.battle-animation-damage-number {
+  position: absolute;
+  z-index: 4;
+  top: 42%;
+  left: 50%;
+  color: var(--color-text-primary);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 var(--space-2) var(--gray-1);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.battle-animation-revenge-color {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.battle-animation-choice-dim {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.battle-animation-choice-prompt,
+.battle-animation-start-message {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  visibility: hidden;
+  color: var(--color-text-primary);
+  font-size: clamp(2rem, 5vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 0 var(--space-3) var(--gray-1);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.battle-defeat-effect-layer {
+  position: absolute;
+  z-index: 5;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.battle-animation-battle-status {
+  position: fixed;
+  z-index: 5;
+  left: 48%;
+  min-width: 8rem;
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-text-primary);
+  background: var(--gray-2-transparent-strong);
+  font-size: var(--font-size-small);
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.battle-animation-battle-status--enemy {
+  top: 27%;
+}
+
+.battle-animation-battle-status--user {
+  bottom: 27%;
+}
+
+.battle-animation-controls {
+  display: grid;
+  position: fixed;
+  z-index: 7;
+  top: var(--space-4);
+  left: var(--space-4);
+  width: 32rem;
+  max-width: calc(100vw - (var(--space-4) * 2));
+  max-height: calc(100vh - (var(--space-4) * 2));
+  padding: var(--space-2);
+  overflow-y: auto;
+  border: var(--border-width) solid var(--color-highlight);
+  border-radius: var(--border-radius-small);
+  gap: var(--space-2);
+  color: var(--color-text-primary);
+  background: var(--gray-2-transparent-strong);
+  font-size: var(--font-size-small);
+}
+
+.battle-animation-controls__title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.battle-animation-controls__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.battle-animation-controls button {
+  min-height: 2rem;
+  border: var(--border-width) solid var(--color-text-muted);
+  border-radius: var(--border-radius-small);
+}

@@ -1,0 +1,18 @@
+<div
+  class="deck-slot deck-slot--empty"
+  data-deck-slot-index="<%= slot_number - 1 %>"
+  aria-label="デッキ枠<%= slot_number %>"
+>
+  <button
+    type="button"
+    class="deck-slot__remove-button"
+    data-deck-remove-button
+    hidden
+  >外す</button>
+
+  <img class="deck-slot__portrait" data-deck-portrait src="" alt="" hidden>
+
+  <div class="deck-slot__details" data-deck-details hidden>
+    <h3 class="deck-slot__name" data-deck-name></h3>
+  </div>
+</div>

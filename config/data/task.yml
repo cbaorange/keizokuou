@@ -1,0 +1,22 @@
+task_effects:
+
+  # シュカモンのセリフを1文字ずつ表示する演出
+  dialogue_typing:
+    # 1文字を表示してから次の文字を表示するまでの時間（ms）
+    character_interval_ms: 100
+
+  # シュカモン獲得パーシャル内のカード登場演出
+  syukamon_get:
+    card_drop:
+      # 画面外上部から所定位置までカードが降下する時間（ms）
+      duration_ms: 1000
+
+    card_flip:
+      # 降下完了から反転開始までの待機時間（ms）
+      delay_ms: 200
+
+      # 裏面から表面まで反転する時間（ms）
+      duration_ms: 300
+
+      # 裏向き時の左辺が手前へ持ち上がる方向
+      direction: left_side_forward

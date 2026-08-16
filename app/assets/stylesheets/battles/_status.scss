@@ -1,0 +1,279 @@
+.battle__status-list {
+  --battle-status-row-height: clamp(3rem, 7vh, 4.75rem);
+
+  display: flex;
+  position: absolute;
+  z-index: 2;
+  width: 17.2vw;
+  max-width: 21rem;
+  min-width: 13rem;
+  height: 52vh;
+  max-height: 35rem;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.battle__status-list--left {
+  top: 5.7%;
+  left: 0;
+}
+
+.battle__status-list--scaled-down {
+  transform: scale(0.8);
+  transform-origin: top left;
+}
+
+.battle__status-list--right {
+  top: 34.2%;
+  right: 0;
+}
+
+.battle__status-item {
+  --battle-status-edge-gradient-width: 55%;
+  --battle-status-portrait-radius: clamp(1.5rem, 2vw, 2.375rem);
+  --battle-status-level-side-gradient-width: calc((var(--space-2) + var(--battle-status-portrait-radius)) + (var(--space-2) + var(--battle-status-portrait-radius)));
+  --battle-status-portrait-side-gradient-width: var(--battle-status-level-side-gradient-width);
+  --battle-status-seam-overlap: 1px;
+
+  display: flex;
+  position: relative;
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  gap: var(--space-4);
+  align-items: center;
+  height: var(--battle-status-row-height);
+}
+
+.battle__status-placeholder {
+  width: 100%;
+  height: var(--battle-status-row-height);
+  flex: 0 0 var(--battle-status-row-height);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.battle__status-item--selectable {
+  cursor: pointer;
+}
+
+// 手札時は画面外、出撃時は画面内に現れる反対側のフェード領域。
+.battle__status-item::before,
+.battle__status-item::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  content: "";
+  pointer-events: none;
+}
+
+.battle__status-item[data-team="enemy"]::before {
+  right: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) var(--battle-status-edge-gradient-width),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 100%
+  );
+}
+
+.battle__status-item[data-team="user"]::after {
+  left: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) calc(100% - var(--battle-status-edge-gradient-width)),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 100%
+  );
+}
+
+.battle__status-list--left .battle__status-item {
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) calc(100% - var(--battle-status-edge-gradient-width)),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 100%
+  );
+}
+
+.battle__status-list--right .battle__status-item {
+  flex-direction: row-reverse;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) var(--battle-status-edge-gradient-width),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 100%
+  );
+}
+
+.battle__status-item--deployed[data-team="enemy"] {
+  background: linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(var(--battle-status-portrait-side-gradient-width) - var(--battle-status-seam-overlap)),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) var(--battle-status-portrait-side-gradient-width),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) calc(100% - var(--battle-status-level-side-gradient-width)),
+    transparent calc((100% - var(--battle-status-level-side-gradient-width)) + var(--battle-status-seam-overlap)),
+    transparent 100%
+  );
+}
+
+.battle__status-item--deployed[data-team="user"] {
+  flex-direction: row-reverse;
+  background: linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(var(--battle-status-level-side-gradient-width) - var(--battle-status-seam-overlap)),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) var(--battle-status-level-side-gradient-width),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) calc(100% - var(--battle-status-portrait-side-gradient-width)),
+    transparent calc((100% - var(--battle-status-portrait-side-gradient-width)) + var(--battle-status-seam-overlap)),
+    transparent 100%
+  );
+}
+
+// 出撃時は既存幅を維持し、portrait側は中心位置から外端までfadeさせる。
+.battle__status-item--deployed[data-team="enemy"]::before {
+  left: 0;
+  right: auto;
+  width: var(--battle-status-portrait-side-gradient-width);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) var(--battle-status-edge-gradient-width),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 100%
+  );
+}
+
+.battle__status-item--deployed[data-team="enemy"]::after {
+  right: 0;
+  left: auto;
+  width: var(--battle-status-level-side-gradient-width);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) calc(100% - var(--battle-status-edge-gradient-width)),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 100%
+  );
+}
+
+.battle__status-item--deployed[data-team="user"]::before {
+  left: 0;
+  right: auto;
+  width: var(--battle-status-level-side-gradient-width);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) var(--battle-status-edge-gradient-width),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 100%
+  );
+}
+
+.battle__status-item--deployed[data-team="user"]::after {
+  right: 0;
+  left: auto;
+  width: var(--battle-status-portrait-side-gradient-width);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 1) 0%,
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.9215686275) calc(100% - var(--battle-status-edge-gradient-width)),
+    rgba(var(--battle-status-rgb, 28, 28, 28), 0.1215686275) 100%
+  );
+}
+
+.battle__status-portrait {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1;
+  flex: 0 0 auto;
+  object-fit: contain;
+  width: calc(var(--battle-status-portrait-radius) + var(--battle-status-portrait-radius));
+}
+
+.battle__status-detail {
+  position: relative;
+  z-index: 1;
+  min-width: 4.5rem;
+  flex: 0 1 auto;
+  width: 6.75vw;
+  max-width: 8.25rem;
+}
+
+.battle__status-list--right .battle__status-detail {
+  text-align: right;
+}
+
+.battle__status-item--deployed[data-team="user"] .battle__status-detail {
+  text-align: right;
+}
+
+.battle__status-name {
+  margin: 0 0 var(--space-1);
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: inherit;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.battle__status-metrics {
+  display: grid;
+  margin-top: var(--space-1);
+  min-width: 0;
+  align-items: center;
+  column-gap: var(--space-1);
+  grid-template-columns: minmax(0, 1fr) max-content;
+}
+
+.battle__status-level,
+.battle__hp-values {
+  color: var(--color-text-body);
+  font-size: var(--font-size-small);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.battle__status-level {
+  min-width: 0;
+  overflow: hidden;
+  text-align: left;
+}
+
+.battle__hp-values {
+  text-align: right;
+}
+
+.battle__status-metrics[hidden] {
+  display: none;
+}
+
+.battle__hp-bar {
+  position: relative;
+  width: 100%;
+  height: 0.25rem;
+  overflow: hidden;
+  border-radius: var(--border-radius-small);
+  background: var(--gray-1);
+}
+
+.battle__status-list--right .battle__hp-bar {
+  margin-left: auto;
+}
+
+.battle__status-item--deployed[data-team="user"] .battle__hp-bar {
+  margin-left: auto;
+}
+
+.battle__hp-current {
+  display: block;
+  width: 60%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-accent);
+}
+
+.battle__status-list--right .battle__hp-current {
+  margin-left: auto;
+}

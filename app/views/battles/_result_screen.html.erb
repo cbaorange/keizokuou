@@ -1,0 +1,42 @@
+<section
+  class="battle-result-screen"
+  data-battle-result-screen
+  data-tasks-url="<%= tasks_url %>"
+  data-rematch-url="<%= rematch_url %>"
+  aria-label="バトル結果"
+  aria-hidden="true"
+  hidden
+>
+  <div class="battle-result-screen__main">
+    <div class="battle-result-screen__card-area" data-battle-result-card-area>
+      <img class="battle-result-screen__card" data-battle-result-card alt="" hidden>
+    </div>
+
+    <div class="battle-result-screen__details">
+      <h1 class="battle-result-screen__heading" data-battle-result-heading></h1>
+
+      <div class="battle-result-screen__rate" aria-label="レート変化">
+        <span class="battle-result-screen__rate-label">レート</span>
+        <p class="battle-result-screen__rate-values">
+          <span data-battle-result-rate-before></span>
+          <span aria-hidden="true">→</span>
+          <span data-battle-result-rate-after></span>
+        </p>
+      </div>
+
+      <div class="battle-result-screen__dialogue" data-battle-result-dialogue hidden>
+        <h2 class="battle-result-screen__name" data-battle-result-name></h2>
+        <p class="battle-result-screen__message" data-battle-result-message></p>
+      </div>
+    </div>
+  </div>
+
+  <p class="battle-result-screen__error" data-battle-result-error role="alert" hidden>
+    保存できませんでした。もう一度お試しください。
+  </p>
+
+  <div class="battle-result-screen__actions">
+    <button type="button" data-battle-result-action="finish">セーブして終わる</button>
+    <button type="button" data-battle-result-action="rematch">セーブしてもう一度</button>
+  </div>
+</section>
