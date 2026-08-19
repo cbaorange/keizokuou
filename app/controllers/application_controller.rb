@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   AUTHENTICATION_COOKIE_NAME = :keizokuou_authentication
-  INITIAL_TASK_DESCRIPTION = "タスクを追加するときは、⚙️を押してください。".freeze
+  INITIAL_TASK_DESCRIPTION = "タスクを追加するときは、＋を押してください。".freeze
 
   before_action :require_authentication
   helper_method :current_user, :password_setup_notification?

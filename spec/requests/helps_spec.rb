@@ -18,6 +18,9 @@ RSpec.describe "Guide", type: :request do
       expect(document.at_css(".app-sidebar")).to be_nil
       expect(document.at_css("[data-battle-launcher-modal]")).to be_nil
       expect(document.at_css("h1").text.strip).to eq("継続王の使い方")
+      relogin_link = document.at_css(".guide-hero__relogin")
+      expect(relogin_link.text.strip).to eq("再ログイン")
+      expect(relogin_link["href"]).to eq(login_path)
     end
 
     it "shows the requested sections and reuses one action partial four times" do
@@ -28,9 +31,9 @@ RSpec.describe "Guide", type: :request do
 
       expect(headings).to eq([
         "継続王とは？",
-        "習慣",
-        "バトル",
-        "報酬",
+        "01. 習慣",
+        "02. バトル",
+        "03. 報酬",
         "継続王が習慣化におすすめな理由",
         "データの取り扱い"
       ])
@@ -102,6 +105,7 @@ RSpec.describe "Guide", type: :request do
         .to eq(["アプリに戻る"])
       expect(document.css(".guide-action__return").map { |link| link["href"] }.uniq)
         .to eq([root_path])
+      expect(document.at_css(".guide-hero__relogin")).to be_nil
     end
   end
 

@@ -22,6 +22,7 @@
 
 .guide-hero {
   display: flex;
+  position: relative;
   height: var(--header-height);
   min-height: var(--header-height);
   padding: 0 var(--panel-padding);
@@ -36,6 +37,37 @@
   font-size: var(--font-size-header);
   font-weight: 300;
   line-height: 1;
+}
+
+.guide-hero__relogin {
+  display: inline-flex;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  min-height: 2rem;
+  padding: var(--space-3) var(--space-4);
+  border: 0.25rem solid var(--color-text-primary);
+  border-radius: var(--border-radius-panel);
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  background: var(--gray-3);
+  font-size: var(--font-size-small);
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transform: translateY(-50%);
+}
+
+.guide-hero__relogin:hover {
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+  background: var(--gray-3);
+}
+
+.guide-hero__relogin:focus-visible {
+  outline: var(--border-width) solid var(--color-text-primary);
+  outline-offset: var(--space-1);
 }
 
 .guide-section {

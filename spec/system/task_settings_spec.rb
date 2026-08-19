@@ -66,7 +66,63 @@ RSpec.describe "Task settings", type: :system do
       }
     )
 
-    expect(find("[data-task-settings-open]").text).to eq("＋")
+    settings_button = find("[data-task-settings-open]")
+    expect(settings_button).to have_css(
+      ".task-panel__settings-button-icon",
+      text: "＋"
+    )
+    expect(settings_button).to have_css(
+      ".task-panel__settings-button-label",
+      text: "編集"
+    )
+    settings_button_metrics_script = <<~JAVASCRIPT
+      (() => {
+        const button = document.querySelector("[data-task-settings-open]")
+        const header = button.closest(".task-panel__header")
+        const icon = button.querySelector(".task-panel__settings-button-icon")
+        const label = button.querySelector(".task-panel__settings-button-label")
+        const reference = document.querySelector(".task-item__description")
+        const buttonRect = button.getBoundingClientRect()
+        const headerRect = header.getBoundingClientRect()
+        const iconRect = icon.getBoundingClientRect()
+        const labelRect = label.getBoundingClientRect()
+        const headerPaddingRight = Number.parseFloat(
+          getComputedStyle(header).paddingRight
+        )
+
+        return {
+          centerDifference: Math.abs(
+            (iconRect.left + iconRect.width / 2) -
+              (labelRect.left + labelRect.width / 2)
+          ),
+          labelFontSize: getComputedStyle(label).fontSize,
+          referenceFontSize: getComputedStyle(reference).fontSize,
+          labelPointerEvents: getComputedStyle(label).pointerEvents,
+          labelTextAlign: getComputedStyle(label).textAlign,
+          labelWhiteSpace: getComputedStyle(label).whiteSpace,
+          buttonFlexDirection: getComputedStyle(button).flexDirection,
+          buttonRightDifference: Math.abs(
+            buttonRect.right - (headerRect.right - headerPaddingRight)
+          )
+        }
+      })()
+    JAVASCRIPT
+    pc_metrics = page.evaluate_script(settings_button_metrics_script)
+    page.current_window.resize_to(390, 844)
+    mobile_metrics = page.evaluate_script(settings_button_metrics_script)
+    page.current_window.resize_to(1680, 1050)
+
+    [pc_metrics, mobile_metrics].each do |metrics|
+      expect(metrics).to include(
+        "labelFontSize" => metrics.fetch("referenceFontSize"),
+        "labelPointerEvents" => "none",
+        "labelTextAlign" => "right",
+        "labelWhiteSpace" => "nowrap",
+        "buttonFlexDirection" => "column"
+      )
+      expect(metrics.fetch("centerDifference")).to be < 0.5
+      expect(metrics.fetch("buttonRightDifference")).to be < 0.5
+    end
     visible_tasks = all(".task-item[data-task-id]", visible: true)
     expect(visible_tasks.map { |task| task["data-task-id"] }).to eq(%w[1 3])
     expect(visible_tasks[0].native.rect.y).to be < visible_tasks[1].native.rect.y

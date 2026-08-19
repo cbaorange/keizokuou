@@ -1,6 +1,9 @@
 <article class="guide-page">
   <header class="guide-hero">
     <h1 class="guide-hero__title">継続王の使い方</h1>
+    <% unless current_user %>
+      <%= link_to "再ログイン", login_path, class: "guide-hero__relogin" %>
+    <% end %>
   </header>
 
   <section class="guide-section" aria-labelledby="guide-about-title">
@@ -10,14 +13,14 @@
       <p>このアプリでは習慣を続けるだけではなく、あなたの成長を、バトルの強さとして実感。<br>さらに、習慣化に役立つテクニックまで学べる一石三鳥のアプリです。</p>
       <p>習慣を続ける。強くなる。続けるための知識を得る。</p>
       <p>3つの楽しみをつなげることで、努力そのものを続けやすくすることを目指しています。</p>
-      <p><br>対応デバイス：PC, スマートフォン</p>
+      <p><br>対応デバイス：PC, スマートフォン（縦持ち）</p>
     </div>
     <div class="guide-section__media" aria-hidden="true"></div>
   </section>
 
   <section class="guide-section" aria-labelledby="guide-habit-title">
     <div class="guide-section__body">
-      <h2 id="guide-habit-title" class="guide-section__title">習慣</h2>
+      <h2 id="guide-habit-title" class="guide-section__title">01. 習慣</h2>
       <p>まずは、今日のタスクをすべて達成することから。</p>
       <p>設定したタスクをすべて達成すると、1日1枚、シュカモンカードを獲得できます。</p>
       <p>タスクを達成し続けて「連続達成日数」を伸ばすほど、獲得したシュカモンが育ちやすくなります。</p>
@@ -34,7 +37,7 @@
 
   <section class="guide-section" aria-labelledby="guide-battle-title">
     <div class="guide-section__body">
-      <h2 id="guide-battle-title" class="guide-section__title">バトル</h2>
+      <h2 id="guide-battle-title" class="guide-section__title">02. バトル</h2>
       <p>集めたシュカモンを率いて、シュカモンバトルに挑戦！</p>
       <p>バトルに勝利するとレートを獲得できます。習慣を続けてシュカモンを育て、より強い相手に挑戦していきましょう。</p>
       <h3 class="guide-section__subtitle">シュカモンバトルの基本ルール</h3>
@@ -53,7 +56,7 @@
 
   <section class="guide-section" aria-labelledby="guide-reward-title">
     <div class="guide-section__body">
-      <h2 id="guide-reward-title" class="guide-section__title">報酬</h2>
+      <h2 id="guide-reward-title" class="guide-section__title">03. 報酬</h2>
       <p>バトルで集めたレートを使って、習慣化に役立つ知識を解放できます。</p>
       <p>習慣を挫折しにくくする工夫、集中しやすい環境の作り方、作業への取りかかり方など、知っているだけで習慣を続けやすくなる実践的な情報を確認できます。</p>
       <p>ただ頑張るだけではなく、続けるための方法そのものを学んでいくことも、継続王の目的のひとつです。</p>

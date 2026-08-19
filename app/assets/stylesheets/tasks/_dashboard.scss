@@ -71,16 +71,39 @@ input {
 }
 
 .task-panel__settings-button {
-  display: inline-grid;
-  width: var(--sidebar-icon-size);
-  height: var(--sidebar-icon-size);
+  display: inline-flex;
+  position: relative;
+  z-index: 2;
+  width: max-content;
+  min-width: var(--sidebar-icon-size);
+  height: auto;
+  margin-left: auto;
   padding: 0;
   border: 0;
+  align-items: center;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--space-1);
+  justify-content: center;
   color: var(--color-text-muted);
   background: transparent;
-  font-size: var(--font-size-title);
+  cursor: pointer;
   line-height: 1;
-  place-items: center;
+}
+
+.task-panel__settings-button-icon {
+  display: block;
+  font-size: var(--font-size-title);
+  pointer-events: none;
+}
+
+.task-panel__settings-button-label {
+  display: block;
+  width: 100%;
+  font-size: var(--font-size-small);
+  pointer-events: none;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .task-panel__settings-button:hover,
