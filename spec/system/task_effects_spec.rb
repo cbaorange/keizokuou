@@ -89,11 +89,10 @@ RSpec.describe "Task effects", type: :system do
   end
 
   it "shares the acquisition animation and delays the page dialogue until close" do
-    visit new_user_path
+    visit new_user_path(partner: "1")
 
     fill_in "ニックネーム", with: "演出テスト"
     fill_in "継続すること", with: "演出を確認する"
-    choose "新しい挑戦を始めたい"
     click_button "新規登録して始める"
 
     expect(page).to have_css("[data-card-reward-modal]:not([hidden])")
@@ -188,11 +187,10 @@ RSpec.describe "Task effects", type: :system do
   end
 
   it "waits for portrait preparation and paints zero characters before typing" do
-    visit new_user_path
+    visit new_user_path(partner: "1")
 
     fill_in "ニックネーム", with: "初回準備テスト"
     fill_in "継続すること", with: "初回表示を確認する"
-    choose "新しい挑戦を始めたい"
     click_button "新規登録して始める"
 
     expect(page).to have_css(

@@ -2,7 +2,6 @@
 
 <section class="account-panel panel" aria-labelledby="registration-heading">
   <h1 id="registration-heading" class="visually-hidden">新規登録</h1>
-  <%= render "shared/account_tabs", active_tab: :registration %>
 
   <% if @registration_errors.present? %>
     <div class="account-errors" role="alert" aria-labelledby="registration-errors-heading">
@@ -21,6 +20,14 @@
         local: true,
         class: "account-form",
         data: { registration_form: true } do |form| %>
+    <%= form.hidden_field :partner, value: @registration_choice %>
+
+    <p class="account-form__switch">
+      すでにアカウントを持っている方はこちら：<%= link_to "再ログイン",
+            login_path,
+            class: "account-form__switch-link" %>
+    </p>
+
     <div class="account-field">
       <%= form.label :nickname, "ニックネーム", class: "account-field__label" %>
       <%= form.text_field :nickname,
@@ -42,25 +49,7 @@
             class: "account-field__input" %>
     </div>
 
-    <fieldset class="account-choice-group">
-      <legend class="account-field__label">最も当てはまるもの</legend>
-      <div class="account-choice-list">
-        <% @registration_options.each do |option| %>
-          <label class="account-choice">
-            <%= form.radio_button :choice,
-                  option.fetch(:value),
-                  checked: @registration_choice == option.fetch(:value),
-                  required: true,
-                  class: "account-choice__input" %>
-            <span class="account-choice__text">
-              <span class="account-choice__label"><%= option.fetch(:label) %></span>
-            </span>
-          </label>
-        <% end %>
-      </div>
-    </fieldset>
-
-  <%= form.submit "新規登録して始める",
+    <%= form.submit "新規登録して始める",
           class: "account-form__submit",
           data: { registration_submit: true } %>
   <% end %>

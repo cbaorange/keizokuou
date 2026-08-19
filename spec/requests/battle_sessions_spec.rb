@@ -40,6 +40,10 @@ RSpec.describe "BattleSessions", type: :request do
   end
 
   it "保存済み難易度の負のlose_decreaseを敗北時に加える" do
+    rates = { "win_gain" => 123, "lose_decrease" => -47 }
+    rules = instance_double(BattleRules)
+    allow(BattleRules).to receive(:load!).and_return(rules)
+    expect(rules).to receive(:rates_for).with("normal").and_return(rates)
     user = FactoryBot.create(:user, internal_rate: 1950, display_rate: 15)
     session = FactoryBot.create(:battle_session, user: user, difficulty: "normal")
 
@@ -52,16 +56,24 @@ RSpec.describe "BattleSessions", type: :request do
     )
 
     expect(response).to have_http_status(:ok)
-    expect(user.reload).to have_attributes(internal_rate: 1650, display_rate: 15)
+    expected_internal_rate = 1950 + rates.fetch("lose_decrease")
+    expect(user.reload).to have_attributes(
+      internal_rate: expected_internal_rate,
+      display_rate: 15
+    )
     expect(session.reload).to have_attributes(
       completed: true,
       result: "lose",
-      final_internal_rate: 1650,
+      final_internal_rate: expected_internal_rate,
       final_display_rate: 15
     )
   end
 
   it "勝利結果と表示レート補正を一度だけ保存する" do
+    rates = { "win_gain" => 123, "lose_decrease" => -47 }
+    rules = instance_double(BattleRules)
+    allow(BattleRules).to receive(:load!).and_return(rules)
+    expect(rules).to receive(:rates_for).with("normal").once.and_return(rates)
     user = FactoryBot.create(:user, internal_rate: 1950, display_rate: 15)
     session = FactoryBot.create(
       :battle_session,
@@ -70,14 +82,22 @@ RSpec.describe "BattleSessions", type: :request do
       display_rate_win_bonus: 17
     )
     body = { battle_session_token: session.token, result: "win" }
+    expected_internal_rate = 1950 + rates.fetch("win_gain")
+    expected_display_rate = 15 + rates.fetch("win_gain") + 17
 
     post_json_as(user, "/battle/session/result", body)
     expect(response).to have_http_status(:ok)
-    expect(user.reload).to have_attributes(internal_rate: 2050, display_rate: 132)
+    expect(user.reload).to have_attributes(
+      internal_rate: expected_internal_rate,
+      display_rate: expected_display_rate
+    )
 
     post_json_as(user, "/battle/session/result", body)
     expect(response).to have_http_status(:ok)
-    expect(user.reload).to have_attributes(internal_rate: 2050, display_rate: 132)
+    expect(user.reload).to have_attributes(
+      internal_rate: expected_internal_rate,
+      display_rate: expected_display_rate
+    )
   end
 
   it "完了済みSessionへ異なる結果を保存できない" do

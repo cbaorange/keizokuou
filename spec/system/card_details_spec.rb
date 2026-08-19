@@ -45,11 +45,10 @@ RSpec.describe "Card details", type: :system do
   end
 
   it "switches every detail field and keeps the card on the left" do
-    visit new_user_path
+    visit new_user_path(partner: "1")
 
     fill_in "ニックネーム", with: "テスト"
     fill_in "継続すること", with: "カード詳細を確認する"
-    choose "新しい挑戦を始めたい"
     click_button "新規登録して始める"
 
     expect(page).to have_css(

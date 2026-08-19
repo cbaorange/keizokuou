@@ -44,9 +44,9 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  # 認証できない場合はアカウント登録画面へ移動する
+  # 認証できない場合は初回導線のガイドへ移動する
   def require_authentication
-    redirect_to new_user_path unless current_user
+    redirect_to guide_path unless current_user
   end
 
   private

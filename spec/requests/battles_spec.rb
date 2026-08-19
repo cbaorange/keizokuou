@@ -46,6 +46,35 @@ RSpec.describe "Battles", type: :request do
     JSON.parse(document.at_css("#battle-bootstrap-data").text)
   end
 
+  def stub_battle_mobile_config
+    path = Rails.root.join("config/data/battle_mobile.yml")
+    data = YAML.safe_load_file(path)
+    mobile = data.fetch("battle_mobile")
+    mobile.fetch("user_hand").merge!(
+      "card_gap_ratio" => 0.13,
+      "vertical_edge_margin_ratio" => 0.27,
+      "edge_margin_ratio" => 0.11
+    )
+    mobile.fetch("hp").merge!(
+      "bar_width_ratio" => 0.43,
+      "user_text_font_size_rem" => 1.03
+    )
+    mobile.fetch("cut_in")["rectangle_height_rem"] = 3.7
+    mobile.fetch("cut_in").fetch("text")["font_size_rem"] = 1.9
+    allow(YAML).to receive(:safe_load_file).and_call_original
+    allow(YAML).to receive(:safe_load_file).with(path).and_return(data)
+
+    data
+  end
+
+  def expect_battle_mobile_css(document, data)
+    style = document.at_css(".battle")["style"]
+
+    BattleMobileConfig.new(data).css_custom_properties.each do |name, value|
+      expect(style).to include("#{name}: #{value};")
+    end
+  end
+
   describe "GET /battle" do
     it "所有カードEXP、nilを0にしたレート、5種YAML、アセットURLを渡す" do
       user = FactoryBot.create(:user, display_rate: nil, internal_rate: nil)
@@ -135,6 +164,7 @@ RSpec.describe "Battles", type: :request do
     end
 
     it "開始変動後レートで即時戦闘画面を返し、結果画面は新しいbattleへの再戦リンクを持つ" do
+      mobile_config = stub_battle_mobile_config
       user = FactoryBot.create(:user, display_rate: 25, internal_rate: 2_000)
 
       expect { get_as(user, "/battle") }
@@ -152,11 +182,7 @@ RSpec.describe "Battles", type: :request do
       expect(battle_screen["style"]).to include("--battle-card-entry-enemy-start-y: -120.0%")
       expect(battle_screen["style"]).to include("--battle-area-card-padding: 7px")
       expect(battle_screen["style"]).to include("--battle-area-border-radius-ratio: 0.08")
-      expect(battle_screen["style"]).to include("--battle-mobile-card-gap-ratio: 0.05")
-      expect(battle_screen["style"]).to include("--battle-mobile-enemy-area-center-y: 34.0%")
-      expect(battle_screen["style"]).to include("--battle-mobile-user-area-center-y: 66.0%")
-      expect(battle_screen["style"]).to include("--battle-mobile-cut-in-text-font-size: 2.5rem")
-      expect(battle_screen["style"]).to include("--battle-mobile-user-card-width:")
+      expect_battle_mobile_css(document, mobile_config)
       expect(result_screen).to be_present
       expect(result_screen.key?("hidden")).to be(true)
       expect(result_screen["data-tasks-url"]).to eq(cards_path)
@@ -214,6 +240,7 @@ RSpec.describe "Battles", type: :request do
     end
 
     it "既存のエフェクト・モーションUIと5枚ずつの手札を維持する" do
+      mobile_config = stub_battle_mobile_config
       user = FactoryBot.create(:user)
 
       expect { get_as(user, "/battle/debug") }
@@ -236,7 +263,7 @@ RSpec.describe "Battles", type: :request do
         .to include("/assets/portraits/suibo.PNG")
       expect(document.at_css(".battle")["style"]).to include("--battle-area-card-padding: 7px")
       expect(document.at_css(".battle")["style"]).to include("--battle-area-border-radius-ratio: 0.08")
-      expect(document.at_css(".battle")["style"]).to include("--battle-mobile-card-gap-ratio: 0.05")
+      expect_battle_mobile_css(document, mobile_config)
       expect(document.css('[data-role="card-name"]').map { |node| node.text.strip }.uniq)
         .to match_array(%w[かぐや姫 アテナ 水母娘娘 テスラ ミダス])
       expect(document.css('.battle__hand-card [data-battle-animation-shadow]').size).to eq(10)

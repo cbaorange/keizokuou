@@ -381,9 +381,11 @@ RSpec.describe "Tasks", type: :request do
     end
 
     it "returns one weekday buff in the breakdown" do
+      configured_bonus = 13
       user = create_user_with_speaker_card
       FactoryBot.create(:user_card, user: user, card_id: 1, exp: 20)
       allow(Gacha).to receive(:pull).and_return(2)
+      expect(Status).to receive(:exp_bonus).with(1, 20).and_return(configured_bonus)
 
       post_tasks_as_json(user, Date.new(2026, 8, 3))
 
@@ -392,14 +394,19 @@ RSpec.describe "Tasks", type: :request do
           {
             "id" => 1,
             "name" => "かぐや姫",
-            "exp" => 6
+            "exp" => configured_bonus
           }
         ]
       )
-      expect(parsed_response.dig("card", "gained_exp")).to eq(17)
+      expect(parsed_response.dig("card", "gained_exp")).to eq(
+        TasksController::ACQUISITION_EXP +
+          parsed_response.dig("exp_breakdown", "streak") +
+          configured_bonus
+      )
     end
 
     it "adds every matching weekday buff" do
+      configured_bonuses = { 1 => 13, 2 => 7 }
       user = create_user_with_speaker_card
       FactoryBot.create(:user_card, user: user, card_id: 1, exp: 20)
       FactoryBot.create(:user_card, user: user, card_id: 2, exp: 1)
@@ -409,6 +416,12 @@ RSpec.describe "Tasks", type: :request do
       syukamon_data.fetch("athena")["type"] = "mon"
       allow(YAML).to receive(:safe_load_file).and_return(syukamon_data)
       allow(Gacha).to receive(:pull).and_return(3)
+      expect(Status).to receive(:exp_bonus)
+        .with(1, 20)
+        .and_return(configured_bonuses.fetch(1))
+      expect(Status).to receive(:exp_bonus)
+        .with(2, 1)
+        .and_return(configured_bonuses.fetch(2))
 
       post_tasks_as_json(user, Date.new(2026, 8, 3))
 
@@ -418,15 +431,19 @@ RSpec.describe "Tasks", type: :request do
         {
           "id" => 1,
           "name" => "かぐや姫",
-          "exp" => 6
+          "exp" => configured_bonuses.fetch(1)
         },
         {
           "id" => 2,
           "name" => "アテナ",
-          "exp" => 3
+          "exp" => configured_bonuses.fetch(2)
         }
       )
-      expect(parsed_response.dig("card", "gained_exp")).to eq(20)
+      expect(parsed_response.dig("card", "gained_exp")).to eq(
+        TasksController::ACQUISITION_EXP +
+          parsed_response.dig("exp_breakdown", "streak") +
+          configured_bonuses.values.sum
+      )
     end
 
     it "returns a one-level increase" do

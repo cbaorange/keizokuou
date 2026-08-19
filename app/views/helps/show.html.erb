@@ -1,39 +1,103 @@
-<% content_for :page_title, "使い方" %>
+<article class="guide-page">
+  <header class="guide-hero">
+    <h1 class="guide-hero__title">継続王の使い方</h1>
+  </header>
 
-<div class="help-page">
-  <section class="panel help-section" aria-labelledby="help-habits-title">
-    <span class="help-section__number" aria-hidden="true">01</span>
-    <h2 id="help-habits-title" class="help-section__title">
-      <%= link_to "習慣", tasks_path, class: "help-section__title-link" %>
-    </h2>
-    <p class="help-section__description">まずは、今日のタスクをすべて達成することから。<br>タスクを全て達成すると、１日１枚のシュカモンカードを獲得できる。連続達成日数が長いほど、シュカモンが育ちやすくなる。</p>
+  <section class="guide-section" aria-labelledby="guide-about-title">
+    <div class="guide-section__body">
+      <h2 id="guide-about-title" class="guide-section__title">継続王とは？</h2>
+      <p class="guide-section__lead">超寄り添い、超戦う習慣化アプリ</p>
+      <p>このアプリでは習慣を続けるだけではなく、あなたの成長を、バトルの強さとして実感。<br>さらに、習慣化に役立つテクニックまで学べる一石三鳥のアプリです。</p>
+      <p>習慣を続ける。強くなる。続けるための知識を得る。</p>
+      <p>3つの楽しみをつなげることで、努力そのものを続けやすくすることを目指しています。</p>
+      <p><br>対応デバイス：PC, スマートフォン</p>
+    </div>
+    <div class="guide-section__media" aria-hidden="true"></div>
   </section>
 
-  <section class="panel help-section" aria-labelledby="help-cards-title">
-    <span class="help-section__number" aria-hidden="true">02</span>
-    <h2 id="help-cards-title" class="help-section__title">
-      <%= link_to "カード", cards_path, class: "help-section__title-link" %>
-    </h2>
-    <p class="help-section__description">集めたシュカモンを確認して、自分だけのデッキを編成。<br>カードが足りなくても、バトルではレンタルシュカモンを借りられる。</p>
+  <section class="guide-section" aria-labelledby="guide-habit-title">
+    <div class="guide-section__body">
+      <h2 id="guide-habit-title" class="guide-section__title">習慣</h2>
+      <p>まずは、今日のタスクをすべて達成することから。</p>
+      <p>設定したタスクをすべて達成すると、1日1枚、シュカモンカードを獲得できます。</p>
+      <p>タスクを達成し続けて「連続達成日数」を伸ばすほど、獲得したシュカモンが育ちやすくなります。</p>
+      <p>毎日の小さな積み重ねが、シュカモンの成長につながります。</p>
+    </div>
+    <div class="guide-section__media">
+      <picture class="guide-section__picture">
+        <%= image_tag " guides_pc/task.png", alt: "習慣ページのタスク設定箇所", loading: "lazy" %>
+      </picture>
+    </div>
   </section>
 
-  <section class="panel help-section" aria-labelledby="help-battle-title">
-    <span class="help-section__number" aria-hidden="true">03</span>
-    <h2 id="help-battle-title" class="help-section__title">
-      <button
-        type="button"
-        class="help-section__title-link help-section__title-button"
-        data-battle-launcher-open
-      >バトル</button>
-    </h2>
-    <p class="help-section__description">育てたシュカモンを率いて、シュカモンバトルに挑戦！<br>勝利を重ねれば、レートを獲得できる。</p>
+  <%= render "guide_action" %>
+
+  <section class="guide-section" aria-labelledby="guide-battle-title">
+    <div class="guide-section__body">
+      <h2 id="guide-battle-title" class="guide-section__title">バトル</h2>
+      <p>集めたシュカモンを率いて、シュカモンバトルに挑戦！</p>
+      <p>バトルに勝利するとレートを獲得できます。習慣を続けてシュカモンを育て、より強い相手に挑戦していきましょう。</p>
+      <h3 class="guide-section__subtitle">シュカモンバトルの基本ルール</h3>
+      <p>5対5のカードバトル</p>
+      <p>先に相手のシュカモンをすべて倒した方が勝利です。</p>
+      <p>シュカモンにはそれぞれタイプがあり、相手の弱点をつけば、一方的に攻撃できます。</p>
+      <p>まだカードが5枚そろっていなくても大丈夫。足りない枠にはレンタルシュカモンを借りられるので、ゲームを始めたばかりでもバトルに挑戦できます。</p>
+      <p>より詳しいルールや攻略に役立つ情報は、報酬ページで少しずつ解放されていきます。</p>
+    </div>
+    <div class="guide-section__media">
+      <picture class="guide-section__picture">
+        <%= image_tag " guides_pc/battle.png", alt: "シュカモンバトルのカード選択画面", loading: "lazy" %>
+      </picture>
+    </div>
   </section>
 
-  <section class="panel help-section" aria-labelledby="help-rewards-title">
-    <span class="help-section__number" aria-hidden="true">04</span>
-    <h2 id="help-rewards-title" class="help-section__title">
-      <%= link_to "報酬", rewards_path, class: "help-section__title-link" %>
-    </h2>
-    <p class="help-section__description">集めたレートで、習慣化に役立つ新しい知識を学ぶ。<br>習慣を挫折しにくくする工夫や、集中しやすい環境の作り方など、「知っているだけで習慣を続けやすくなる」実践的な情報を確認できる。</p>
+  <section class="guide-section" aria-labelledby="guide-reward-title">
+    <div class="guide-section__body">
+      <h2 id="guide-reward-title" class="guide-section__title">報酬</h2>
+      <p>バトルで集めたレートを使って、習慣化に役立つ知識を解放できます。</p>
+      <p>習慣を挫折しにくくする工夫、集中しやすい環境の作り方、作業への取りかかり方など、知っているだけで習慣を続けやすくなる実践的な情報を確認できます。</p>
+      <p>ただ頑張るだけではなく、続けるための方法そのものを学んでいくことも、継続王の目的のひとつです。</p>
+    </div>
+    <div class="guide-section__media">
+      <picture class="guide-section__picture">
+        <%= image_tag " guides_pc/reword.png", alt: "報酬ページの閲覧可能な報酬", loading: "lazy" %>
+      </picture>
+    </div>
   </section>
-</div>
+
+  <%= render "guide_action" %>
+
+  <section class="guide-section" aria-labelledby="guide-reason-title">
+    <div class="guide-section__body">
+      <h2 id="guide-reason-title" class="guide-section__title">継続王が習慣化におすすめな理由</h2>
+      <p>習慣は、続けることそのものを目的にすると、途中で「今日はやらなくてもいいか」と感じやすくなります。</p>
+      <p>そこで継続王では、習慣だけにやる気を求めるのではなく、習慣・バトル・報酬の3つがお互いの目的になる仕組みを作っています。</p>
+      <p><strong>【バトル ← 習慣】</strong><br>バトルでもっと勝ちたいから、毎日のタスクを達成してシュカモンを集め、育てる。</p>
+      <p><strong>【報酬 ← バトル】</strong><br>新しい習慣化テクニックを知りたいから、バトルに挑戦してレートを集める。</p>
+      <p><strong>【習慣 ← 報酬】</strong><br>報酬で学んだ知識を使って、毎日の習慣をもっと続けやすくする。</p>
+      <p>このように、「習慣を続けなければならない」だけではなく、その先に楽しみや次の目的が生まれる設計になっています。</p>
+      <p>心理学の概念である「外発的動機づけ」を利用し、努力と娯楽を対立させず、楽しみながら続け、続けながら知識も身につけられる習慣化アプリとして設計しました。</p>
+      <p>毎日バトルしたり報酬を確認する必要はありません。忙しい日は習慣だけ行いカードを育て、余裕のある日にバトルをしたり報酬を解放したりしましょう。</p>
+    </div>
+    <div class="guide-section__media" aria-hidden="true"></div>
+  </section>
+
+  <%= render "guide_action" %>
+
+  <section class="guide-section" aria-labelledby="guide-data-title">
+    <div class="guide-section__body">
+      <h2 id="guide-data-title" class="guide-section__title">データの取り扱い</h2>
+      <h3 class="guide-section__subtitle">⚫︎パスワード登録について</h3>
+      <p>継続王は、パスワードを登録しなくても始められます。</p>
+      <p>ただし、パスワードを登録していない状態でログイン情報（Cookie）が失われると、そのアカウントへ再ログインできなくなります。</p>
+      <p>ログイン情報は、ブラウザや使用端末を変更した場合、長期間ログインしなかった場合などに失われます。</p>
+      <p>継続王を使ってみて、今後も続けて利用したいと思ったら、設定ページからパスワードを登録することをおすすめします。</p>
+      <h3 class="guide-section__subtitle">⚫︎ニックネーム・タスク内容について</h3>
+      <p>継続王では、ニックネームやタスクの内容をアプリのサーバーに保存しません。</p>
+      <p>これらの情報は使用しているブラウザ内に保存されるため、管理者や他のプレイヤーから確認できない設計になっています。</p>
+    </div>
+    <div class="guide-section__media" aria-hidden="true"></div>
+  </section>
+
+  <%= render "guide_action" %>
+</article>

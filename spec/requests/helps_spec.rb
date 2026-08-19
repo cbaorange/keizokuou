@@ -1,57 +1,139 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe "Helps", type: :request do
+RSpec.describe "Guide", type: :request do
   before do
     reset!
-    post "/users", params: {
-      registration: {
-        job: "ヘルプを確認する",
-        choice: "new_challenge"
-      }
-    }
   end
 
-  describe "GET /help" do
-    it "shows the help sections in order with links to each page" do
-      get help_path
+  describe "GET /guide" do
+    it "is public and uses the dedicated layout without the app header or sidebar" do
+      get guide_path
 
       expect(response).to have_http_status(:success)
       document = Nokogiri::HTML(response.body)
-      sections = document.css(".help-section")
 
-      expect(sections.map { |section| section.at_css(".help-section__title-link").text.strip }).to eq(
-        %w[習慣 カード バトル 報酬]
-      )
-      expect(sections.map { |section| section.at_css(".help-section__number").text.strip }).to eq(
-        %w[01 02 03 04]
-      )
-      expect(sections[0].at_css(".help-section__title-link")["href"]).to eq(tasks_path)
-      expect(sections[1].at_css(".help-section__title-link")["href"]).to eq(cards_path)
-      expect(sections[3].at_css(".help-section__title-link")["href"]).to eq(rewards_path)
-
-      battle_button = sections[2].at_css("button.help-section__title-button")
-      expect(battle_button["type"]).to eq("button")
-      expect(battle_button.key?("data-battle-launcher-open")).to be(true)
-      expect(battle_button["href"]).to be_nil
-      expect(sections.map { |section| section.at_css(".help-section__description").text }).to eq(
-        [
-          "まずは、今日のタスクをすべて達成することから。タスクを全て達成すると、１日１枚のシュカモンカードを獲得できる。連続達成日数が長いほど、シュカモンが育ちやすくなる。",
-          "集めたシュカモンを確認して、自分だけのデッキを編成。カードが足りなくても、バトルではレンタルシュカモンを借りられる。",
-          "育てたシュカモンを率いて、シュカモンバトルに挑戦！勝利を重ねれば、報酬につながるレートを獲得できる。",
-          "集めたレートで、習慣化に役立つ新しい知識を学ぶ。習慣を挫折しにくくする工夫や、集中しやすい環境の作り方など、「知っているだけで習慣を続けやすくなる」実践的な情報を確認できる。"
-        ]
-      )
-
-      help_link = document.at_css(".app-sidebar__link[href='#{help_path}']")
-      expect(help_link.text.strip).to eq("使い方")
-      expect(help_link["class"].split).to include("app-sidebar__link--current")
-      expect(help_link["aria-current"]).to eq("page")
+      expect(document.at_css("body.guide-layout")).to be_present
+      expect(document.at_css("main.guide-main")).to be_present
+      expect(document.at_css(".app-header")).to be_nil
+      expect(document.at_css(".app-sidebar")).to be_nil
+      expect(document.at_css("[data-battle-launcher-modal]")).to be_nil
+      expect(document.at_css("h1").text.strip).to eq("継続王の使い方")
     end
 
-    it "does not expose the generated route" do
-      expect {
-        Rails.application.routes.recognize_path("/helps/show", method: :get)
-      }.to raise_error(ActionController::RoutingError)
+    it "shows the requested sections and reuses one action partial four times" do
+      get guide_path
+
+      document = Nokogiri::HTML(response.body)
+      headings = document.css(".guide-section__title").map { |heading| heading.text.strip }
+
+      expect(headings).to eq([
+        "継続王とは？",
+        "習慣",
+        "バトル",
+        "報酬",
+        "継続王が習慣化におすすめな理由",
+        "データの取り扱い"
+      ])
+      expect(document.css(".guide-action").size).to eq(4)
+      battle_section = document.at_css('[aria-labelledby="guide-battle-title"]')
+      expect(battle_section.xpath("following-sibling::*[1]").first["aria-labelledby"])
+        .to eq("guide-reward-title")
+      expect(document.css(".guide-action__title-prefix").map(&:text).map(&:strip).uniq)
+        .to eq(["最初の相棒を選んで"])
+      expect(document.css(".guide-action__title-main").map(&:text).map(&:strip).uniq)
+        .to eq(["継続スタート"])
+      expected_guide_images = {
+        "guide-habit-title" => "guides_pc/task",
+        "guide-battle-title" => "guides_pc/battle",
+        "guide-reward-title" => "guides_pc/reword"
+      }
+
+      expected_guide_images.each do |title_id, pc_path|
+        picture = document.at_css(%([aria-labelledby="#{title_id}"] .guide-section__picture))
+
+        expect(picture.at_css("img")["src"]).to include(pc_path)
+        expect(picture.at_css("source")).to be_nil
+      end
+      expect(document.css(".guide-section__picture").size).to eq(3)
+      expect(document.css(".guide-section__media:empty").size).to eq(3)
+      expect(response.body).to include("超寄り添い、超戦う習慣化アプリ")
+      expect(response.body).to include("対応デバイス：PC, スマートフォン")
+      expect(response.body).to include("ニックネームやタスクの内容をアプリのサーバーに保存しません")
     end
+
+    it "shows the five managed partners in every action for an unauthenticated user" do
+      get guide_path
+
+      document = Nokogiri::HTML(response.body)
+      actions = document.css(".guide-action")
+      expected_values = RegistrationChoiceCatalog::CHOICES.keys
+      expected_names = RegistrationChoiceCatalog.partner_options.map { |partner| partner.fetch(:name) }
+
+      actions.each do |action|
+        partners = action.css(".guide-partner")
+
+        expect(partners.size).to eq(5)
+        expect(partners.map { |partner| partner.at_css(".guide-partner__name").text.strip })
+          .to eq(expected_names)
+        expect(partners.map { |partner| Rack::Utils.parse_query(URI(partner["href"]).query).fetch("partner") })
+          .to eq(expected_values)
+        expect(partners.map { |partner| partner.at_css("img")["src"] })
+          .to all(include("/assets/portraits/"))
+      end
+    end
+
+    it "shows only an app return link in every action for an authenticated user" do
+      post users_path, params: {
+        registration: {
+          nickname: "ガイド確認",
+          job: "ガイドを確認する",
+          partner: "1"
+        }
+      }
+
+      get guide_path
+
+      document = Nokogiri::HTML(response.body)
+
+      expect(response).to have_http_status(:success)
+      expect(document.css(".guide-partner")).to be_empty
+      expect(document.css(".guide-action__return").size).to eq(4)
+      expect(document.css(".guide-action__return").map(&:text).map(&:strip).uniq)
+        .to eq(["アプリに戻る"])
+      expect(document.css(".guide-action__return").map { |link| link["href"] }.uniq)
+        .to eq([root_path])
+    end
+  end
+
+  it "redirects the old help URL to the guide" do
+    get "/help"
+
+    expect(response).to redirect_to(guide_path)
+  end
+
+  it "links the authenticated sidebar usage item to the guide" do
+    post users_path, params: {
+      registration: {
+        nickname: "サイドバー確認",
+        job: "リンクを確認する",
+        partner: "1"
+      }
+    }
+
+    get root_path
+
+    document = Nokogiri::HTML(response.body)
+    guide_link = document.at_css(".app-sidebar__link[href='#{guide_path}']")
+
+    expect(guide_link).to be_present
+    expect(guide_link.text.strip).to eq("使い方")
+  end
+
+  it "redirects an unauthenticated app request to the guide without a loop" do
+    get root_path
+    expect(response).to redirect_to(guide_path)
+
+    follow_redirect!
+    expect(response).to have_http_status(:success)
   end
 end

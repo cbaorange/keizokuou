@@ -9,8 +9,9 @@ RSpec.describe "Cards", type: :request do
     before do
       post "/users", params: {
         registration: {
+          nickname: "カード確認",
           job: "毎日カードを確認する",
-          choice: "new_challenge"
+          partner: "1"
         }
       }
     end

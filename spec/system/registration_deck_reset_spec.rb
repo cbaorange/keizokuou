@@ -1,12 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Registration deck reset", type: :system do
-  before do
-    # 並行実行中の別system specとテストサーバーのポートを分離する
-    Capybara.server_port = 4461
-    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
-  end
-
   def stored_deck
     page.evaluate_script('JSON.parse(localStorage.getItem("deck"))')
   end
@@ -18,14 +12,13 @@ RSpec.describe "Registration deck reset", type: :system do
   end
 
   it "新規登録送信時に空デッキへ戻し、初期カードを左端へ自動編成する" do
-    visit new_user_path
+    visit new_user_path(partner: "1")
     page.execute_script(
       'localStorage.setItem("deck", JSON.stringify([1, 2, 3, 4, 5]))'
     )
 
     fill_in "ニックネーム", with: "デッキ初期化テスト"
     fill_in "継続すること", with: "デッキ初期化を確認する"
-    choose "新しい挑戦を始めたい"
     click_button "新規登録して始める"
 
     expect(page).to have_current_path(root_path)

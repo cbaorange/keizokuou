@@ -5,8 +5,9 @@ RSpec.describe "Rewards", type: :request do
     reset!
     post users_path, params: {
       registration: {
+        nickname: "報酬確認",
         job: "報酬を確認する",
-        choice: "new_challenge"
+        partner: "1"
       }
     }
 

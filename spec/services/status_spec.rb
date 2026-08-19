@@ -36,11 +36,21 @@ RSpec.describe Status do
 
   describe ".exp_bonus" do
     it "multiplies the YAML base by the card level" do
-      expect(described_class.exp_bonus(1, 20)).to eq(6)
+      configured_base = 7
+      allow(described_class).to receive(:syukamon_data).and_return(
+        "sample" => {
+          "id" => 1,
+          "exp_bonus_base" => configured_base
+        }
+      )
+
+      expect(described_class.exp_bonus(1, 20)).to eq(
+        configured_base * described_class.lv(1, 20)
+      )
     end
 
     it "returns zero when exp_bonus_base is missing" do
-      allow(YAML).to receive(:safe_load_file).and_return(
+      allow(described_class).to receive(:syukamon_data).and_return(
         "sample" => {
           "id" => 99
         }

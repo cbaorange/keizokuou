@@ -74,10 +74,14 @@
   pointer-events: visiblePainted;
 }
 
-.reward-folder:hover .reward-folder__outline,
-.reward-folder:focus-visible .reward-folder__outline,
+.reward-folder--unlocked .reward-folder__outline,
+.reward-folder--unlocked:focus-visible .reward-folder__outline,
 .reward-folder--unlocked.reward-folder--open .reward-folder__outline {
   stroke: var(--color-accent);
+}
+
+.reward-folder--unlocked:hover .reward-folder__outline {
+  stroke: var(--color-highlight);
 }
 
 .reward-folder--locked .reward-folder__outline,

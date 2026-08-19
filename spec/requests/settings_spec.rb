@@ -42,10 +42,10 @@ RSpec.describe "Settings", type: :request do
   end
 
   describe "GET /settings" do
-    it "redirects an unauthenticated user to registration" do
+    it "redirects an unauthenticated user to the guide" do
       get settings_path
 
-      expect(response).to redirect_to(new_user_path)
+      expect(response).to redirect_to(guide_path)
     end
 
     it "shows the authenticated user's login id and settings navigation" do

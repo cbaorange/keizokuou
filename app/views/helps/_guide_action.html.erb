@@ -1,0 +1,26 @@
+<aside class="guide-action" aria-label="次の操作">
+  <% if current_user %>
+    <%= link_to "アプリに戻る", root_path, class: "guide-action__return" %>
+  <% else %>
+    <h3 class="guide-action__title">
+      <span class="guide-action__title-prefix">最初の相棒を選んで</span>
+      <span class="guide-action__title-main">継続スタート</span>
+    </h3>
+    <div class="guide-partners">
+      <% @partner_options.each do |partner| %>
+        <%= link_to new_user_path(partner: partner.fetch(:value)),
+              class: "guide-partner",
+              aria: { label: "#{partner.fetch(:name)}を初期相棒に選ぶ" } do %>
+          <%= image_tag partner.fetch(:image_path),
+                class: "guide-partner__image",
+                alt: "",
+                loading: "lazy" %>
+          <span class="guide-partner__content">
+            <span class="guide-partner__description"><%= partner.fetch(:label) %></span>
+            <span class="guide-partner__name"><%= partner.fetch(:name) %></span>
+          </span>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</aside>

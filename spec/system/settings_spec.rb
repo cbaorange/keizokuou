@@ -1,12 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Password settings", type: :system do
-  before do
-    # 並行実行中の別system specとテストサーバーのポートを分離する
-    Capybara.server_port = 4457
-    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
-  end
-
   def settings_layout_metrics(width:, height:)
     page.current_window.resize_to(width, height)
 

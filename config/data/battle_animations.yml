@@ -153,7 +153,7 @@ attack_wait:
     duration_ms: 900
   #後攻
   second:
-    duration_ms: 700
+    duration_ms: 400
 
 
 # 攻撃時にカードを手前へ持ち上げ、斜めに傾ける
@@ -286,7 +286,7 @@ defeat_fade:
 # 戦闘エリアのカードを手札位置へ戻す
 card_to_hand:
   # 戦闘エリアから手札へ移動する時間
-  duration_ms: 380
+  duration_ms: 130
 
   # 帰還中に画面手前へ浮かせる距離。カード横幅に対する倍率
   lift_z_ratio: 0.12

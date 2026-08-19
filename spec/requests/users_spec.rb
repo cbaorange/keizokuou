@@ -6,7 +6,7 @@ RSpec.describe "Users", type: :request do
       registration: {
         nickname: "テストユーザー",
         job: "毎日30分プログラミングする",
-        choice: "new_challenge"
+        partner: "1"
       }
     }
   end
@@ -33,8 +33,8 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "GET /users/new" do
-    it "shows one task field, five choices, and no password field" do
-      get new_user_path
+    it "shows the registration fields with the selected partner hidden" do
+      get new_user_path(partner: "1")
 
       document = Nokogiri::HTML(response.body)
 
@@ -44,18 +44,17 @@ RSpec.describe "Users", type: :request do
       expect(nickname_input).to be_present
       expect(nickname_input.attributes).to have_key("required")
       expect(document.at_css('label[for="registration_nickname"]').text.strip).to eq("ニックネーム")
-      expect(document.css('input[name="registration[choice]"][type="radio"]').size).to eq(5)
-      choice_labels = document.css(".account-choice__label").map { |label| label.text.strip }
-      expect(choice_labels).to include("癒されたい")
-      expect(choice_labels).not_to include("計画的に取り組みたい")
+      partner_input = document.at_css('input[name="registration[partner]"][type="hidden"]')
+      expect(partner_input["value"]).to eq("1")
+      expect(response.body).not_to include("最も当てはまるもの")
       expect(document.at_css('input[type="password"]')).to be_nil
       expect(document.at_css('form[data-registration-form="true"]')).to be_present
       expect(document.at_css('[data-registration-submit="true"]')).to be_present
-      registration_tab = document.at_css(".account-tabs__link--current")
-      login_tab = document.at_css(".account-tabs a[href='#{login_path}']")
-      expect(registration_tab.text.strip).to eq("新規登録")
-      expect(registration_tab["aria-current"]).to eq("page")
-      expect(login_tab.text.strip).to eq("ログイン")
+      expect(document.at_css(".account-tabs")).to be_nil
+      relogin_link = document.at_css(".account-form__switch-link[href='#{login_path}']")
+      expect(relogin_link.text.strip).to eq("再ログイン")
+      expect(relogin_link.parent.text.strip)
+        .to eq("すでにアカウントを持っている方はこちら：再ログイン")
       expect(response.body).not_to include("すでに引き継ぎ用パスワードを設定済みですか？")
       expect(document.at_css(".account-switch")).to be_nil
       expect(response.body).not_to include("登録後に表示されるログインID")
@@ -64,21 +63,37 @@ RSpec.describe "Users", type: :request do
       expect(response.body).not_to include("ログインIDは、今後追加予定の設定画面で確認できるようになります。")
       expect(document.at_css(".app-header")).to be_nil
     end
+
+    it "redirects a missing or unsupported partner to the guide" do
+      get new_user_path
+      expect(response).to redirect_to(guide_path)
+
+      get new_user_path(partner: "6")
+      expect(response).to redirect_to(guide_path)
+
+      get new_user_path(partner: "new_challenge")
+      expect(response).to redirect_to(guide_path)
+    end
   end
 
   describe "POST /users" do
-    it "creates a user and the selected initial card" do
-      expect {
-        post users_path, params: valid_params
-      }.to change(User, :count).by(1)
-        .and change(UserCard, :count).by(1)
+    (1..5).each do |partner_id|
+      it "creates card #{partner_id} from partner id #{partner_id}" do
+        params = valid_params.deep_dup
+        params[:registration][:partner] = partner_id.to_s
 
-      expect(User.last.user_cards.last.card_id).to eq(1)
+        expect {
+          post users_path, params: params
+        }.to change(User, :count).by(1)
+          .and change(UserCard, :count).by(1)
+
+        expect(User.last.user_cards.last.card_id).to eq(partner_id)
+      end
     end
 
     it "creates Suibo Nyannyan for the healing choice and shows its initial reward" do
       params = valid_params.deep_dup
-      params[:registration][:choice] = "planned_action"
+      params[:registration][:partner] = "3"
 
       expect {
         post users_path, params: params
@@ -209,7 +224,7 @@ RSpec.describe "Users", type: :request do
     it "does not pass a nickname to localStorage setup after failure" do
       params = valid_params.deep_dup
       params[:registration][:nickname] = "上書きしない"
-      params[:registration][:choice] = "invalid"
+      params[:registration][:job] = ""
 
       post users_path, params: params
 
@@ -252,15 +267,16 @@ RSpec.describe "Users", type: :request do
       expect(reloaded_experience.attributes).not_to have_key("hidden")
     end
 
-    it "requires nickname, task content, and a managed choice" do
+    it "requires nickname and task content after a managed partner was selected" do
       expect {
-        post users_path, params: { registration: {} }
+        post users_path, params: {
+          registration: { partner: "1" }
+        }
       }.not_to change(User, :count)
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include("ニックネームを入力してください")
       expect(response.body).to include("継続することを入力してください")
-      expect(response.body).to include("最も当てはまるものを選択してください")
       expect(authentication_cookie_header).to be_blank
     end
 
@@ -277,15 +293,27 @@ RSpec.describe "Users", type: :request do
       expect(authentication_cookie_header).to be_blank
     end
 
-    it "rejects an unsupported choice without creating a user or cookie" do
+    it "rejects an unsupported partner without creating a user or cookie" do
       invalid_params = valid_params.deep_dup
-      invalid_params[:registration][:choice] = "card_id_999"
+      invalid_params[:registration][:partner] = "6"
 
       expect {
         post users_path, params: invalid_params
       }.not_to change(User, :count)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to redirect_to(guide_path)
+      expect(authentication_cookie_header).to be_blank
+    end
+
+    it "redirects a missing partner without creating a user or cookie" do
+      invalid_params = valid_params.deep_dup
+      invalid_params[:registration].delete(:partner)
+
+      expect {
+        post users_path, params: invalid_params
+      }.not_to change(User, :count)
+
+      expect(response).to redirect_to(guide_path)
       expect(authentication_cookie_header).to be_blank
     end
 
@@ -319,16 +347,22 @@ RSpec.describe "Users", type: :request do
       expect(authentication_cookie_header).to be_blank
     end
 
-    it "keeps entered non-secret values when validation fails" do
+    it "keeps entered values and the partner when validation fails" do
       post users_path, params: {
         registration: {
           job: "読書を続ける",
-          choice: "invalid"
+          partner: "1"
         }
       }
 
       expect(response.body).to include("読書を続ける")
       expect(response).to have_http_status(:unprocessable_entity)
+      document = Nokogiri::HTML(response.body)
+      expect(document.at_css('input[name="registration[partner]"]')["value"])
+        .to eq("1")
+      expect(document.at_css(".account-tabs")).to be_nil
+      expect(document.at_css(".account-form__switch-link")["href"])
+        .to eq(login_path)
     end
 
     it "does not accept externally supplied user attributes" do

@@ -2,7 +2,6 @@
 
 <section class="account-panel panel" aria-labelledby="login-heading">
   <h1 id="login-heading" class="visually-hidden">ログイン</h1>
-  <%= render "shared/account_tabs", active_tab: :login %>
 
   <% if @login_errors.present? %>
     <div class="account-errors" role="alert" aria-labelledby="login-errors-heading">
@@ -20,6 +19,12 @@
         method: :post,
         local: true,
         class: "account-form" do |form| %>
+    <p class="account-form__switch">
+      初めてプレイする方は、<%= link_to "こちらのページでシュカモンを選択",
+            guide_path,
+            class: "account-form__switch-link" %>
+    </p>
+
     <div class="account-field">
       <%= form.label :login_id, "ログインID", class: "account-field__label" %>
       <%= form.text_field :login_id,

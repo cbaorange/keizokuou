@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+
+    <title>使い方｜継続王</title>
+
+    <meta
+      name="description"
+      content="継続王の使い方と、習慣・バトル・報酬のつながりを紹介します。"
+    >
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application" %>
+  </head>
+
+  <body class="guide-layout">
+    <main class="guide-main">
+      <% flash.each do |key, message| %>
+        <div class="app-flash app-flash--<%= key %>" role="status">
+          <%= message %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

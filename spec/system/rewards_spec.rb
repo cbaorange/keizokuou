@@ -8,11 +8,10 @@ RSpec.describe "Reward unlocks", type: :system do
   end
 
   it "表示レート100を境界に解放し、未解放フォルダは赤いまま開かない" do
-    visit new_user_path
+    visit new_user_path(partner: "1")
 
     fill_in "ニックネーム", with: "報酬テスト"
     fill_in "継続すること", with: "報酬を確認する"
-    choose "新しい挑戦を始めたい"
     click_button "新規登録して始める"
 
     expect(page).to have_css("[data-card-reward-modal]:not([hidden])")
@@ -63,7 +62,22 @@ RSpec.describe "Reward unlocks", type: :system do
     )).to eq("rgb(208, 58, 52)")
 
     unlocked_folder = find(".reward-folder--unlocked", match: :first)
-    unlocked_folder.find("[data-folder-shape-outline]").click
+    unlocked_outline = unlocked_folder.find("[data-folder-shape-outline]")
+
+    expect(computed_style(
+      ".reward-folder--unlocked [data-folder-shape-outline]",
+      "stroke"
+    )).to eq("rgb(76, 203, 130)")
+
+    unlocked_outline.hover
+
+    expect(computed_style(
+      ".reward-folder--unlocked [data-folder-shape-outline]",
+      "stroke"
+    )).to eq("rgb(42, 42, 42)")
+
+    find(".rewards-page__current-rate").hover
+    unlocked_outline.click
 
     expect(page).to have_css("[data-reward-content-layer]:not([hidden])")
     expect(unlocked_folder[:class]).to include("reward-folder--open")

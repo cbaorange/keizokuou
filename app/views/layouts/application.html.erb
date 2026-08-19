@@ -67,7 +67,7 @@
           <% habit_current = current_page?(root_path) || current_page?(tasks_path) %>
           <% card_current = current_page?(cards_path) %>
           <% rewards_current = current_page?(rewards_path) %>
-          <% help_current = current_page?(help_path) %>
+          <% guide_current = current_page?(guide_path) %>
           <% settings_current = current_page?(settings_path) %>
 
           <aside class="app-sidebar">
@@ -146,12 +146,12 @@
 
                 <%# 使い方 %>
                 <li class="app-sidebar__item">
-                  <%= link_to help_path,
+                  <%= link_to guide_path,
                         class: class_names(
                           "app-sidebar__link",
-                          "app-sidebar__link--current": help_current
+                          "app-sidebar__link--current": guide_current
                         ),
-                        aria: (help_current ? { current: "page" } : {}) do %>
+                        aria: (guide_current ? { current: "page" } : {}) do %>
                     <span class="app-sidebar__icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" focusable="false">
                         <path d="M8.8 8.5c0-2.5 1.9-4 4.3-4 2.6 0 4.3 1.6 4.3 3.8 0 1.8-.9 2.9-2.6 4-1.3.8-1.8 1.6-1.8 3"></path>

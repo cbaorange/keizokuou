@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "rewards", to: "rewards#show", as: :rewards
-  get "/help", to: "helps#show", as: :help
+  get "/guide", to: "helps#show", as: :guide
+  get "/help", to: redirect("/guide")
   get "/settings", to: "settings#show", as: :settings
   patch "/settings/password", to: "settings#update_password", as: :settings_password
 

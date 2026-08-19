@@ -47,11 +47,11 @@ RSpec.describe "Sessions", type: :request do
       expect(nickname_input).to be_present
       expect(nickname_input.attributes).to have_key("required")
       expect(document.at_css('label[for="session_nickname"]').text.strip).to eq("ニックネーム")
-      registration_tab = document.at_css(".account-tabs a[href='#{new_user_path}']")
-      login_tab = document.at_css(".account-tabs__link--current")
-      expect(registration_tab.text.strip).to eq("新規登録")
-      expect(login_tab.text.strip).to eq("ログイン")
-      expect(login_tab["aria-current"]).to eq("page")
+      expect(document.at_css(".account-tabs")).to be_nil
+      guide_link = document.at_css(".account-form__switch-link[href='#{guide_path}']")
+      expect(guide_link.text.strip).to eq("こちらのページでシュカモンを選択")
+      expect(guide_link.parent.text.strip)
+        .to eq("初めてプレイする方は、こちらのページでシュカモンを選択")
       expect(response.body).not_to include("はじめて利用しますか？")
       expect(document.at_css(".account-switch")).to be_nil
       expect(response.body).not_to include("app-sidebar__nav")

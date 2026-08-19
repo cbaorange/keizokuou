@@ -10,11 +10,10 @@ RSpec.describe "Task settings", type: :system do
   end
 
   def register_user
-    visit new_user_path
+    visit new_user_path(partner: "1")
 
     fill_in "ニックネーム", with: "設定テスト"
     fill_in "継続すること", with: "最初のタスク"
-    choose "新しい挑戦を始めたい"
     click_button "新規登録して始める"
 
     expect(page).to have_css("[data-card-reward-modal]:not([hidden])")
